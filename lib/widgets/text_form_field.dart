@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
-class textFormField extends StatelessWidget {
+class CustomTextFormField extends StatelessWidget {
   final String hintText;
   final TextEditingController controller;
   final Color? color;
-  const textFormField({
+  final String? Function(String?)? validator;
+  const CustomTextFormField({
     Key? key,
     required this.hintText,
     required this.controller,
     this.color,
+    this.validator,
   }) : super(key: key);
 
   @override
@@ -17,22 +19,48 @@ class textFormField extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
         controller: controller,
-        style: const TextStyle(color: Colors.white, fontSize: 20),
+        autovalidateMode:
+            AutovalidateMode.onUserInteraction, // Enable auto-validation
+        style: TextStyle(
+          color: color ?? Colors.white,
+          fontSize: 20,
+          fontWeight:FontWeight.w700, 
+        ),
         decoration: InputDecoration(
           hintStyle: TextStyle(
             color: color ?? Colors.white,
             fontSize: 24,
+            fontWeight: FontWeight.w700,
           ),
           hintText: hintText,
-          border: OutlineInputBorder(
-            borderRadius:
-                BorderRadius.circular(80.0), // Adjust the border radius
-            borderSide: const BorderSide(
-              color: Colors.blue, // Change the border color
-              width: 2.0, // Change the border width
+          enabledBorder: const OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.blue, // Default border color
+              width: 4.0, // Default border width
+            ),
+          ),
+          errorBorder: const OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.red, // Border color for invalid input
+              width: 4.0, // Border width for invalid input
+            ),
+          ),
+          focusedErrorBorder: const OutlineInputBorder(
+            borderSide: BorderSide(
+              color:
+                  Colors.red, // Border color when field is focused and invalid
+              width: 4.0, // Border width when field is focused and invalid
+            ),
+          ),
+          focusedBorder: const OutlineInputBorder(
+            borderSide: BorderSide(
+              color:
+                  Colors.green, // Border color when field is focused and valid
+              width: 4.0, // Border width when field is focused and valid
             ),
           ),
         ),
+        validator: validator,
       ),
     );
   }

@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 class textFormField extends StatelessWidget {
   final String hintText;
   final TextEditingController controller;
+  final Color? color;
   const textFormField({
     Key? key,
     required this.hintText,
     required this.controller,
+    this.color,
   }) : super(key: key);
 
   @override
@@ -15,13 +17,10 @@ class textFormField extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
         controller: controller,
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 20
-        ),
+        style: const TextStyle(color: Colors.white, fontSize: 20),
         decoration: InputDecoration(
-          hintStyle: const TextStyle(
-            color: Colors.white,
+          hintStyle: TextStyle(
+            color: color ?? Colors.white,
             fontSize: 24,
           ),
           hintText: hintText,

@@ -1,4 +1,3 @@
-import 'package:discussion_forum/app/authentication/signup_view.dart';
 import 'package:discussion_forum/app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 

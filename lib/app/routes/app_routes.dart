@@ -9,7 +9,7 @@ class AppRoutes {
 
   static getAppliactionRoute() {
     return {
-      signUpRoute: (context) => const SignUpView(),
+      signUpRoute: (context) => SignUpView(),
       loginRoute: (context) => const LoginView(),
     };
   }

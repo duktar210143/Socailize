@@ -1,11 +1,13 @@
 import 'package:discussion_forum/widgets/text_form_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rive/rive.dart';
 
+import '../../providers/user_provider.dart';
 import '../routes/app_routes.dart';
 
-class SignUpView extends StatelessWidget {
+class SignUpView extends ConsumerWidget {
   SignUpView({
     Key? key,
   }) : super(key: key);
@@ -21,7 +23,7 @@ class SignUpView extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Discussion Forum"),
@@ -88,12 +90,16 @@ class SignUpView extends StatelessWidget {
                         onPressed: () {
                           if (_authKey.currentState!.validate()) {
                             try {
-                              _auth.createUserWithEmailAndPassword(
-                                  email: emailController.text,
-                                  password: passwordController.text);
+                              // _auth.createUserWithEmailAndPassword(
+                              //     email: emailController.text,
+                              //     password: passwordController.text);
+                              // after validating SignUp the user with stateNotifierProvider
+                              ref.watch(userStateProvider.notifier).signUp(
+                                  emailController.text ?? '',
+                                  passwordController.text ?? '');
                               Navigator.pushNamed(
                                 context,
-                                AppRoutes.loginRoute,
+                                AppRoutes.homeRoute,
                               ); //when clicked navigate to login page
                             } catch (e) {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -115,6 +121,27 @@ class SignUpView extends StatelessWidget {
                         ),
                       ),
                     ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          "Already have an account ??",
+                          style: TextStyle(fontSize: 19, color: Colors.white),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(
+                              context,
+                              AppRoutes.loginRoute,
+                            );
+                          },
+                          child: const Text(
+                            "Login",
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        )
+                      ],
+                    )
                   ],
                 ),
               ),

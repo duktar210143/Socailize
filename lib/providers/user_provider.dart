@@ -15,7 +15,7 @@ final userStateProvider =
 class UserStateNotifier extends StateNotifier<UserModel> {
   UserStateNotifier()
       : super(
-          UserModel(email: 'error', password: 'error'),
+          UserModel(email: 'error'),
         );
 
   // Post request to api end point to register a User
@@ -43,7 +43,6 @@ class UserStateNotifier extends StateNotifier<UserModel> {
           if (userEmail.isNotEmpty && userPassword.isNotEmpty) {
             final UserModel newUser = UserModel(
               email: userEmail,
-              password: userPassword,
             );
 
             state = newUser; // Update the state with the new user data
@@ -89,25 +88,23 @@ class UserStateNotifier extends StateNotifier<UserModel> {
       );
       if (request.statusCode == 200) {
         final Map<String, dynamic> responseBody = jsonDecode(request.body);
+        print(responseBody);
 
         if (responseBody is Map<String, dynamic>) {
           // fetch the token from the backend apiEndPoint
           final String token = responseBody['user']?.toString() ?? '';
+          print(token);
 
-          // if the token exist store it in the shared_preference
           if (token.isNotEmpty) {
             // Store the token in shared_preferences
             final prefs = await SharedPreferences.getInstance();
             prefs.setString('token', token);
 
             final String userEmail = responseBody['email']?.toString() ?? '';
-            final String userPassword =
-                responseBody['password']?.toString() ?? '';
 
-            if (userEmail.isNotEmpty && userPassword.isNotEmpty) {
+            if (userEmail.isNotEmpty) {
               final UserModel newUser = UserModel(
                 email: userEmail,
-                password: userPassword,
               );
 
               state = newUser; // Update the state with the new user data

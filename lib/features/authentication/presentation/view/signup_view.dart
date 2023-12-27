@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rive/rive.dart';
 
-import '../../providers/user_provider.dart';
-import '../../routes/app_routes.dart';
+import '../../../../providers/user_provider.dart';
+import '../../../../routes/app_routes.dart';
 
 class SignUpView extends ConsumerWidget {
   SignUpView({

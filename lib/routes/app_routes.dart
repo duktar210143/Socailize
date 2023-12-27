@@ -1,5 +1,5 @@
-import 'package:discussion_forum/features/authentication/login_view.dart';
-import 'package:discussion_forum/features/authentication/signup_view.dart';
+import 'package:discussion_forum/features/authentication/presentation/view/login_view.dart';
+import 'package:discussion_forum/features/authentication/presentation/view/signup_view.dart';
 import 'package:discussion_forum/features/home/dashboard_view.dart';
 
 class AppRoutes {

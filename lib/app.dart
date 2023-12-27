@@ -1,4 +1,4 @@
-import 'package:discussion_forum/features/authentication/login_view.dart';
+import 'package:discussion_forum/features/authentication/presentation/view/login_view.dart';
 import 'package:discussion_forum/features/home/dashboard_view.dart';
 import 'package:discussion_forum/routes/app_routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';

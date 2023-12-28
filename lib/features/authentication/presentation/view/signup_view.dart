@@ -1,29 +1,35 @@
-import 'package:discussion_forum/widgets/text_form_field.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:discussion_forum/core/common/snackbar/my_snack_bar.dart';
+import 'package:discussion_forum/features/authentication/domain/entity/user_entity.dart';
+import 'package:discussion_forum/features/authentication/presentation/view_model/auth_view_model.dart';
+import 'package:discussion_forum/core/common/widgets/text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rive/rive.dart';
 
-import '../../providers/user_provider.dart';
-import '../routes/app_routes.dart';
 
-class SignUpView extends ConsumerWidget {
-  SignUpView({
-    Key? key,
-  }) : super(key: key);
+class SignUpView extends ConsumerStatefulWidget {
+  const SignUpView({super.key});
+
+  @override
+  ConsumerState<SignUpView> createState() => _SignUpViewState();
+}
+
+class _SignUpViewState extends ConsumerState<SignUpView> {
 
   final GlobalKey<FormState> _authKey = GlobalKey();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final _fnameController = TextEditingController(text: "Duktar");
+  final _lnameController = TextEditingController(text: 'Tamang');
+  final _userNameController = TextEditingController(text: 'Duktar13');
+  final _emailController = TextEditingController(text: 'Duktar@gmail.com');
+  final _passwordController = TextEditingController(text: 'test123');
   final TextEditingController confirmPasswordController =
       TextEditingController();
   final RegExp emailValid = RegExp(
       r"^[^_.]([a-zA-Z0-9_]*[.]?[a-zA-Z0-9_]+[^_]){2}@{1}[a-z0-9]+[.]{1}(([a-z]{2,3})|([a-z]{2,3}[.]{1}[a-z]{2,3}))$");
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
+    final authState = ref.watch(authViewModelProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Discussion Forum"),
@@ -41,10 +47,29 @@ class SignUpView extends ConsumerWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    const SizedBox(height: 30),
+                      CustomTextFormField(
+                      hintText: "First Name",
+                      controller: _fnameController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please enter your password";
+                        }
+                        return null;
+                      },
+                    ),
+                     CustomTextFormField(
+                      hintText: "Last Name",
+                      controller: _lnameController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please enter your password";
+                        }
+                        return null;
+                      },
+                    ),
                     CustomTextFormField(
                       hintText: "Create user",
-                      controller: emailController,
+                      controller: _emailController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Please enter your email";
@@ -55,8 +80,18 @@ class SignUpView extends ConsumerWidget {
                       },
                     ),
                     CustomTextFormField(
+                      hintText: "UserName",
+                      controller: _userNameController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please enter your email";
+                        } 
+                        return null;
+                      },
+                    ),
+                    CustomTextFormField(
                       hintText: "Create password",
-                      controller: passwordController,
+                      controller: _passwordController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Please enter your password";
@@ -68,7 +103,7 @@ class SignUpView extends ConsumerWidget {
                       hintText: "Confirm password",
                       controller: confirmPasswordController,
                       validator: (value) {
-                        final password = passwordController.text;
+                        final password = _passwordController.text;
                         if (value == null || value.isEmpty) {
                           return "Please re-enter your password";
                         } else if (value != password) {
@@ -89,25 +124,28 @@ class SignUpView extends ConsumerWidget {
                       child: TextButton(
                         onPressed: () {
                           if (_authKey.currentState!.validate()) {
-                            try {
-                              // _auth.createUserWithEmailAndPassword(
-                              //     email: emailController.text,
-                              //     password: passwordController.text);
-                              // after validating SignUp the user with stateNotifierProvider
-                              ref.watch(userStateProvider.notifier).signUp(
-                                  emailController.text ?? '',
-                                  passwordController.text ?? '');
-                              Navigator.pushNamed(
-                                context,
-                                AppRoutes.homeRoute,
-                              ); //when clicked navigate to login page
-                            } catch (e) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    e.toString(),
-                                  ),
-                                ),
+                            UserEntity user = UserEntity(
+                                email: _emailController.text,
+                                firstName: _fnameController.text,
+                                lastName: _lnameController.text,
+                                password: _passwordController.text,
+                                userName: _userNameController.text);
+
+                            ref
+                                .read(authViewModelProvider.notifier)
+                                .signUpUser(user);
+                            if (authState.error!=null) {
+                              print(authState.error);
+                              showSnackBar(
+                                  message: authState.error.toString(),
+                                  context: context,
+                                  color: Colors.red);
+
+                            }else{
+                              showSnackBar(
+                                message: 'Registered successfully',
+                                context: context,
+                                color: Colors.green,
                               );
                             }
                           }
@@ -130,10 +168,10 @@ class SignUpView extends ConsumerWidget {
                         ),
                         TextButton(
                           onPressed: () {
-                            Navigator.pushNamed(
-                              context,
-                              AppRoutes.loginRoute,
-                            );
+                            // Navigator.pushNamed(
+                            //   // context,
+                            //   // AppR.loginRoute,
+                            // );
                           },
                           child: const Text(
                             "Login",

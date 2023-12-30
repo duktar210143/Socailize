@@ -16,27 +16,42 @@ class HiveService {
   }
 
   // +++++++++++++++++++ UserQueries +++++++++++++++++
-  Future<void> addUser(UserHiveModel user) async {
+  Future<bool> addUser(UserHiveModel user) async {
+    print('Signing up user: ${user.userName}');
     var box = await Hive.openBox<UserHiveModel>(HiveTableConstants.userBox);
+
+    // Check if the userName already exists
+    bool userExists = box.values
+        .any((existingUser) => existingUser.userName == user.userName);
+
+    if (userExists) {
+      // The userName already exists, handle this case (throw an exception, show an error, etc.)
+      // throw Exception('User with this userName already exists');
+      print('User with this userName already exists');
+      return false;
+    }
+
+    // The userName is unique, add the user
     await box.put(user.userId, user);
+    return true;
   }
 
 // +++++++++++++++++++++ Hive specific codes +++++++++
 // check if the user is being correctly registered inside the hive box
-Future<void> printUserBoxContents() async {
-  var box = await Hive.openBox<UserHiveModel>(HiveTableConstants.userBox);
+  Future<void> printUserBoxContents() async {
+    var box = await Hive.openBox<UserHiveModel>(HiveTableConstants.userBox);
 
-  print('Hive box usernames:');
-  box.toMap().forEach((key, value) {
-    if (value is UserHiveModel) {
-      print('Username: ${value.userName}');
-    }
-  });
-  await box.close();
-}
+    print('Hive box usernames:');
+    box.toMap().forEach((key, value) {
+      if (value is UserHiveModel) {
+        print('Username: ${value.userName}');
+      }
+    });
+    await box.close();
+  }
 
   Future<String> getHiveDatabasePath() async {
-  var directory = await getApplicationDocumentsDirectory();
-  return directory.path;
-}
+    var directory = await getApplicationDocumentsDirectory();
+    return directory.path;
+  }
 }

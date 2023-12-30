@@ -14,14 +14,25 @@ class AuthLocalDataSource {
   AuthLocalDataSource(this._hiveService);
 
   Future<Either<Failure, bool>> signUpUser(UserEntity user) async {
-    // TODO: implement signUpUser
     try {
-      // convert user Entity to hive model
+      // Convert user Entity to hive model
       UserHiveModel userHiveModel = UserHiveModel.toHiveModel(user);
-      _hiveService.addUser(userHiveModel);
-      return const Right(true);
+
+      // Wait for addUser to complete
+      bool success = await _hiveService.addUser(userHiveModel);
+
+      // Check the result and return accordingly
+      if (success) {
+        return const Right(true);
+      }
+
+      // Return an error if the registration failed
+      return left(Failure(error: 'User registration failed'));
     } catch (e) {
+      // Return an error if an exception occurs
       return left(Failure(error: e.toString()));
     }
   }
 }
+
+

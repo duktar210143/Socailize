@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rive/rive.dart';
 
-
 class SignUpView extends ConsumerStatefulWidget {
   const SignUpView({super.key});
 
@@ -15,7 +14,6 @@ class SignUpView extends ConsumerStatefulWidget {
 }
 
 class _SignUpViewState extends ConsumerState<SignUpView> {
-
   final GlobalKey<FormState> _authKey = GlobalKey();
   final _fnameController = TextEditingController(text: "Duktar");
   final _lnameController = TextEditingController(text: 'Tamang');
@@ -47,7 +45,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                      CustomTextFormField(
+                    CustomTextFormField(
                       hintText: "First Name",
                       controller: _fnameController,
                       validator: (value) {
@@ -57,7 +55,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                         return null;
                       },
                     ),
-                     CustomTextFormField(
+                    CustomTextFormField(
                       hintText: "Last Name",
                       controller: _lnameController,
                       validator: (value) {
@@ -85,7 +83,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Please enter your email";
-                        } 
+                        }
                         return null;
                       },
                     ),
@@ -122,30 +120,46 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                       height: 100,
                       width: double.infinity,
                       child: TextButton(
-                        onPressed: () {
+                        onPressed: () async {
                           if (_authKey.currentState!.validate()) {
                             UserEntity user = UserEntity(
-                                email: _emailController.text,
-                                firstName: _fnameController.text,
-                                lastName: _lnameController.text,
-                                password: _passwordController.text,
-                                userName: _userNameController.text);
+                              firstName: _fnameController.text,
+                              lastName: _lnameController.text,
+                              email: _emailController.text,
+                              userName: _userNameController.text,
+                              password: _passwordController.text,
+                            );
 
-                            ref
-                                .read(authViewModelProvider.notifier)
-                                .signUpUser(user);
-                            if (authState.error!=null) {
-                              print(authState.error);
-                              showSnackBar(
-                                  message: authState.error.toString(),
+                            try {
+                              await ref
+                                  .read(authViewModelProvider.notifier)
+                                  .signUpUser(user);
+
+                              // If signUpUser does not throw an exception, show success message
+                              // ignore: use_build_context_synchronously
+                              if (authState.error != null) {
+                                // ignore: use_build_context_synchronously
+                                showSnackBar(
+                                  message: 'Registered successfully',
                                   context: context,
-                                  color: Colors.red);
-
-                            }else{
-                              showSnackBar(
-                                message: 'Registered successfully',
+                                  color: Colors.green,
+                                );
+                              }else{
+                                // ignore: use_build_context_synchronously
+                                showSnackBar(
+                                message: 'user with that username already exists',
                                 context: context,
-                                color: Colors.green,
+                                color: Colors.red,
+                              );
+                              }
+                            } catch (error) {
+                              // If signUpUser throws an exception, show error message
+                              print(error);
+                              // ignore: use_build_context_synchronously
+                              showSnackBar(
+                                message: error.toString(),
+                                context: context,
+                                color: Colors.red,
                               );
                             }
                           }

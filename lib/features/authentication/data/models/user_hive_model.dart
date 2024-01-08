@@ -49,7 +49,7 @@ class UserHiveModel {
             password: '');
 
   // convert Entity to Hive Object
-  factory UserHiveModel.toHiveModel(UserEntity userEnity) => UserHiveModel(
+  factory UserHiveModel.toHiveModel(AuthEntity userEnity) => UserHiveModel(
       userName: userEnity.userName,
       firstName: userEnity.firstName,
       lastName: userEnity.lastName,
@@ -57,11 +57,11 @@ class UserHiveModel {
       password: userEnity.password);
 
   // convert Hive Object to entity
-  static UserEntity toEntity(UserHiveModel hiveModel) => UserEntity(
+  static AuthEntity toEntity(UserHiveModel hiveModel) => AuthEntity(
       userId: hiveModel.userId,
       userName: hiveModel.userName,
       firstName: hiveModel.firstName,
       lastName: hiveModel.lastName,
-      email: hiveModel.email, 
+      email: hiveModel.email,
       password: hiveModel.password);
 }

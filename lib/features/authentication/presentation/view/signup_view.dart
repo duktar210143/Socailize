@@ -122,7 +122,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                       child: TextButton(
                         onPressed: () async {
                           if (_authKey.currentState!.validate()) {
-                            UserEntity user = UserEntity(
+                            AuthEntity user = AuthEntity(
                               firstName: _fnameController.text,
                               lastName: _lnameController.text,
                               email: _emailController.text,

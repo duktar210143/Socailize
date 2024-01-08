@@ -1,27 +1,27 @@
 import 'package:dartz/dartz.dart';
 import 'package:discussion_forum/core/failure/failure.dart';
-import 'package:discussion_forum/features/authentication/data/data_source/auth_local_data_source.dart';
+import 'package:discussion_forum/features/authentication/data/data_source/auth_remote_data_source.dart';
 import 'package:discussion_forum/features/authentication/domain/entity/user_entity.dart';
 import 'package:discussion_forum/features/authentication/domain/repository/auth_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final authLocalRepositoryImplProvider = Provider.autoDispose<IAuthRepository>(
-    (ref) => AuthLocalRepositoryImpl(ref.read(authLocalDataSourceProvider)));
+final authRemoteRepositoryImplProvider = Provider.autoDispose<IAuthRepository>(
+    (ref) => AuthRemoteRepositoryImpl(ref.read(authRemoteDataSoureProvider)));
 
-class AuthLocalRepositoryImpl implements IAuthRepository {
-  final AuthLocalDataSource _authLocalDataSource;
+class AuthRemoteRepositoryImpl implements IAuthRepository {
+  final AuthRemoteDataSource _authRemoteDataSource;
 
-  AuthLocalRepositoryImpl(this._authLocalDataSource);
+  AuthRemoteRepositoryImpl(this._authRemoteDataSource);
 
   @override
   Future<Either<Failure, bool>> signUpUser(AuthEntity user) async {
     // TODO: implement signUpUser
-    return _authLocalDataSource.signUpUser(user);
+    return _authRemoteDataSource.signUpUser(user);
   }
 
   @override
   Future<Either<Failure, bool>> signInUser(String userName, String password) {
     // TODO: implement signInUser
-    return _authLocalDataSource.signInUser(userName, password);
+    throw UnimplementedError();
   }
 }

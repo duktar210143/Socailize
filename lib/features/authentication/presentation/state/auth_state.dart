@@ -3,7 +3,7 @@ import 'package:discussion_forum/features/authentication/domain/entity/user_enti
 class AuthState {
   final bool isLoading;
   final String? error;
-  final UserEntity? user;
+  final AuthEntity? user;
 
   AuthState({
     required this.isLoading,
@@ -17,7 +17,7 @@ class AuthState {
 
   AuthState copyWith({
     bool? isLoading,
-    UserEntity? user,
+    AuthEntity? user,
     String? error,
   }) {
     return AuthState(

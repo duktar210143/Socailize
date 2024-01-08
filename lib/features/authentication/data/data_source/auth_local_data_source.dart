@@ -6,14 +6,14 @@ import 'package:discussion_forum/features/authentication/domain/entity/user_enti
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final authLocalDataSourceProvider = Provider.autoDispose<AuthLocalDataSource>(
-  (ref) => AuthLocalDataSource(ref.read(hiveSerivceProvider)));
+    (ref) => AuthLocalDataSource(ref.read(hiveSerivceProvider)));
 
 class AuthLocalDataSource {
   final HiveService _hiveService;
 
   AuthLocalDataSource(this._hiveService);
 
-  Future<Either<Failure, bool>> signUpUser(UserEntity user) async {
+  Future<Either<Failure, bool>> signUpUser(AuthEntity user) async {
     try {
       // Convert user Entity to hive model
       UserHiveModel userHiveModel = UserHiveModel.toHiveModel(user);
@@ -23,6 +23,8 @@ class AuthLocalDataSource {
 
       // Check the result and return accordingly
       if (success) {
+        // Print the contents of the Hive box
+        await HiveService().printUserBoxContents();
         return const Right(true);
       }
 
@@ -33,6 +35,18 @@ class AuthLocalDataSource {
       return left(Failure(error: e.toString()));
     }
   }
+
+  Future<Either<Failure, bool>> signInUser(
+      String userName, String password) async {
+    try {
+      UserHiveModel? user = await _hiveService.signInUser(userName, password);
+      if (user == null) {
+        return left(Failure(error: 'Username or password does not match'));
+      } else {
+        return const Right(true);
+      }
+    } catch (e) {
+      return left(Failure(error: e.toString()));
+    }
+  }
 }
-
-

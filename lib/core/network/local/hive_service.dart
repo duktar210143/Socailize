@@ -16,6 +16,8 @@ class HiveService {
   }
 
   // +++++++++++++++++++ UserQueries +++++++++++++++++
+
+  // signUp
   Future<bool> addUser(UserHiveModel user) async {
     print('Signing up user: ${user.userName}');
     var box = await Hive.openBox<UserHiveModel>(HiveTableConstants.userBox);
@@ -34,6 +36,15 @@ class HiveService {
     // The userName is unique, add the user
     await box.put(user.userId, user);
     return true;
+  }
+
+// SignIn
+  Future<UserHiveModel?> signInUser(String userName, String password) async {
+    var box = await Hive.openBox<UserHiveModel>(HiveTableConstants.userBox);
+    var user = box.values.firstWhere((element) =>
+        element.userName == userName && element.password == password);
+    box.close();
+    return user;
   }
 
 // +++++++++++++++++++++ Hive specific codes +++++++++

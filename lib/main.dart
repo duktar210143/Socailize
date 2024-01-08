@@ -6,8 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await HiveService().init();
-  // Print the contents of the Hive box
-  await HiveService().printUserBoxContents();
+
 
   print(await HiveService().getHiveDatabasePath());
 

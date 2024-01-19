@@ -23,8 +23,7 @@ class AuthLocalDataSource {
 
       // Check the result and return accordingly
       if (success) {
-        // Print the contents of the Hive box
-        await HiveService().printUserBoxContents();
+
         return const Right(true);
       }
 

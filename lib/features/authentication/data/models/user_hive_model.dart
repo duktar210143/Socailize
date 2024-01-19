@@ -12,16 +12,16 @@ class UserHiveModel {
   final String userId;
 
   @HiveField(1)
-  final String userName;
+  final String username;
 
   @HiveField(2)
   final String? uImage;
 
   @HiveField(3)
-  final String firstName;
+  final String firstname;
 
   @HiveField(4)
-  final String lastName;
+  final String lastname;
 
   @HiveField(5)
   final String email;
@@ -31,37 +31,37 @@ class UserHiveModel {
 
   UserHiveModel({
     String? userId,
-    required this.userName,
+    required this.username,
     this.uImage,
-    required this.firstName,
-    required this.lastName,
+    required this.firstname,
+    required this.lastname,
     required this.email,
     required this.password,
   }) : userId = userId ?? const Uuid().v4();
 
   UserHiveModel.empty()
       : this(
-            userName: '',
+            username: '',
             uImage: '',
-            firstName: '',
-            lastName: '',
+            firstname: '',
+            lastname: '',
             email: '',
             password: '');
 
   // convert Entity to Hive Object
   factory UserHiveModel.toHiveModel(AuthEntity userEnity) => UserHiveModel(
-      userName: userEnity.userName,
-      firstName: userEnity.firstName,
-      lastName: userEnity.lastName,
+      username: userEnity.username,
+      firstname: userEnity.firstname,
+      lastname: userEnity.lastname,
       email: userEnity.email,
       password: userEnity.password);
 
   // convert Hive Object to entity
   static AuthEntity toEntity(UserHiveModel hiveModel) => AuthEntity(
       userId: hiveModel.userId,
-      userName: hiveModel.userName,
-      firstName: hiveModel.firstName,
-      lastName: hiveModel.lastName,
+      username: hiveModel.username,
+      firstname: hiveModel.firstname,
+      lastname: hiveModel.lastname,
       email: hiveModel.email,
       password: hiveModel.password);
 }

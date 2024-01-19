@@ -1,4 +1,3 @@
-
 import 'package:discussion_forum/core/common/snackbar/my_snack_bar.dart';
 import 'package:discussion_forum/features/authentication/domain/entity/user_entity.dart';
 import 'package:discussion_forum/features/authentication/domain/use_case/auth_usecase.dart';
@@ -19,21 +18,27 @@ class AuthViewModel extends StateNotifier<AuthState> {
 
   AuthViewModel(this._authUseCase) : super(AuthState.initialState());
 
-  Future<void> signUpUser(AuthEntity user) async {
-    state = state.copyWith(isLoading: true);
-    var data = await _authUseCase.signUpUser(user);
-    data.fold(
-      (failure) =>
-          state = state.copyWith(isLoading: false, error: failure.error),
-      (success) => state.copyWith(isLoading: false, error: null),
-    );
-  }
+ Future<void> signUpUser(BuildContext context, AuthEntity user) async {
+  state = state.copyWith(isLoading: true);
+  var data = await _authUseCase.signUpUser(user);
+  data.fold(
+    (failure) {
+      state = state.copyWith(isLoading: false, error: failure.error);
+      showSnackBar(color: Colors.red, message: failure.error, context: context);
+    },
+    (success) {
+      state = state.copyWith(isLoading: false, error: null);
+      showSnackBar(message: "registered successful", context: context);
+      // Emit a new state with success information if needed
+    },
+  );
+}
 
   // manage changing state when a user sign's in
   Future<bool> signInUser(
       BuildContext context, String userName, String password) async {
     bool isLogin = false;
-    var data = await _authUseCase.signInUser(userName, password);
+    var data = await _authUseCase.login(userName, password);
     data.fold((failure) {
       state = state.copyWith(isLoading: false, error: failure.error);
       showSnackBar(message: failure.error, context: context, color: Colors.red);

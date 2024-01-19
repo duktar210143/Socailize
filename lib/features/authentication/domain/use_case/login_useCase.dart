@@ -4,17 +4,13 @@ import 'package:discussion_forum/features/authentication/domain/entity/user_enti
 import 'package:discussion_forum/features/authentication/domain/repository/auth_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final authUseCaseProvider = Provider<AuthUseCase>(
-    (ref) => AuthUseCase(authRepository: ref.read(iAuthRepositoryProvider)));
+final loginUseCaseProvider = Provider<LoginUseCase>(
+    (ref) => LoginUseCase(authRepository: ref.read(iAuthRepositoryProvider)));
 
-class AuthUseCase {
+class LoginUseCase {
   final IAuthRepository authRepository;
 
-  AuthUseCase({required this.authRepository});
-
-  Future<Either<Failure, bool>> signUpUser(AuthEntity user) async {
-    return await authRepository.signUpUser(user);
-  }
+  LoginUseCase({required this.authRepository});
 
   Future<Either<Failure, bool>> login(
       String userName, String password) async {

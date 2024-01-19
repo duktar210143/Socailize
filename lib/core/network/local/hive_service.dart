@@ -19,12 +19,12 @@ class HiveService {
 
   // signUp
   Future<bool> addUser(UserHiveModel user) async {
-    print('Signing up user: ${user.userName}');
+    print('Signing up user: ${user.username}');
     var box = await Hive.openBox<UserHiveModel>(HiveTableConstants.userBox);
 
     // Check if the userName already exists
     bool userExists = box.values
-        .any((existingUser) => existingUser.userName == user.userName);
+        .any((existingUser) => existingUser.username == user.username);
 
     if (userExists) {
       // The userName already exists, handle this case (throw an exception, show an error, etc.)
@@ -42,7 +42,7 @@ class HiveService {
   Future<UserHiveModel?> signInUser(String userName, String password) async {
     var box = await Hive.openBox<UserHiveModel>(HiveTableConstants.userBox);
     var user = box.values.firstWhere((element) =>
-        element.userName == userName && element.password == password);
+        element.username == userName && element.password == password);
     box.close();
     return user;
   }
@@ -55,7 +55,7 @@ class HiveService {
     print('Hive box usernames:');
     box.toMap().forEach((key, value) {
       if (value is UserHiveModel) {
-        print('Username: ${value.userName}');
+        print('Username: ${value.username}');
       }
     });
     await box.close();

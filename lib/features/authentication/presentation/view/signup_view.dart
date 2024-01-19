@@ -1,4 +1,3 @@
-import 'package:discussion_forum/core/common/snackbar/my_snack_bar.dart';
 import 'package:discussion_forum/features/authentication/domain/entity/user_entity.dart';
 import 'package:discussion_forum/features/authentication/presentation/view_model/auth_view_model.dart';
 import 'package:discussion_forum/core/common/widgets/text_form_field.dart';
@@ -123,45 +122,16 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                         onPressed: () async {
                           if (_authKey.currentState!.validate()) {
                             AuthEntity user = AuthEntity(
-                              firstName: _fnameController.text,
-                              lastName: _lnameController.text,
+                              firstname: _fnameController.text,
+                              lastname: _lnameController.text,
                               email: _emailController.text,
-                              userName: _userNameController.text,
+                              username: _userNameController.text,
                               password: _passwordController.text,
                             );
 
-                            try {
                               await ref
                                   .read(authViewModelProvider.notifier)
-                                  .signUpUser(user);
-
-                              // If signUpUser does not throw an exception, show success message
-                              // ignore: use_build_context_synchronously
-                              if (authState.error != null) {
-                                // ignore: use_build_context_synchronously
-                                showSnackBar(
-                                  message: 'Registered successfully',
-                                  context: context,
-                                  color: Colors.green,
-                                );
-                              }else{
-                                // ignore: use_build_context_synchronously
-                                showSnackBar(
-                                message: 'user with that username already exists',
-                                context: context,
-                                color: Colors.red,
-                              );
-                              }
-                            } catch (error) {
-                              // If signUpUser throws an exception, show error message
-                              print(error);
-                              // ignore: use_build_context_synchronously
-                              showSnackBar(
-                                message: error.toString(),
-                                context: context,
-                                color: Colors.red,
-                              );
-                            }
+                                  .signUpUser(context, user);
                           }
                         },
                         child: const Text(
@@ -184,8 +154,8 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                           onPressed: () {
                             // Navigator.pushNamed(
                             //   // context,
-                            //   // AppR.loginRoute,
-                            // );
+                            //   // AppRoute.,
+                            // // );
                           },
                           child: const Text(
                             "Login",

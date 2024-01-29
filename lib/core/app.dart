@@ -10,7 +10,7 @@ class App extends ConsumerWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Discussion Forum App',
-      initialRoute: AppRoute.userDerailRoute,
+      initialRoute: AppRoute.splashRoute,
       routes: AppRoute.getApplicationRoute(),
     );
   }

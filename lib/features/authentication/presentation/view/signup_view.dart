@@ -1,3 +1,4 @@
+import 'package:discussion_forum/config/router/app_routes.dart';
 import 'package:discussion_forum/features/authentication/domain/entity/user_entity.dart';
 import 'package:discussion_forum/features/authentication/presentation/view_model/auth_view_model.dart';
 import 'package:discussion_forum/core/common/widgets/text_form_field.dart';
@@ -152,10 +153,10 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                         ),
                         TextButton(
                           onPressed: () {
-                            // Navigator.pushNamed(
-                            //   // context,
-                            //   // AppRoute.,
-                            // // );
+                            Navigator.pushNamed(
+                              context,
+                              AppRoute.loginRoute,
+                            );
                           },
                           child: const Text(
                             "Login",

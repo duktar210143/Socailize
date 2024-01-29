@@ -1,5 +1,6 @@
 import 'package:discussion_forum/config/router/app_routes.dart';
 import 'package:discussion_forum/core/common/widgets/text_form_field.dart';
+import 'package:discussion_forum/features/authentication/presentation/view_model/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rive/rive.dart';
@@ -9,10 +10,9 @@ class LoginView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(authViewModelProvider);
     final GlobalKey<FormState> authKey = GlobalKey();
-    final RegExp emailValid = RegExp(
-        r"^[^_.]([a-zA-Z0-9_]*[.]?[a-zA-Z0-9_]+[^_]){2}@{1}[a-z0-9]+[.]{1}(([a-z]{2,3})|([a-z]{2,3}[.]{1}[a-z]{2,3}))$");
-
+   
     TextEditingController usernameController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
     return Scaffold(
@@ -38,9 +38,7 @@ class LoginView extends ConsumerWidget {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return "Please enter your email";
-                      } else if (!emailValid.hasMatch(value)) {
-                        return "please enter a valid email";
-                      }
+                      } 
                       return null;
                     },
                   ), //custom text form field
@@ -67,7 +65,12 @@ class LoginView extends ConsumerWidget {
                     height: 100,
                     width: double.infinity,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        await ref
+                            .watch(authViewModelProvider.notifier)
+                            .signInUser(context, usernameController.text,
+                                passwordController.text);
+                      },
                       child: const Text(
                         "login",
                         style: TextStyle(

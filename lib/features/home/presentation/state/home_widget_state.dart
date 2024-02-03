@@ -1,6 +1,7 @@
 import 'package:discussion_forum/features/authentication/presentation/view/user_detail_view.dart';
 import 'package:discussion_forum/features/question/presentation/view/add_question_view.dart';
 import 'package:discussion_forum/features/home/presentation/view/dummy_dashboard_view.dart';
+import 'package:discussion_forum/features/question/presentation/view/public_question_view.dart';
 import 'package:flutter/material.dart';
 
 class HomeState {
@@ -13,7 +14,7 @@ class HomeState {
   HomeState.initialState()
       : index = 0,
         lstWidgets =  [
-          const StackOverflowDashboard(),
+          const PublicQuestionView(),
           const StackOverflowDashboard(),
            const AddQuestionView(),
          const UserDetailsView(),

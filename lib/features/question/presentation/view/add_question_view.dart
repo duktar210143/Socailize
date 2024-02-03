@@ -1,24 +1,23 @@
 import 'dart:io';
+
+import 'package:discussion_forum/features/question/domain/entity/question_entity.dart';
+import 'package:discussion_forum/features/question/presentation/view/list_question_widget.dart';
+import 'package:discussion_forum/features/question/presentation/view_model/question_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:discussion_forum/features/question/domain/entity/question_entity.dart';
-import 'package:discussion_forum/features/question/presentation/view_model/question_view_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class AddQuestionView extends ConsumerStatefulWidget {
-  const AddQuestionView({super.key});
+  const AddQuestionView({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _AddQuestionViewState();
+  _AddQuestionViewState createState() => _AddQuestionViewState();
 }
 
-
 class _AddQuestionViewState extends ConsumerState {
-  final gap = const SizedBox(height: 8);
   final questionController = TextEditingController();
   final descriptionController = TextEditingController();
-
   File? _image;
 
   checkCameraPermission() async {
@@ -28,7 +27,7 @@ class _AddQuestionViewState extends ConsumerState {
     }
   }
 
-  Future _browseImage(ImageSource imageSource) async {
+  Future<void> _browseImage(ImageSource imageSource) async {
     try {
       final image = await ImagePicker().pickImage(source: imageSource);
       if (image != null) {
@@ -41,6 +40,22 @@ class _AddQuestionViewState extends ConsumerState {
     }
   }
 
+  Widget _buildPreviewImage() {
+    return _image != null
+        ? Container(
+            width: double.infinity,
+            height: 200,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: FileImage(_image!),
+                fit: BoxFit.cover,
+              ),
+              borderRadius: BorderRadius.circular(8),
+            ),
+          )
+        : Container();
+  }
+
   @override
   Widget build(BuildContext context) {
     final questionState = ref.watch(questionViewModelProvider);
@@ -49,8 +64,9 @@ class _AddQuestionViewState extends ConsumerState {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            gap,
+            const SizedBox(height: 8),
             const Align(
               alignment: Alignment.center,
               child: Text(
@@ -61,12 +77,12 @@ class _AddQuestionViewState extends ConsumerState {
                 ),
               ),
             ),
-            gap,
+            const SizedBox(height: 8),
             TextFormField(
               controller: questionController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: 'Question Name',
+                hintText: 'ask a Question',
               ),
               validator: (value) {
                 if (value!.isEmpty) {
@@ -75,7 +91,7 @@ class _AddQuestionViewState extends ConsumerState {
                 return null;
               },
             ),
-            gap,
+            const SizedBox(height: 8),
             TextFormField(
               controller: descriptionController,
               decoration: const InputDecoration(
@@ -83,7 +99,9 @@ class _AddQuestionViewState extends ConsumerState {
                 hintText: 'Question Description',
               ),
             ),
-            gap,
+            const SizedBox(height: 8),
+            _buildPreviewImage(),
+            const SizedBox(height: 8),
             Row(
               children: [
                 Expanded(
@@ -95,84 +113,34 @@ class _AddQuestionViewState extends ConsumerState {
                     child: const Text('Pick Image'),
                   ),
                 ),
-                gap,
-                // Display the selected image here if needed
-                _image != null
-                    ? Container(
-                        width: 100,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: FileImage(_image!),
-                            fit: BoxFit.cover,
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      )
-                    : Container(),
               ],
             ),
-            gap,
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  QuestionEntity question = QuestionEntity(
-                    question: questionController.text,
-                    questionDescription: descriptionController.text,
-                    questionImage: _image?.path.split('/').last, // Include image path in the entity
-                  );
-                  ref.read(questionViewModelProvider.notifier).addQuestions(question, _image);
-                },
-                child: const Text('Add question'),
-              ),
+            const SizedBox(height: 8),
+            ElevatedButton(
+              onPressed: () {
+                QuestionEntity question = QuestionEntity(
+                  question: questionController.text,
+                  questionDescription: descriptionController.text,
+                  questionImageUrl: _image?.path.split('/').last,
+                );
+                ref
+                    .read(questionViewModelProvider.notifier)
+                    .addQuestions(question, _image);
+                // Clear fields after successful addition
+                questionController.clear();
+                descriptionController.clear();
+                setState(() {
+                  _image = null;
+                });
+              },
+              child: const Text('Add question'),
             ),
-            gap,
-            const Align(
-              alignment: Alignment.center,
-              child: Text(
-                'List of questions',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            gap,
+            const SizedBox(height: 8),
+          
+            const SizedBox(height: 8),
             questionState.isLoading
                 ? const Center(child: CircularProgressIndicator())
-                : Expanded(
-                    child: ListView.builder(
-                      itemCount: questionState.questions.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text(
-                            questionState.questions[index].question,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                          subtitle: Text(
-                            questionState.questions[index].questionId ?? 'No id',
-                            style: const TextStyle(
-                              color: Colors.indigo,
-                              fontSize: 12,
-                            ),
-                          ),
-                          trailing: IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () {
-                              // ref
-                              //     .read(questionViewModelProvider.notifier)
-                              //     .deletequestion(
-                              //         questionState.questiones[index].questionId);
-                            },
-                          ),
-                        );
-                      },
-                    ),
-                  ),
+                :  ListQuestionWidget(questionProvider: questionViewModelProvider,)
           ],
         ),
       ),

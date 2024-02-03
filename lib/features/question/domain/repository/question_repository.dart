@@ -6,7 +6,6 @@ import 'package:discussion_forum/features/question/data/repository/question_remo
 import 'package:discussion_forum/features/question/domain/entity/question_entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-
 final iQuestionRepositoryProvider = Provider.autoDispose<IQuestionRepository>(
   (ref) {
     // internet chaina bhane local bata tana
@@ -14,6 +13,15 @@ final iQuestionRepositoryProvider = Provider.autoDispose<IQuestionRepository>(
   },
 );
 
+// abstract class to define features
 abstract class IQuestionRepository {
-  Future<Either<Failure, bool>> addQuestions(QuestionEntity question, File? image);
+// set question repo
+  Future<Either<Failure, bool>> addQuestions(
+      QuestionEntity question, File? image);
+
+//get userSpecific questions Repo
+  Future<Either<Failure, List<QuestionEntity>>> getAllQuestions();
+
+//get every users questions Repo
+  Future<Either<Failure, List<QuestionEntity>>> getAllPublicUserQuestions();
 }

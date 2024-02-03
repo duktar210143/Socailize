@@ -5,17 +5,17 @@ class QuestionEntity extends Equatable {
   final String question;
   final String? questionCategory;
   final String? questionDescription;
-  final String? questionImage;
+  final String? questionImageUrl;
 
   @override
-  List<Object?> get props => [questionId, question,questionDescription,questionCategory,questionImage];
+  List<Object?> get props => [questionId, question,questionDescription,questionCategory,questionImageUrl];
 
   const QuestionEntity({
     this.questionId,
     required this.question,
     this.questionCategory,
     this.questionDescription,
-    this.questionImage,
+    this.questionImageUrl,
   });
 
   factory QuestionEntity.fromJson(Map<String, dynamic> json) => QuestionEntity(
@@ -23,7 +23,7 @@ class QuestionEntity extends Equatable {
         question: json["question"],
         questionCategory:json['questionCategory'],
         questionDescription:json['questionDescription'],
-        questionImage: json['questionImageurl'],
+        questionImageUrl: json['questionImageurl'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -31,7 +31,7 @@ class QuestionEntity extends Equatable {
         "question": question,
         "questionCategory":questionCategory,
         "questionDescription":questionDescription,
-        "questionImageUrl":questionImage
+        "questionImageUrl":questionImageUrl
       };
 
   @override
@@ -41,7 +41,7 @@ class QuestionEntity extends Equatable {
        question: $question,
       questionCategory: $questionCategory),
       questionDescription: $questionDescription,
-      questionImageUrl:$questionImage,
+      questionImageUrl:$questionImageUrl,
         ''';
   }
 }

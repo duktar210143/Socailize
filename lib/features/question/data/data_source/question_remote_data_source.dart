@@ -6,6 +6,7 @@ import 'package:discussion_forum/config/constants/api_end_points.dart';
 import 'package:discussion_forum/core/failure/failure.dart';
 import 'package:discussion_forum/core/network/remote/http_service.dart';
 import 'package:discussion_forum/core/shared_pref/user_shared_prefs.dart';
+import 'package:discussion_forum/features/question/data/dto/get_all_questions_dto.dart';
 import 'package:discussion_forum/features/question/data/model/question_api_model.dart';
 import 'package:discussion_forum/features/question/domain/entity/question_entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -29,12 +30,11 @@ class QuestionRemoteDataSource {
     dio.options.headers["x-access-token"] = token;
   }
 
+// function to add question to the application
   Future<Either<Failure, bool>> addQuestions(
       QuestionEntity question, File? image) async {
-    print("this is controller");
-    print(QuestionApiModel.fromEntity(question).toJson());
     try {
-      // retrive the token from the sharedPreference
+      // Retrieve the token from the sharedPreference
       Either<Failure, String?> token = await userSharedPrefs.getUserToken();
 
       token.fold(
@@ -44,17 +44,18 @@ class QuestionRemoteDataSource {
 
       QuestionApiModel questionApiModel = QuestionApiModel.fromEntity(question);
 
-      String fileName = image!.path.split('/').last;
-
       FormData formData = FormData.fromMap({
-        'question': questionApiModel.toJson().toString(),
-        'questionImage': await MultipartFile.fromFile(
-          image.path,
-          filename: fileName,
-        ),
+        'question': questionApiModel.question,
+        'questionDescription': questionApiModel.questionDescription,
+        'questionCategory': questionApiModel.questionCategory,
+        'questionImage': image != null
+            ? await MultipartFile.fromFile(
+                image.path,
+                filename: image.path.split('/').last,
+              )
+            : null,
       });
 
-      // var a = batchAPIModel.toJson();
       var response = await dio.post(
         ApiEndPoints.addQuestion,
         data: formData,
@@ -79,5 +80,66 @@ class QuestionRemoteDataSource {
     }
   }
 
-  // function for get all userQuestions
+  // function to fetch all the question specific to the user from the application
+  Future<Either<Failure, List<QuestionEntity>>> getAllQuestions() async {
+    try {
+      Either<Failure, String?> token = await userSharedPrefs.getUserToken();
+
+      token.fold(
+        (failure) => false,
+        (token) => _setAuthorizationHeader(token!),
+      );
+
+      var response = await dio.get(ApiEndPoints.getAllquestion);
+      if (response.data['success'] == true) {
+        GetAllQuestionsDto getAllQuestionsDto =
+            GetAllQuestionsDto.fromJson(response.data);
+        // convert questionAPImodel fetched from server to entity compatible to dart
+        List<QuestionEntity> lstquestions = getAllQuestionsDto.questions
+            .map((question) => QuestionApiModel.toEntity(question))
+            .toList();
+
+        print(lstquestions);
+        return right(lstquestions);
+      } else {
+        return Left(
+          Failure(
+            error: response.statusMessage.toString(),
+            statusCode: response.statusCode.toString(),
+          ),
+        );
+      }
+    } on DioException catch (e) {
+      return Left(Failure(error: e.response?.data['message']));
+    }
+  }
+
+  // every questions asked by every users
+  Future<Either<Failure, List<QuestionEntity>>>
+      getAllPublicUserQuestions() async {
+    try {
+      var response = await dio.get(ApiEndPoints.getAllPublicQuestions);
+      if (response.data['success'] == true) {
+        GetAllQuestionsDto getAllQuestionsDto =
+            GetAllQuestionsDto.fromJson(response.data);
+
+        // convert the lst of question into entity
+        List<QuestionEntity> lstQuestions = getAllQuestionsDto.questions
+            .map((question) => QuestionApiModel.toEntity(question))
+            .toList();
+
+        print(lstQuestions);
+        return right(lstQuestions);
+      } else {
+        return Left(
+          Failure(
+            error: response.statusMessage.toString(),
+            statusCode: response.statusCode.toString(),
+          ),
+        );
+      }
+    } on DioException catch (e) {
+      return Left(Failure(error: e.response?.data['message']));
+    }
+  }
 }

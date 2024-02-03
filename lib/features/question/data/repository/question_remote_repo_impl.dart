@@ -20,8 +20,21 @@ class QuestionRemoteRepoImpl implements IQuestionRepository {
   const QuestionRemoteRepoImpl({required this.questionRemoteDataSource});
 
   @override
-  Future<Either<Failure, bool>> addQuestions(QuestionEntity question, File? file) {
+  Future<Either<Failure, bool>> addQuestions(
+      QuestionEntity question, File? file) {
     // TODO: implement addQuestions
     return questionRemoteDataSource.addQuestions(question, file);
+  }
+
+  @override
+  Future<Either<Failure, List<QuestionEntity>>> getAllQuestions() {
+    // TODO: implement getAllQuestions
+    return questionRemoteDataSource.getAllQuestions();
+  }
+
+  @override
+  Future<Either<Failure, List<QuestionEntity>>> getAllPublicUserQuestions() {
+    // TODO: implement getAllPublicUserQuestions
+    return questionRemoteDataSource.getAllPublicUserQuestions();
   }
 }

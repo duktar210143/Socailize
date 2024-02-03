@@ -13,14 +13,14 @@ class QuestionApiModel {
 
   final String? questionCategory;
 
-  final String? questionImage;
+  final String? questionImageUrl;
 
   QuestionApiModel(
       {this.questionId,
       required this.question,
       this.questionDescription,
       this.questionCategory,
-      this.questionImage});
+      this.questionImageUrl});
 
   // To Json and fromJson without freezed
   factory QuestionApiModel.fromJson(Map<String, dynamic> json) {
@@ -29,7 +29,7 @@ class QuestionApiModel {
         question: json['question'],
         questionCategory: json['questionCategory'],
         questionDescription: json['questionDescription'],
-        questionImage: json['questionImage']);
+        questionImageUrl: json['questionImageUrl']);
   }
 
   Map<String, dynamic> toJson() {
@@ -38,7 +38,7 @@ class QuestionApiModel {
       'question': question,
       'questionCategory': questionCategory,
       'questionDescription': questionDescription,
-      'questionImage': questionImage,
+      'questionImageUrl': questionImageUrl,
     };
   }
 
@@ -49,7 +49,7 @@ class QuestionApiModel {
       question: entity.question,
       questionCategory: entity.questionCategory,
       questionDescription: entity.questionDescription,
-      questionImage: entity.questionImage,
+      questionImageUrl: entity.questionImageUrl,
     );
   }
 
@@ -60,6 +60,6 @@ class QuestionApiModel {
         question: model.question,
         questionCategory: model.questionCategory,
         questionDescription: model.questionDescription,
-        questionImage: model.questionImage);
+        questionImageUrl: model.questionImageUrl);
   }
 }

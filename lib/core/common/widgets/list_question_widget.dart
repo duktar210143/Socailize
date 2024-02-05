@@ -1,4 +1,7 @@
 import 'package:discussion_forum/features/question/presentation/state/question_state.dart';
+import 'package:discussion_forum/features/question/presentation/view_model/question_view_model.dart';
+import 'package:discussion_forum/features/replies/presentation/view/reply_view.dart';
+import 'package:discussion_forum/features/replies/presentation/view_model/reply_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:photo_view/photo_view.dart';
@@ -24,6 +27,7 @@ class _ListQuestionWidgetState extends ConsumerState<ListQuestionWidget> {
   @override
   Widget build(BuildContext context) {
     final questionState = ref.watch(widget.questionProvider);
+    final replyState = ref.watch(replyViewModelProvider);
     return Expanded(
       child: Scaffold(
         appBar: AppBar(
@@ -77,16 +81,64 @@ class _ListQuestionWidgetState extends ConsumerState<ListQuestionWidget> {
                         ),
                       ),
                     ),
+                  const SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.favorite_outline),
+                            onPressed: () {
+                              // Handle like button tap
+                            },
+                          ),
+                          const SizedBox(width: 4),
+                          const Text(
+                            '123 Likes', // Replace with actual like count
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.comment),
+                            onPressed: () async {
+                              // get the question specific reply from the view model of reply
+                              await ref
+                                  .read(replyViewModelProvider.notifier)
+                                  .getQuestionSpecificReplies(
+                                      questionState
+                                          .questions[index].questionId!,
+                                      context);
+                              // move to reply view screen
+
+                              // ignore: use_build_context_synchronously
+                              _showReplyForm(
+                                context,
+                                questionState.questions[index].questionId!,
+                              );
+                            },
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            "${ref.read(numberOfRepliesProvider(questionState.questions[index].questionId!))}",
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
                 ],
-              ),
-              trailing: IconButton(
-                icon: const Icon(Icons.delete),
-                onPressed: () {
-                  // ref
-                  //     .read(widget.questionProvider.notifier)
-                  //     .deletequestion(
-                  //         questionState.questiones[index].questionId);
-                },
               ),
             );
           },
@@ -131,18 +183,17 @@ class _ListQuestionWidgetState extends ConsumerState<ListQuestionWidget> {
               ),
             ),
           ),
-          // Positioned(
-          //   top: 16,
-          //   left: 16,
-          //   child: IconButton(
-          //     // icon: const Icon(Icons.close, color: Colors.white),
-          //     onPressed: () {
-          //       Navigator.pop(context);
-          //     },
-          //   ),
-          // ),
         ],
       ),
+    );
+  }
+
+  void _showReplyForm(BuildContext context, String questionId) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return ReplyFormView(questionId: questionId);
+      },
     );
   }
 }

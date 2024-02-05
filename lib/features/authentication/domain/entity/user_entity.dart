@@ -1,4 +1,5 @@
-import 'dart:io';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
@@ -42,5 +43,40 @@ class AuthEntity extends Equatable {
   }
 
   @override
-  List<Object?> get props => [userId,username, firstname, lastname, password];
+  List<Object> get props {
+    return [
+      userId ?? '',
+      username,
+      image ?? '',
+      firstname,
+      lastname,
+      email,
+      password,
+    ];
+  }
+
+
+  factory AuthEntity.fromjson(Map<String, dynamic> json) {
+    return AuthEntity(
+        userId: json['userId'],
+        username: json['username'],
+        image: json['image'],
+        firstname: json['firstname'],
+        lastname: json['lastname'],
+        email: json['email'],
+        password: json['password']);
+  }
+
+  Map<String, dynamic> toJson() => {
+        "userId": userId,
+        "username": username,
+        "image": image,
+        "firstname": firstname,
+        "lastname": lastname,
+        "email": email,
+        "password": password,
+      };
+
+  @override
+  bool get stringify => true;
 }

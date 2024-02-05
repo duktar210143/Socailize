@@ -62,6 +62,26 @@ class AuthRemoteDataSource {
         // retrive token from the response
         String token = response.data["token"];
         await userSharedPrefs.setUserToken(token);
+
+        AuthEntity userData = AuthEntity.fromjson(response.data['userData']);
+
+        await userSharedPrefs.setUserData(userData);
+
+        // Get the user data stored in SharedPreferences
+      final storedUserData = await userSharedPrefs.getUserData();
+
+      // Use fold to handle the Either type
+      storedUserData.fold(
+        (failure) {
+          // Handle failure case
+          print('Error retrieving user data: ${failure.error}');
+        },
+        (authEntity) {
+          // Handle success case
+          print('User data stored in SharedPreferences: $authEntity');
+        },
+      );
+
         return const Right(true);
       } else {
         return left(Failure(

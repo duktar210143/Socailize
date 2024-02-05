@@ -1,3 +1,5 @@
+import 'package:discussion_forum/features/authentication/domain/entity/user_entity.dart';
+import 'package:discussion_forum/features/replies/domain/entity/replies_entity.dart';
 import 'package:equatable/equatable.dart';
 
 class QuestionEntity extends Equatable {
@@ -6,9 +8,19 @@ class QuestionEntity extends Equatable {
   final String? questionCategory;
   final String? questionDescription;
   final String? questionImageUrl;
+  final AuthEntity? user;
+  final List<ReplyEntity>? replies;
 
   @override
-  List<Object?> get props => [questionId, question,questionDescription,questionCategory,questionImageUrl];
+  List<Object?> get props => [
+        questionId,
+        question,
+        questionDescription,
+        questionCategory,
+        questionImageUrl,
+        user,
+        replies
+      ];
 
   const QuestionEntity({
     this.questionId,
@@ -16,22 +28,29 @@ class QuestionEntity extends Equatable {
     this.questionCategory,
     this.questionDescription,
     this.questionImageUrl,
+    this.user,
+    this.replies,
   });
 
   factory QuestionEntity.fromJson(Map<String, dynamic> json) => QuestionEntity(
-        questionId: json["questionId"],
-        question: json["question"],
-        questionCategory:json['questionCategory'],
-        questionDescription:json['questionDescription'],
-        questionImageUrl: json['questionImageurl'],
-      );
+      questionId: json["questionId"],
+      question: json["question"],
+      questionCategory: json['questionCategory'],
+      questionDescription: json['questionDescription'],
+      questionImageUrl: json['questionImageurl'],
+      user: AuthEntity.fromjson(json['user']),
+      replies: (json['replies'] as List<dynamic>)
+          .map((reply) => ReplyEntity.fromJson(reply))
+          .toList());
 
   Map<String, dynamic> toJson() => {
         "questionId": questionId,
         "question": question,
-        "questionCategory":questionCategory,
-        "questionDescription":questionDescription,
-        "questionImageUrl":questionImageUrl
+        "questionCategory": questionCategory,
+        "questionDescription": questionDescription,
+        "questionImageUrl": questionImageUrl,
+        "user":user?.toJson(),
+        'replies': replies?.map((reply) => reply.toJson()).toList(),
       };
 
   @override

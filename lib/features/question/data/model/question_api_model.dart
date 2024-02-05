@@ -1,35 +1,41 @@
+import 'package:discussion_forum/features/authentication/data/models/auth_api_model.dart';
 import 'package:discussion_forum/features/question/domain/entity/question_entity.dart';
+import 'package:discussion_forum/features/replies/data/model/reply_api_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 @JsonSerializable()
 class QuestionApiModel {
   @JsonKey(name: '_id')
-  // Server ko name lai batchId sanga map gareko
   final String? questionId;
-  // J name server ma cha tei name ya lekhne
   final String question;
-
   final String? questionDescription;
-
   final String? questionCategory;
-
   final String? questionImageUrl;
+  final AuthApiModel? user;  // Add user property
+  final List<ReplyApiModel>? replies;  // Add replies property
 
-  QuestionApiModel(
-      {this.questionId,
-      required this.question,
-      this.questionDescription,
-      this.questionCategory,
-      this.questionImageUrl});
+  QuestionApiModel({
+    this.questionId,
+    required this.question,
+    this.questionDescription,
+    this.questionCategory,
+    this.questionImageUrl,
+    this.user,
+    this.replies,
+  });
 
-  // To Json and fromJson without freezed
   factory QuestionApiModel.fromJson(Map<String, dynamic> json) {
     return QuestionApiModel(
-        questionId: json['_id'],
-        question: json['question'],
-        questionCategory: json['questionCategory'],
-        questionDescription: json['questionDescription'],
-        questionImageUrl: json['questionImageUrl']);
+      questionId: json['_id'],
+      question: json['question'],
+      questionCategory: json['questionCategory'],
+      questionDescription: json['questionDescription'],
+      questionImageUrl: json['questionImageUrl'],
+      user: AuthApiModel.fromJson(json['user']),  // Parse user information
+      replies: (json['replies'] as List<dynamic>?)
+          ?.map((reply) => ReplyApiModel.fromJson(reply))
+          .toList(),  // Parse list of replies
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -39,10 +45,11 @@ class QuestionApiModel {
       'questionCategory': questionCategory,
       'questionDescription': questionDescription,
       'questionImageUrl': questionImageUrl,
+      'user': user?.toJson(),  // Convert user to JSON
+      'replies': replies?.map((reply) => reply.toJson()).toList(),  // Convert replies to JSON
     };
   }
 
-  // From entity to model
   factory QuestionApiModel.fromEntity(QuestionEntity entity) {
     return QuestionApiModel(
       questionId: entity.questionId,
@@ -50,16 +57,20 @@ class QuestionApiModel {
       questionCategory: entity.questionCategory,
       questionDescription: entity.questionDescription,
       questionImageUrl: entity.questionImageUrl,
+      user: AuthApiModel.fromEntity(entity.user!),  // Convert user entity to model
+      replies: entity.replies?.map((reply) => ReplyApiModel.fromEntity(reply)).toList(),  // Convert replies entities to models
     );
   }
 
-  // From model to entity
   static QuestionEntity toEntity(QuestionApiModel model) {
     return QuestionEntity(
-        questionId: model.questionId,
-        question: model.question,
-        questionCategory: model.questionCategory,
-        questionDescription: model.questionDescription,
-        questionImageUrl: model.questionImageUrl);
+      questionId: model.questionId,
+      question: model.question,
+      questionCategory: model.questionCategory,
+      questionDescription: model.questionDescription,
+      questionImageUrl: model.questionImageUrl,
+      user: AuthApiModel.toEntity(model.user!),  // Convert user model to entity
+      replies: model.replies?.map((reply) => ReplyApiModel.toEntity(reply)).toList(),  // Convert replies models to entities
+    );
   }
 }

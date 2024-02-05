@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:discussion_forum/features/question/domain/entity/question_entity.dart';
-import 'package:discussion_forum/features/question/presentation/view/list_question_widget.dart';
+import 'package:discussion_forum/core/common/widgets/list_question_widget.dart';
 import 'package:discussion_forum/features/question/presentation/view_model/question_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

@@ -21,7 +21,7 @@ class PublicQuestionViewModel extends StateNotifier<QuestionState> {
 
 // get all public user questions go here
 
-  void getAllPublicUserQuestions() {
+  Future getAllPublicUserQuestions() async{
     state = state.copyWith(isLoading: true);
     getAllPublicQuestionUseCase.getAllPublicUserQuestions().then((value) {
       value.fold((failure) {

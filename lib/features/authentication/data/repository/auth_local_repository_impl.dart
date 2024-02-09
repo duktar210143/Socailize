@@ -20,15 +20,16 @@ class AuthLocalRepositoryImpl implements IAuthRepository {
     return _authLocalDataSource.signUpUser(user);
   }
 
-  @override
-  Future<Either<Failure, bool>> login(String username, String password) {
-    // TODO: implement signInUser
-    return _authLocalDataSource.signInUser(username, password);
-  }
-
+ 
   @override
   Future<Either<Failure, List<AuthApiModel>>> getUserDetails(int page) {
     // TODO: implement getUserDetails
+    throw UnimplementedError();
+  }
+  
+  @override
+  Future<Either<Failure, AuthEntity>> login(String username, String password) {
+    // TODO: implement login
     throw UnimplementedError();
   }
 }

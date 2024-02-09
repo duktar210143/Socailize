@@ -46,7 +46,7 @@ class AuthViewModel extends StateNotifier<AuthState> {
       showSnackBar(message: failure.error, context: context, color: Colors.red);
     }, (success) {
       state = state.copyWith(isLoading: false, error: null);
-      isLogin = success;
+      isLogin = true;
       showSnackBar(message: "login successful", context: context);
       Navigator.pushNamed(context, AppRoute.dashboard);
     });

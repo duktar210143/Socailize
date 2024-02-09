@@ -110,15 +110,16 @@ class _UserDetailsViewState extends ConsumerState<UserDetailsView> {
                   padding:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
                   separatorBuilder: (context, index) => const Divider(),
-                  controller: _scrollController,
+                  controller: _scrollController, // Attach the controller here
                   itemCount: state.users.length,
                   physics: const AlwaysScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     final users = state.users[index];
                     return UserCard(
-                        name: users.firstname,
-                        email: users.email,
-                        avatarInitial: users.firstname[0]);
+                      name: users.firstname,
+                      email: users.email,
+                      avatarInitial: users.firstname[0],
+                    );
                   },
                 ),
               ),

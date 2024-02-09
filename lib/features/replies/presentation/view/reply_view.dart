@@ -1,3 +1,4 @@
+import 'package:discussion_forum/core/common/widgets/view_user_details.dart';
 import 'package:discussion_forum/features/replies/domain/entity/replies_entity.dart';
 import 'package:discussion_forum/features/replies/presentation/state/reply_state.dart';
 import 'package:discussion_forum/features/replies/presentation/view_model/reply_view_model.dart';
@@ -10,8 +11,7 @@ class ReplyFormView extends ConsumerStatefulWidget {
   const ReplyFormView({Key? key, required this.questionId}) : super(key: key);
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _ReviewFormViewState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _ReviewFormViewState();
 }
 
 class _ReviewFormViewState extends ConsumerState<ReplyFormView> {
@@ -68,12 +68,45 @@ class _ReviewFormViewState extends ConsumerState<ReplyFormView> {
       itemCount: replyState.replies.length,
       separatorBuilder: (context, index) => const Divider(),
       itemBuilder: (context, index) {
-        return ListTile(
-          title: Text(
-            replyState.replies[index].reply,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
+        final reversedIndex = replyState.replies.length - index - 1;
+        final replies = replyState.replies[reversedIndex];
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.grey[200],
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          padding: const EdgeInsets.all(8.0),
+          child: ListTile(
+            leading: InkWell(
+              onTap: () {
+                // show user details the details concerns are seperated into another file
+                UserDetailsDialogBox.showUserNameDialog(
+                    context,
+                    replies.user!.firstname,
+                    replies.user!.lastname,
+                    replies.user!.username,
+                   replies.user!.email);
+              },
+              child: CircleAvatar(
+                backgroundColor: Colors.blue, // Adjust the color as needed
+                child: Text(
+                  replies.user!
+                      .firstname[0], // Display first letter of firstname
+                  style: const TextStyle(
+                    color: Colors.white, // Text color
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            title: Text(
+              replies.reply,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+                color: Colors.black, // Adjust text color
+              ),
             ),
           ),
         );
@@ -94,6 +127,18 @@ class _ReviewFormViewState extends ConsumerState<ReplyFormView> {
           children: [
             _buildUserInfo(replyState),
             const SizedBox(height: 20.0),
+            Container(
+              width: double.infinity,
+              color: Colors.white70,
+              height: 23,
+              child: Center(
+                child: Text("Total Replies: ${replyState.replies.length}",
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey,
+                        fontSize: 17)),
+              ),
+            ),
             TextField(
               controller: _replyController,
               maxLines: 10,
@@ -104,14 +149,14 @@ class _ReviewFormViewState extends ConsumerState<ReplyFormView> {
             ),
             const SizedBox(height: 16.0),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 String questionId = widget.questionId;
-                ReplyEntity entity =
-                    ReplyEntity(reply: _replyController.text);
+                ReplyEntity entity = ReplyEntity(reply: _replyController.text);
                 ref
                     .read(replyViewModelProvider.notifier)
                     .setReply(questionId, entity, context);
-                Navigator.pop(context);
+
+                // Navigator.pop(context);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue,

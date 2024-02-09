@@ -49,7 +49,8 @@ class AuthRemoteDataSource {
     }
   }
 
-  Future<Either<Failure, bool>> login(String username, String password) async {
+  Future<Either<Failure, AuthEntity>> login(
+      String username, String password) async {
     try {
       final response = await dio.post(
         ApiEndPoints.login,
@@ -65,24 +66,7 @@ class AuthRemoteDataSource {
 
         AuthEntity userData = AuthEntity.fromjson(response.data['userData']);
 
-        await userSharedPrefs.setUserData(userData);
-
-        // Get the user data stored in SharedPreferences
-      final storedUserData = await userSharedPrefs.getUserData();
-
-      // Use fold to handle the Either type
-      storedUserData.fold(
-        (failure) {
-          // Handle failure case
-          print('Error retrieving user data: ${failure.error}');
-        },
-        (authEntity) {
-          // Handle success case
-          print('User data stored in SharedPreferences: $authEntity');
-        },
-      );
-
-        return const Right(true);
+        return Right(userData);
       } else {
         return left(Failure(
             error: response.data['message'] ?? "unknown error",

@@ -16,7 +16,7 @@ final iAuthRepositoryProvider = Provider.autoDispose<IAuthRepository>((ref) {
 abstract class IAuthRepository {
   Future<Either<Failure, bool>> signUpUser(AuthEntity user);
 
-  Future<Either<Failure, bool>> login(String username, String password);
+  Future<Either<Failure, AuthEntity>> login(String username, String password);
 
   Future<Either<Failure, List<AuthApiModel>>> getUserDetails(int page);
 }

@@ -11,6 +11,7 @@ class AuthApiModel {
   final String lastname;
   final String username;
   final String password;
+  final String? image;
   final String email;
   AuthApiModel({
     this.userId,
@@ -18,6 +19,7 @@ class AuthApiModel {
     required this.lastname,
     required this.username,
     required this.password,
+    this.image,
     required this.email,
   });
 
@@ -28,6 +30,7 @@ class AuthApiModel {
     String? username,
     String? password,
     String? email,
+    String? image
   }) {
     return AuthApiModel(
       userId: userId ?? this.userId,
@@ -35,6 +38,7 @@ class AuthApiModel {
       lastname: lastname ?? this.lastname,
       username: username ?? this.username,
       email: email ?? this.email,
+      image: image ?? this.image,
       password: password ?? this.password,
     );
   }
@@ -44,30 +48,32 @@ class AuthApiModel {
       'firstname': firstname,
       'lastname': lastname,
       'username': username,
-      'email':email,
+      'email': email,
+      'image':image,
       'password': password,
     };
   }
 
- factory AuthApiModel.fromJson(Map<String, dynamic> json) {
-  return AuthApiModel(
-    firstname: json['firstname'] ?? '',
-    lastname: json['lastname'] ?? '',
-    username: json['username'] ?? '',
-    email: json['email'] ?? '',
-    password: json['password'] ?? '',
-  );
-}
-
+  factory AuthApiModel.fromJson(Map<String, dynamic> json) {
+    return AuthApiModel(
+      firstname: json['firstname'] ?? '',
+      lastname: json['lastname'] ?? '',
+      username: json['username'] ?? '',
+      email: json['email'] ?? '',
+      image:json['image'] ?? '',
+      password: json['password'] ?? '',
+    );
+  }
 
   factory AuthApiModel.fromEntity(AuthEntity entity) {
     return AuthApiModel(
-        firstname: entity.firstname,
-        lastname: entity.lastname,
-        username: entity.username,
-        email: entity.email,
-        password: entity.password,
-        );
+      firstname: entity.firstname,
+      lastname: entity.lastname,
+      username: entity.username,
+      email: entity.email,
+      image: entity.image,
+      password: entity.password,
+    );
   }
 
   static AuthEntity toEntity(AuthApiModel model) {
@@ -77,6 +83,7 @@ class AuthApiModel {
       firstname: model.firstname,
       lastname: model.lastname,
       email: model.email,
+      image: model.image,
       password: model.password,
     );
   }

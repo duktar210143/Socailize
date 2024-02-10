@@ -99,7 +99,6 @@ class QuestionRemoteDataSource {
             .map((question) => QuestionApiModel.toEntity(question))
             .toList();
 
-        print(lstquestions);
         return right(lstquestions);
       } else {
         return Left(
@@ -128,7 +127,6 @@ class QuestionRemoteDataSource {
             .map((question) => QuestionApiModel.toEntity(question))
             .toList();
 
-        print(lstQuestions);
         return right(lstQuestions);
       } else {
         return Left(

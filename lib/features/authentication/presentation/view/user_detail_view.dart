@@ -1,135 +1,93 @@
-import 'dart:async';
+// import 'package:discussion_forum/features/authentication/presentation/view_model/auth_view_model.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:discussion_forum/core/common/widgets/user_card.dart';
-import 'package:discussion_forum/features/authentication/presentation/view_model/userdetail_viewmodel.dart';
+// class UserDetailView extends ConsumerWidget {
+//   const UserDetailView({super.key});
+
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     final userState = ref.watch(authViewModelProvider);
+//     return Column(
+//       children: [
+//         Text(
+//           userState.userData.firstname,
+//           style: const TextStyle(color: Colors.black, fontSize: 100),
+//         )
+//       ],
+//     );
+//   }
+// }
+
+import 'package:discussion_forum/features/authentication/presentation/view_model/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class UserDetailsView extends ConsumerStatefulWidget {
-  const UserDetailsView({super.key});
+class UserDetailView extends ConsumerWidget {
+  const UserDetailView({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _UserDetailsViewState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userState = ref.watch(authViewModelProvider);
 
-class _UserDetailsViewState extends ConsumerState<UserDetailsView> {
-  final ScrollController _scrollController = ScrollController();
-  bool _showNoMoreDataDialog = false;
-  Timer? _timer;
-  double _initialScrollPosition = 0.0;
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    _timer?.cancel(); // Cancel the timer to avoid memory leaks
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final state = ref.watch(userDetailsViewModelProvider);
-
-    // Show dialog after 5 seconds of continuous loading
-    if (state.isLoading && !_showNoMoreDataDialog) {
-      // Store the initial scroll position
-      _initialScrollPosition = _scrollController.position.pixels;
-
-      // Cancel the existing timer if it's active
-      _timer?.cancel();
-
-      _timer = Timer(const Duration(seconds: 5), () {
-        // Check if the scroll position has changed during the 5 seconds
-        if (_scrollController.position.pixels == _initialScrollPosition &&
-            state.isLoading) {
-          _showNoMoreDataDialog = true;
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: const Text('No More Data'),
-                content: const Text('There are no more data to load.'),
-                actions: [
-                  TextButton(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Profile'),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                   CircleAvatar(
+                    radius: 60,
+                    backgroundImage: NetworkImage(
+                        "${userState.userData.image}"), // Use the default profile image here
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    '${userState.userData.firstname} ${userState.userData.lastname}',
+                    style: const TextStyle(
+                        fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    '@${userState.userData.username}',
+                    style: const TextStyle(fontSize: 16, color: Colors.black),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
                     onPressed: () {
-                      _showNoMoreDataDialog = false;
-                      _timer?.cancel();
-                      ref
-                          .read(userDetailsViewModelProvider.notifier)
-                          .resetState();
-                      Navigator.of(context).pop();
+                      // Implement edit profile functionality
                     },
-                    child: const Text('OK'),
+                    child: const Text('Edit Profile'),
                   ),
                 ],
-              );
-            },
-          );
-        }
-      });
-    }
-
-    return NotificationListener(
-      onNotification: (notification) {
-        if (notification is ScrollEndNotification) {
-          // Scroll garda feri last ma ho ki haina bhanera check garne ani data call garne
-          if (_scrollController.position.extentAfter == 0) {
-            // Data fetch gara api bata
-            ref.read(userDetailsViewModelProvider.notifier).getAllUsers();
-          }
-        }
-        return true;
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            'Discussion Forum',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          actions: [
-            IconButton(
-              onPressed: () {
-                _timer?.cancel();
-                ref.read(userDetailsViewModelProvider.notifier).resetState();
-              },
-              icon: const Icon(Icons.refresh),
-            ),
-          ],
-        ),
-        body: RefreshIndicator(
-          // Yo chai pull to refresh ko lagi ho
-          color: Colors.red,
-          onRefresh: () async {
-            _timer?.cancel();
-            ref.read(userDetailsViewModelProvider.notifier).resetState();
-          },
-          child: Column(
-            children: [
-              Expanded(
-                child: ListView.separated(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-                  separatorBuilder: (context, index) => const Divider(),
-                  controller: _scrollController, // Attach the controller here
-                  itemCount: state.users.length,
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    final users = state.users[index];
-                    return UserCard(
-                      name: users.firstname,
-                      email: users.email,
-                      avatarInitial: users.firstname[0],
-                    );
-                  },
-                ),
               ),
-              // Data load huda feri progress bar dekhaune natra banda garne
-              if (state.isLoading)
-                const CircularProgressIndicator(color: Colors.red),
-
-              const SizedBox(height: 10),
-            ],
-          ),
+            ),
+            const Divider(),
+            const ListTile(
+              title:
+                  Text('questions', style: TextStyle(fontWeight: FontWeight.bold)),
+              trailing: Text('10'), // Replace with actual number of posts
+            ),
+            const ListTile(
+              title: Text('Replies',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+              trailing: Text('200'), // Replace with actual number of followers
+            ),
+            const ListTile(
+              title: Text('Following',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+              trailing: Text('10'), // Replace with actual number of following
+            ),
+            const Divider(),
+            // Add more sections as needed
+          ],
         ),
       ),
     );

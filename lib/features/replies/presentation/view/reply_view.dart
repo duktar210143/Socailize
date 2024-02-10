@@ -25,7 +25,7 @@ class _ReviewFormViewState extends ConsumerState<ReplyFormView> {
 
   Widget _buildUserInfo(ReplyState replyState) {
     return Container(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.only(left: 16,top: 10),
       decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -37,22 +37,27 @@ class _ReviewFormViewState extends ConsumerState<ReplyFormView> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                replyState.user!.firstname,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16.0,
+              CircleAvatar(
+                radius: 50,
+                backgroundImage: NetworkImage(
+                  "${replyState.user!.image}",
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 17),
+                child: Text(
+                  replyState.user!.firstname,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.0,
+                  ),
                 ),
               ),
               const SizedBox(
                 height: 10,
-              ),
-              Text(
-                replyState.user!.email,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16.0,
-                ),
               ),
             ],
           ),
@@ -71,10 +76,6 @@ class _ReviewFormViewState extends ConsumerState<ReplyFormView> {
         final reversedIndex = replyState.replies.length - index - 1;
         final replies = replyState.replies[reversedIndex];
         return Container(
-          decoration: BoxDecoration(
-            color: Colors.grey[200],
-            borderRadius: BorderRadius.circular(8.0),
-          ),
           padding: const EdgeInsets.all(8.0),
           child: ListTile(
             leading: InkWell(
@@ -85,19 +86,13 @@ class _ReviewFormViewState extends ConsumerState<ReplyFormView> {
                     replies.user!.firstname,
                     replies.user!.lastname,
                     replies.user!.username,
-                   replies.user!.email);
+                    replies.user!.image.toString(),
+                    replies.user!.email);
               },
               child: CircleAvatar(
+                radius: 40,
                 backgroundColor: Colors.blue, // Adjust the color as needed
-                child: Text(
-                  replies.user!
-                      .firstname[0], // Display first letter of firstname
-                  style: const TextStyle(
-                    color: Colors.white, // Text color
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                backgroundImage: NetworkImage("${replies.user!.image}"),
               ),
             ),
             title: Text(
@@ -119,29 +114,13 @@ class _ReviewFormViewState extends ConsumerState<ReplyFormView> {
     final replyState = ref.watch(replyViewModelProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Reply Form'),
-      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
             _buildUserInfo(replyState),
-            const SizedBox(height: 20.0),
-            Container(
-              width: double.infinity,
-              color: Colors.white70,
-              height: 23,
-              child: Center(
-                child: Text("Total Replies: ${replyState.replies.length}",
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey,
-                        fontSize: 17)),
-              ),
-            ),
             TextField(
               controller: _replyController,
-              maxLines: 10,
+              maxLines: 6,
               decoration: const InputDecoration(
                 hintText: 'Add a Reply...',
                 border: InputBorder.none,
@@ -169,7 +148,11 @@ class _ReviewFormViewState extends ConsumerState<ReplyFormView> {
               ),
             ),
             const SizedBox(height: 16.0),
-            _buildReplyList(replyState),
+            SizedBox(
+              height:
+                  MediaQuery.of(context).size.height * 0.4, // Adjust as needed
+              child: _buildReplyList(replyState),
+            ),
           ],
         ),
       ),

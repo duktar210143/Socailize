@@ -193,7 +193,10 @@ class _ListQuestionWidgetState extends ConsumerState<ListQuestionWidget> {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return ReplyFormView(questionId: questionId);
+        return SizedBox(
+          height: MediaQuery.of(context).size.height * 0.8, // Adjust as needed
+          child: ReplyFormView(questionId: questionId),
+        );
       },
     );
   }

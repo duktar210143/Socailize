@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class UserDetailsDialogBox {
-  static void showUserNameDialog(BuildContext context, String firstName, String lastName, String userName, String email) {
+  static void showUserNameDialog(BuildContext context, String firstName,
+      String lastName, String userName, String image, String email) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -11,13 +12,15 @@ class UserDetailsDialogBox {
           ),
           elevation: 16,
           backgroundColor: Colors.transparent,
-          child: _buildDialogContent(firstName, lastName, userName, email, context),
+          child: _buildDialogContent(
+              firstName, lastName, userName, email, image, context),
         );
       },
     );
   }
 
-  static Widget _buildDialogContent(String firstName, String lastName, String userName, String email, BuildContext context) {
+  static Widget _buildDialogContent(String firstName, String lastName,
+      String userName, String email, String image, BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -28,12 +31,20 @@ class UserDetailsDialogBox {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'User Information',
-            style: TextStyle(
-              fontSize: 20.0,
-              fontWeight: FontWeight.bold,
-              color: Colors.black87,
+          const Center(
+            child: Text(
+              'User Information',
+              style: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
+              ),
+            ),
+          ),
+          Center(
+            child: CircleAvatar(
+              radius: 70,
+              backgroundImage: NetworkImage(image),
             ),
           ),
           const SizedBox(height: 20.0),

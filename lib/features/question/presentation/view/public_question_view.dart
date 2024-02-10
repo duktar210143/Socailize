@@ -14,6 +14,11 @@ class PublicQuestionView extends ConsumerStatefulWidget {
 class _PublicQuestionViewState extends ConsumerState<PublicQuestionView> {
   @override
   Widget build(BuildContext context) {
-    return  ListQuestionWidget(questionProvider: publicQuestionViewModelProvider,);
+    return Column(
+      children:[ ListQuestionWidget(
+        questionProvider: publicQuestionViewModelProvider,
+      ),
+      ],
+    );
   }
 }

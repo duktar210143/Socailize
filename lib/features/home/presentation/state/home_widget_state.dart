@@ -17,7 +17,7 @@ class HomeState {
           const PublicQuestionView(),
           const StackOverflowDashboard(),
            const AddQuestionView(),
-         const UserDetailsView(),
+         const UserDetailView(),
          const StackOverflowDashboard(),
         ];
   // copyWith function to chnage the index no

@@ -58,9 +58,6 @@ class UserSharedPrefs {
       // Store the JSON string in SharedPreferences
       await _sharedPreferences.setString('userData', userJson);
 
-      print(
-          'User data stored in SharedPreferences: $userJson'); // Add this line
-
       return right(true);
     } catch (e) {
       print('Error storing user data: $e'); // Add this line

@@ -10,7 +10,6 @@ class LoginView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(authViewModelProvider);
     final GlobalKey<FormState> authKey = GlobalKey();
    
     TextEditingController usernameController = TextEditingController();

@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:discussion_forum/core/failure/failure.dart';
 import 'package:discussion_forum/features/authentication/data/data_source/auth_local_data_source.dart';
+import 'package:discussion_forum/features/authentication/data/data_source/auth_remote_data_source.dart';
 import 'package:discussion_forum/features/authentication/data/models/auth_api_model.dart';
 import 'package:discussion_forum/features/authentication/domain/entity/user_entity.dart';
 import 'package:discussion_forum/features/authentication/domain/repository/auth_repository.dart';
@@ -20,15 +21,18 @@ class AuthLocalRepositoryImpl implements IAuthRepository {
     return _authLocalDataSource.signUpUser(user);
   }
 
-  @override
-  Future<Either<Failure, bool>> login(String username, String password) {
-    // TODO: implement signInUser
-    return _authLocalDataSource.signInUser(username, password);
-  }
-
+ 
   @override
   Future<Either<Failure, List<AuthApiModel>>> getUserDetails(int page) {
     // TODO: implement getUserDetails
     throw UnimplementedError();
   }
+
+  @override
+  Future<Either<Failure, AuthData>> login(String username, String password) {
+    // TODO: implement login
+    throw UnimplementedError();
+  }
+  
+ 
 }

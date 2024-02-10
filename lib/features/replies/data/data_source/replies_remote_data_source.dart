@@ -29,7 +29,6 @@ class ReplyRemoteDataSource {
     dio.options.headers["x-access-token"] = token;
   }
 
-
 // Method to setReply to questions
   Future<Either<Failure, bool>> addReply(
     String questionId,
@@ -72,13 +71,13 @@ class ReplyRemoteDataSource {
     }
   }
 
-
   // Method to fetch replies specific to questions
-  Future<Either<Failure, List<ReplyEntity>>> getUserSpecificReplies(String questionId) async{
-    try{
-      Either<Failure,String?> token = await userSharedPrefs.getUserToken();
+  Future<Either<Failure, List<ReplyEntity>>> getUserSpecificReplies(
+      String questionId) async {
+    try {
+      Either<Failure, String?> token = await userSharedPrefs.getUserToken();
 
-       token.fold(
+      token.fold(
         (failure) => false,
         (token) => _setAuthorizationHeader(token!),
       );
@@ -89,17 +88,19 @@ class ReplyRemoteDataSource {
         url,
       );
 
-      if(response.data['success'] == true){
-       GetQuestionSpecificRepliesDto getQuestionSpecificRepliesDto = 
-       GetQuestionSpecificRepliesDto.fromJson(response.data);
+      if (response.data['success'] == true) {
+        GetQuestionSpecificRepliesDto getQuestionSpecificRepliesDto =
+            GetQuestionSpecificRepliesDto.fromJson(response.data);
 
-      //  convert the lsit of replies fetched from the seerver into entity
-      List<ReplyEntity> lstReplies = getQuestionSpecificRepliesDto.replies.
-      map((replies) => ReplyApiModel.toEntity(replies)).
-      toList();
+        //  convert the lsit of replies fetched from the seerver into entity
+        List<ReplyEntity> lstReplies = getQuestionSpecificRepliesDto.replies
+            .map((replies) => ReplyApiModel.toEntity(replies))
+            .toList();
 
-      return right(lstReplies);
-      }else {
+        print(lstReplies);
+
+        return right(lstReplies);
+      } else {
         return Left(
           Failure(
             error: response.statusMessage.toString(),
@@ -107,8 +108,7 @@ class ReplyRemoteDataSource {
           ),
         );
       }
-    }
-    on DioException catch (e) {
+    } on DioException catch (e) {
       return Left(Failure(error: e.response?.data['message']));
     }
   }

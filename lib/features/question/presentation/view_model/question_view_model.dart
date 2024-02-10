@@ -42,7 +42,7 @@ class QuestionViewModel extends StateNotifier<QuestionState> {
 
 //  get all user specific questions code here
 
-  void getAllQuestions() {
+  Future getAllQuestions() async{
     state = state.copyWith(isLoading: true);
     getAllQuestionsUseCase.getAllQuestions().then((value) {
       value.fold(

@@ -57,7 +57,9 @@ class QuestionApiModel {
       questionCategory: entity.questionCategory,
       questionDescription: entity.questionDescription,
       questionImageUrl: entity.questionImageUrl,
-      user: AuthApiModel.fromEntity(entity.user!),  // Convert user entity to model
+      // whilst setting the question we do not need to provide user so it remains null
+      user: entity.user !=null ?
+       AuthApiModel.fromEntity(entity.user!):null,  // Convert user entity to model
       replies: entity.replies?.map((reply) => ReplyApiModel.fromEntity(reply)).toList(),  // Convert replies entities to models
     );
   }
@@ -69,7 +71,9 @@ class QuestionApiModel {
       questionCategory: model.questionCategory,
       questionDescription: model.questionDescription,
       questionImageUrl: model.questionImageUrl,
-      user: AuthApiModel.toEntity(model.user!),  // Convert user model to entity
+      user: model.user != null
+          ? AuthApiModel.toEntity(model.user!)
+          : null, // Convert user model to entity if not null
       replies: model.replies?.map((reply) => ReplyApiModel.toEntity(reply)).toList(),  // Convert replies models to entities
     );
   }

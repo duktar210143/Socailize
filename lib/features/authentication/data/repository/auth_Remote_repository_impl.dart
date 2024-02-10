@@ -21,13 +21,10 @@ class AuthRemoteRepositoryImpl implements IAuthRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> login(String username, String password) {
+  Future<Either<Failure, AuthData>> login(String username, String password) {
     // TODO: implement signInUser
     return _authRemoteDataSource.login(username, password);
   }
+  
 
-  @override
-  Future<Either<Failure, List<AuthApiModel>>> getUserDetails(int page) async {
-    return await _authRemoteDataSource.getUserDetails(page);
-  }
 }

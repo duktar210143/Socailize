@@ -20,10 +20,19 @@ class _AddQuestionViewState extends ConsumerState {
   final descriptionController = TextEditingController();
   File? _image;
 
-  checkCameraPermission() async {
-    if (await Permission.camera.request().isRestricted ||
-        await Permission.camera.request().isDenied) {
-      await Permission.camera.request();
+  Future<void> checkCameraPermission() async {
+    if (Platform.isIOS) {
+      if (await Permission.camera.request().isRestricted ||
+          await Permission.camera.request().isDenied) {
+        await Permission.camera.request();
+      }
+    } else if (Platform.isAndroid) {
+      // Android-specific permission handling
+      // Example:
+      if (await Permission.camera.request().isRestricted ||
+          await Permission.camera.request().isDenied) {
+        await Permission.camera.request();
+      }
     }
   }
 
@@ -107,7 +116,7 @@ class _AddQuestionViewState extends ConsumerState {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () async {
-                      checkCameraPermission();
+                      await checkCameraPermission();
                       await _browseImage(ImageSource.gallery);
                     },
                     child: const Text('Pick Image'),
@@ -136,11 +145,12 @@ class _AddQuestionViewState extends ConsumerState {
               child: const Text('Add question'),
             ),
             const SizedBox(height: 8),
-          
             const SizedBox(height: 8),
             questionState.isLoading
                 ? const Center(child: CircularProgressIndicator())
-                :  ListQuestionWidget(questionProvider: questionViewModelProvider,)
+                : ListQuestionWidget(
+                    questionProvider: questionViewModelProvider,
+                  ),
           ],
         ),
       ),

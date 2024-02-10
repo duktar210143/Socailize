@@ -49,7 +49,8 @@ class AuthRemoteDataSource {
     }
   }
 
-  Future<Either<Failure, bool>> login(String username, String password) async {
+  Future<Either<Failure, AuthData>> login(
+      String username, String password) async {
     try {
       final response = await dio.post(
         ApiEndPoints.login,
@@ -61,28 +62,10 @@ class AuthRemoteDataSource {
       if (response.data['success'] == true) {
         // retrive token from the response
         String token = response.data["token"];
-        await userSharedPrefs.setUserToken(token);
+        // await userSharedPrefs.setUserToken(token);
 
         AuthEntity userData = AuthEntity.fromjson(response.data['userData']);
-
-        await userSharedPrefs.setUserData(userData);
-
-        // Get the user data stored in SharedPreferences
-      final storedUserData = await userSharedPrefs.getUserData();
-
-      // Use fold to handle the Either type
-      storedUserData.fold(
-        (failure) {
-          // Handle failure case
-          print('Error retrieving user data: ${failure.error}');
-        },
-        (authEntity) {
-          // Handle success case
-          print('User data stored in SharedPreferences: $authEntity');
-        },
-      );
-
-        return const Right(true);
+        return Right(AuthData(userData: userData, token: token));
       } else {
         return left(Failure(
             error: response.data['message'] ?? "unknown error",
@@ -96,39 +79,11 @@ class AuthRemoteDataSource {
       );
     }
   }
+}
 
-  Future<Either<Failure, List<AuthApiModel>>> getUserDetails(int page) async {
-    try {
-      final response =
-          await dio.get(ApiEndPoints.userDetails, queryParameters: {
-        'page': page,
-        'limit': ApiEndPoints.limitPage,
-      });
+class AuthData {
+  final AuthEntity userData;
+  final String token;
 
-      final data = response.data;
-
-      // Check if the "success" key is true
-      if (data['success'] == true) {
-        // Check if the "users" key is present and is a List
-        if (data['users'] is List) {
-          final usersList = data['users'] as List;
-
-          // Map the list of users to AuthApiModel
-          final userdata =
-              usersList.map((user) => AuthApiModel.fromJson(user)).toList();
-
-          return right(userdata);
-        } else {
-          // Handle the case where "users" key is not a List
-          return Left(Failure(
-              error: 'Unexpected data format - "users" key is not a List'));
-        }
-      } else {
-        // Handle the case where "success" key is not true
-        return Left(Failure(error: 'API call was not successful'));
-      }
-    } on DioException catch (err) {
-      return Left(Failure(error: err.error.toString()));
-    }
-  }
+  AuthData({required this.userData, required this.token});
 }

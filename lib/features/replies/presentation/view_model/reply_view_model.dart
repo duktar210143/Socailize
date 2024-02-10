@@ -7,7 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final replyViewModelProvider =
-    StateNotifierProvider.autoDispose<ReplyViewModel, ReplyState>((ref) {
+    StateNotifierProvider<ReplyViewModel, ReplyState>((ref) {
   return ReplyViewModel(
       setReplyUseCase: ref.read(setReplyUseCaseProvider),
       getQuestionSpecificRepliesUseCase:
@@ -31,6 +31,7 @@ class ReplyViewModel extends StateNotifier<ReplyState> {
         return state = state.copyWith(isLoading: false);
       }, (success) {
         showSnackBar(message: "Replies saved successfully", context: context);
+        getQuestionSpecificReplies(questionId, context);
         return state = state.copyWith(isLoading: false, showMessage: true);
       });
     });
@@ -49,7 +50,7 @@ class ReplyViewModel extends StateNotifier<ReplyState> {
 
   Future getQuestionSpecificReplies(String questionId, BuildContext context) {
     state = state.copyWith(isLoading: true);
-     return getQuestionSpecificRepliesUseCase
+    return getQuestionSpecificRepliesUseCase
         .getUserSpecificReplies(questionId)
         .then((value) {
       value.fold((failure) {

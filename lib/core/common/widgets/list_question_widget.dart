@@ -1,5 +1,4 @@
 import 'package:discussion_forum/features/question/presentation/state/question_state.dart';
-import 'package:discussion_forum/features/question/presentation/view_model/question_view_model.dart';
 import 'package:discussion_forum/features/replies/presentation/view/reply_view.dart';
 import 'package:discussion_forum/features/replies/presentation/view_model/reply_view_model.dart';
 import 'package:flutter/material.dart';
@@ -12,9 +11,9 @@ class ListQuestionWidget extends ConsumerStatefulWidget {
       questionProvider;
 
   const ListQuestionWidget({
-    super.key,
+    Key? key,
     required this.questionProvider,
-  });
+  }) : super(key: key);
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -27,7 +26,6 @@ class _ListQuestionWidgetState extends ConsumerState<ListQuestionWidget> {
   @override
   Widget build(BuildContext context) {
     final questionState = ref.watch(widget.questionProvider);
-    final replyState = ref.watch(replyViewModelProvider);
     return Expanded(
       child: Scaffold(
         appBar: AppBar(
@@ -37,9 +35,11 @@ class _ListQuestionWidgetState extends ConsumerState<ListQuestionWidget> {
           itemCount: questionState.questions.length,
           separatorBuilder: (context, index) => const Divider(),
           itemBuilder: (context, index) {
+            final reversedIndex = questionState.questions.length - index - 1;
+            final question = questionState.questions[reversedIndex];
             return ListTile(
               title: Text(
-                questionState.questions[index].question,
+                question.question,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
@@ -49,14 +49,14 @@ class _ListQuestionWidgetState extends ConsumerState<ListQuestionWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    questionState.questions[index].questionId ?? 'No id',
+                    question.questionId ?? 'No id',
                     style: const TextStyle(
                       color: Colors.indigo,
                       fontSize: 12,
                     ),
                   ),
                   const SizedBox(height: 4),
-                  if (questionState.questions[index].questionImageUrl != null)
+                  if (question.questionImageUrl != null)
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
@@ -74,7 +74,7 @@ class _ListQuestionWidgetState extends ConsumerState<ListQuestionWidget> {
                       child: Hero(
                         tag: 'photoViewHero_$index',
                         child: Image.network(
-                          questionState.questions[index].questionImageUrl!,
+                          question.questionImageUrl!,
                           width: MediaQuery.of(context).size.width / 1.5,
                           height: 200,
                           fit: BoxFit.cover,
@@ -111,21 +111,19 @@ class _ListQuestionWidgetState extends ConsumerState<ListQuestionWidget> {
                               await ref
                                   .read(replyViewModelProvider.notifier)
                                   .getQuestionSpecificReplies(
-                                      questionState
-                                          .questions[index].questionId!,
-                                      context);
+                                      question.questionId!, context);
                               // move to reply view screen
 
                               // ignore: use_build_context_synchronously
                               _showReplyForm(
                                 context,
-                                questionState.questions[index].questionId!,
+                                question.questionId!,
                               );
                             },
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            "${ref.read(numberOfRepliesProvider(questionState.questions[index].questionId!))}",
+                            "${question.replies?.length}",
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                             ),
@@ -148,6 +146,9 @@ class _ListQuestionWidgetState extends ConsumerState<ListQuestionWidget> {
   }
 
   Widget _buildZoomedImage(QuestionState questionState, int index) {
+    final reversedIndex = questionState.questions.length - index - 1;
+    final question = questionState.questions[reversedIndex];
+
     return Scaffold(
       body: Stack(
         children: [
@@ -164,7 +165,7 @@ class _ListQuestionWidgetState extends ConsumerState<ListQuestionWidget> {
                 builder: (context, index) {
                   return PhotoViewGalleryPageOptions(
                     imageProvider: NetworkImage(
-                      questionState.questions[index].questionImageUrl!,
+                      question.questionImageUrl!,
                     ),
                     minScale: PhotoViewComputedScale.contained,
                     maxScale: PhotoViewComputedScale.covered * 2,
@@ -191,7 +192,7 @@ class _ListQuestionWidgetState extends ConsumerState<ListQuestionWidget> {
   void _showReplyForm(BuildContext context, String questionId) {
     showModalBottomSheet(
       context: context,
-      builder: (context) {
+      builder: (BuildContext context) {
         return ReplyFormView(questionId: questionId);
       },
     );

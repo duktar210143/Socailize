@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:discussion_forum/core/failure/failure.dart';
 import 'package:discussion_forum/features/authentication/data/data_source/auth_remote_data_source.dart';
@@ -25,6 +27,10 @@ class AuthRemoteRepositoryImpl implements IAuthRepository {
     // TODO: implement signInUser
     return _authRemoteDataSource.login(username, password);
   }
-  
 
+  @override
+  Future<Either<Failure, AuthEntity>> uploadProfile(File image) {
+    // TODO: implement uploadProfile
+    return _authRemoteDataSource.uploadProfile(image);
+  }
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:discussion_forum/config/constants/api_end_points.dart';
@@ -77,6 +79,43 @@ class AuthRemoteDataSource {
           error: e.error.toString(),
         ),
       );
+    }
+  }
+
+  Future<Either<Failure, AuthEntity>> uploadProfile(File image) async {
+    try {
+      // Add a method to set the authorization header with the token
+      void setAuthorizationHeader(String token) {
+        dio.options.headers["x-access-token"] = token;
+      }
+
+      // Retrieve the token from the sharedPreference
+      Either<Failure, String?> token = await userSharedPrefs.getUserToken();
+
+      token.fold(
+        (failure) => false,
+        (token) => setAuthorizationHeader(token!),
+      );
+
+      String fileName = image.path.split('/').last;
+      FormData formData = FormData.fromMap({
+        'file': await MultipartFile.fromFile(image.path, filename: fileName)
+      });
+
+      var response = await dio.post(ApiEndPoints.setProfile, data: formData);
+
+      if (response.data['success'] == true) {
+        AuthEntity user = AuthEntity.fromjson(response.data['user']);
+        print("printer profile user" "$user");
+        return Right(user);
+      } else {
+        return Left(Failure(
+          error: response.statusMessage.toString(),
+          statusCode: response.statusCode.toString(),
+        ));
+      }
+    } on DioException catch (e) {
+      return Left(Failure(error: e.response?.data['error']));
     }
   }
 }

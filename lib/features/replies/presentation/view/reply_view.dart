@@ -25,7 +25,7 @@ class _ReviewFormViewState extends ConsumerState<ReplyFormView> {
 
   Widget _buildUserInfo(ReplyState replyState) {
     return Container(
-      padding: const EdgeInsets.only(left: 16,top: 10),
+      padding: const EdgeInsets.only(left: 16, top: 10),
       decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -117,13 +117,16 @@ class _ReviewFormViewState extends ConsumerState<ReplyFormView> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            _buildUserInfo(replyState),
-            TextField(
-              controller: _replyController,
-              maxLines: 6,
-              decoration: const InputDecoration(
-                hintText: 'Add a Reply...',
-                border: InputBorder.none,
+            // _buildUserInfo(replyState),
+            Container(
+              padding: const EdgeInsets.all(10),
+              child: TextField(
+                controller: _replyController,
+                maxLines: 6,
+                decoration: const InputDecoration(
+                  hintText: 'Add a Reply...',
+                  border: InputBorder.none,
+                ),
               ),
             ),
             const SizedBox(height: 16.0),

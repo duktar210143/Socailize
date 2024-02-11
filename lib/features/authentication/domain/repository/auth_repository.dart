@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:discussion_forum/core/failure/failure.dart';
 import 'package:discussion_forum/features/authentication/data/data_source/auth_remote_data_source.dart';
@@ -18,4 +20,5 @@ abstract class IAuthRepository {
 
   Future<Either<Failure, AuthData>> login(String username, String password);
 
+  Future<Either<Failure, AuthEntity>> uploadProfile(File image);
 }

@@ -31,31 +31,54 @@ class _ListQuestionWidgetState extends ConsumerState<ListQuestionWidget> {
         appBar: AppBar(
           title: const Text('List of Questions'),
         ),
-        body: ListView.separated(
+        body: ListView.builder(
           itemCount: questionState.questions.length,
-          separatorBuilder: (context, index) => const Divider(),
           itemBuilder: (context, index) {
             final reversedIndex = questionState.questions.length - index - 1;
             final question = questionState.questions[reversedIndex];
-            return ListTile(
-              title: Text(
-                question.question,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
-              subtitle: Column(
+            return Card(
+              elevation: 3,
+              margin: const EdgeInsets.all(8),
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    question.questionId ?? 'No id',
-                    style: const TextStyle(
-                      color: Colors.indigo,
-                      fontSize: 12,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            CircleAvatar(
+                              backgroundImage:
+                                  NetworkImage("${question.user!.image}"),
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              question.user!.firstname,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.delete),
+                          onPressed: () {},
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      question.question,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
                   if (question.questionImageUrl != null)
                     GestureDetector(
                       onTap: () {
@@ -75,66 +98,64 @@ class _ListQuestionWidgetState extends ConsumerState<ListQuestionWidget> {
                         tag: 'photoViewHero_$index',
                         child: Image.network(
                           question.questionImageUrl!,
-                          width: MediaQuery.of(context).size.width / 1.5,
+                          width: MediaQuery.of(context).size.width,
                           height: 200,
                           fit: BoxFit.cover,
                         ),
                       ),
                     ),
-                  const SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.favorite_outline),
-                            onPressed: () {
-                              // Handle like button tap
-                            },
-                          ),
-                          const SizedBox(width: 4),
-                          const Text(
-                            '123 Likes', // Replace with actual like count
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.favorite_outline),
+                              onPressed: () {
+                                // Handle like button tap
+                              },
                             ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.comment),
-                            onPressed: () async {
-                              // get the question specific reply from the view model of reply
-                              await ref
-                                  .read(replyViewModelProvider.notifier)
-                                  .getQuestionSpecificReplies(
-                                      question.questionId!, context);
-                              // move to reply view screen
+                            const SizedBox(width: 4),
+                            const Text(
+                              '123 Likes', // Replace with actual like count
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.comment),
+                              onPressed: () async {
+                                // get the question specific reply from the view model of reply
+                                await ref
+                                    .read(replyViewModelProvider.notifier)
+                                    .getQuestionSpecificReplies(
+                                        question.questionId!, context);
+                                // move to reply view screen
 
-                              // ignore: use_build_context_synchronously
-                              _showReplyForm(
-                                context,
-                                question.questionId!,
-                              );
-                            },
-                          ),
-                          const SizedBox(width: 4),
-                          Text(
-                            "${question.replies?.length}",
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
+                                // ignore: use_build_context_synchronously
+                                _showReplyForm(
+                                  context,
+                                  question.questionId!,
+                                );
+                              },
                             ),
-                          ),
-                        ],
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {},
-                      ),
-                    ],
+                            const SizedBox(width: 4),
+                            Text(
+                              "${question.replies?.length}",
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

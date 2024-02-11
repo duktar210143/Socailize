@@ -65,28 +65,38 @@ class UserSharedPrefs {
     }
   }
 
+  // Delete userData
+  Future<Either<Failure, bool>> deleteUserData() async {
+    try {
+      _sharedPreferences = await SharedPreferences.getInstance();
+      await _sharedPreferences.remove('userData');
+      return right(true);
+    } catch (e) {
+      return left(
+        Failure(
+          error: e.toString(),
+        ),
+      );
+    }
+  }
+
   Future<Either<Failure, AuthEntity?>> getUserData() async {
     try {
       _sharedPreferences = await SharedPreferences.getInstance();
       final userJson = _sharedPreferences.getString('userData');
-      print("get User Json" + "$userJson");
+      print("get User Json" "$userJson");
 
       if (userJson != null) {
         // Check if userJson is a String
-        if (userJson is String) {
-          // Decode the JSON string to a Map<String, dynamic>
-          final userMap = json.decode(userJson);
+        // Decode the JSON string to a Map<String, dynamic>
+        final userMap = json.decode(userJson);
 
-          // Convert the Map to an AuthEntity
-          final userData = AuthEntity.fromjson(userMap);
+        // Convert the Map to an AuthEntity
+        final userData = AuthEntity.fromjson(userMap);
 
-          print('User data retrieved from SharedPreferences: $userJson');
+        print('User data retrieved from SharedPreferences: $userJson');
 
-          return right(userData);
-        } else {
-          print('Error: User data is not a valid JSON string');
-          return left(Failure(error: 'Invalid user data format'));
-        }
+        return right(userData);
       } else {
         print('No user data found in SharedPreferences');
         return right(null);

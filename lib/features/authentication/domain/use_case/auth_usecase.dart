@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:discussion_forum/core/failure/failure.dart';
 import 'package:discussion_forum/core/shared_pref/user_shared_prefs.dart';
@@ -5,9 +7,9 @@ import 'package:discussion_forum/features/authentication/domain/entity/user_enti
 import 'package:discussion_forum/features/authentication/domain/repository/auth_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final authUseCaseProvider = Provider<AuthUseCase>(
-    (ref) => AuthUseCase(authRepository: ref.read(iAuthRepositoryProvider),
-     userSharedPrefs: ref.read(userSharedPrefsProvider)));
+final authUseCaseProvider = Provider<AuthUseCase>((ref) => AuthUseCase(
+    authRepository: ref.read(iAuthRepositoryProvider),
+    userSharedPrefs: ref.read(userSharedPrefsProvider)));
 
 class AuthUseCase {
   final IAuthRepository authRepository;
@@ -19,7 +21,20 @@ class AuthUseCase {
     return await authRepository.signUpUser(user);
   }
 
-    Future<Either<bool, AuthEntity>> getUserData() async {
+  Future<Either<Failure, AuthEntity>> uploadProfile(File image) async {
+    await userSharedPrefs.deleteUserData();
+    Either<Failure, AuthEntity> user =
+        await authRepository.uploadProfile(image);
+
+    user.fold((failure) => Failure(error: failure.error), (userData) async {
+      await userSharedPrefs.setUserData(userData);
+      return const Right(AuthEntity);
+    });
+
+    return user;
+  }
+
+  Future<Either<bool, AuthEntity>> getUserData() async {
     Either<Failure, AuthEntity?> userData = await userSharedPrefs.getUserData();
     return userData.fold(
       (failure) {
@@ -37,5 +52,4 @@ class AuthUseCase {
       },
     );
   }
-
 }

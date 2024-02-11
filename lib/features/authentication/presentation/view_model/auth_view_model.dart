@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:discussion_forum/config/router/app_routes.dart';
 import 'package:discussion_forum/core/common/snackbar/my_snack_bar.dart';
+import 'package:discussion_forum/core/failure/failure.dart';
 import 'package:discussion_forum/features/authentication/domain/entity/user_entity.dart';
 import 'package:discussion_forum/features/authentication/domain/use_case/auth_usecase.dart';
 import 'package:discussion_forum/features/authentication/domain/use_case/login_useCase.dart';
@@ -22,9 +25,9 @@ class AuthViewModel extends StateNotifier<AuthState> {
   final LoginUseCase loginUseCase;
 
   AuthViewModel({required this.authUseCase, required this.loginUseCase})
-      : super(AuthState.initialState()){
-        getUserData();
-      }
+      : super(AuthState.initialState()) {
+    getUserData();
+  }
 
   Future<void> signUpUser(BuildContext context, AuthEntity user) async {
     state = state.copyWith(isLoading: true);
@@ -41,6 +44,16 @@ class AuthViewModel extends StateNotifier<AuthState> {
         // Emit a new state with success information if needed
       },
     );
+  }
+
+  Future<void> uploadprofile(File image) async {
+    state = state.copyWith(isLoading: true);
+    var data = await authUseCase.uploadProfile(image);
+    data.fold((failure) {
+      return state = state.copyWith(isLoading: false, error: failure.error);
+    }, (user) {
+      return state = state.copyWith(isLoading: false,userData: user);
+    });
   }
 
   // manage changing state when a user sign's in
@@ -62,7 +75,7 @@ class AuthViewModel extends StateNotifier<AuthState> {
     return isLogin;
   }
 
-    void getUserData() {
+  void getUserData() {
     state = state.copyWith(isLoading: true);
     authUseCase.getUserData().then((value) {
       value.fold((failure) {

@@ -1,33 +1,36 @@
-// import 'package:discussion_forum/features/authentication/presentation/view_model/auth_view_model.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-// class UserDetailView extends ConsumerWidget {
-//   const UserDetailView({super.key});
-
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final userState = ref.watch(authViewModelProvider);
-//     return Column(
-//       children: [
-//         Text(
-//           userState.userData.firstname,
-//           style: const TextStyle(color: Colors.black, fontSize: 100),
-//         )
-//       ],
-//     );
-//   }
-// }
+import 'dart:io';
 
 import 'package:discussion_forum/features/authentication/presentation/view_model/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 
-class UserDetailView extends ConsumerWidget {
+class UserDetailView extends ConsumerStatefulWidget {
   const UserDetailView({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _UserDetailViewState();
+}
+
+class _UserDetailViewState extends ConsumerState<UserDetailView> {
+  File? _image;
+
+  Future<void> _browseImage(ImageSource imageSource) async {
+    try {
+      final image = await ImagePicker().pickImage(source: imageSource);
+      if (image != null) {
+        setState(() {
+          _image = File(image.path);
+          ref.read(authViewModelProvider.notifier).uploadprofile(_image!);
+        });
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final userState = ref.watch(authViewModelProvider);
 
     return Scaffold(
@@ -43,7 +46,7 @@ class UserDetailView extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                   CircleAvatar(
+                  CircleAvatar(
                     radius: 60,
                     backgroundImage: NetworkImage(
                         "${userState.userData.image}"), // Use the default profile image here
@@ -62,7 +65,7 @@ class UserDetailView extends ConsumerWidget {
                   const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () {
-                      // Implement edit profile functionality
+                      _browseImage(ImageSource.gallery);
                     },
                     child: const Text('Edit Profile'),
                   ),
@@ -71,8 +74,8 @@ class UserDetailView extends ConsumerWidget {
             ),
             const Divider(),
             const ListTile(
-              title:
-                  Text('questions', style: TextStyle(fontWeight: FontWeight.bold)),
+              title: Text('questions',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
               trailing: Text('10'), // Replace with actual number of posts
             ),
             const ListTile(

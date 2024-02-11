@@ -5,16 +5,18 @@ class ApiEndPoints {
   static const Duration receivedTimeOut = Duration(seconds: 1000);
 
   //for mac
-  // static const String baseUrl = "http://localhost:5500/api/";
+  static const String baseUrl = "http://localhost:5500/api/";
 
   //for windows
-  static const String baseUrl = "http://192.168.1.65:5500/api/";
+  // static const String baseUrl = "http://192.168.1.65:5500/api/";
   // route for signing up users
   static const String signUp = "signup";
   // route to sign in the users
   static const String login = "login";
   //route for fetching all the user details
   static const String userDetails = 'getAllUsers';
+  // route for updating profile image
+  static const String setProfile = 'profile/setProfile';
   // route for users to set questions
   static const String addQuestion = 'questions/setQuestions';
   // route for fetching userSpecific questions

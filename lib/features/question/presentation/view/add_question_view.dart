@@ -126,16 +126,15 @@ class _AddQuestionViewState extends ConsumerState {
             ),
             const SizedBox(height: 8),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 QuestionEntity question = QuestionEntity(
                   question: questionController.text,
                   questionDescription: descriptionController.text,
                   questionImageUrl: _image?.path.split('/').last,
                 );
-                ref
+                await ref
                     .read(questionViewModelProvider.notifier)
                     .addQuestions(question, _image);
-                // Clear fields after successful addition
                 questionController.clear();
                 descriptionController.clear();
                 setState(() {

@@ -24,4 +24,7 @@ abstract class IQuestionRepository {
 
 //get every users questions Repo
   Future<Either<Failure, List<QuestionEntity>>> getAllPublicUserQuestions();
+
+  // delete specific question Repo
+  Future<Either<Failure, bool>> deleteQuestion(String questionId);
 }

@@ -26,6 +26,8 @@ class ApiEndPoints {
   // route for fetching user Specific replies
   static const String setUserSpecificReplies = 'questions/setReply/';
   static const String getUserSpecificReplies = 'questions/getReplies/';
+  // route to delete particular question
+  static const String deletequestion = "questions/deleteQuestion/";
 
   static const limitPage = 5;
 }

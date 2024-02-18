@@ -3,7 +3,7 @@ import 'package:discussion_forum/features/question/presentation/state/question_s
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final publicQuestionViewModelProvider =
-    StateNotifierProvider.autoDispose<PublicQuestionViewModel, QuestionState>(
+    StateNotifierProvider<PublicQuestionViewModel, QuestionState>(
   (ref) => PublicQuestionViewModel(
       getAllPublicQuestionUseCase:
           ref.read(getAllPublicQuestionUseCaseProvider)),

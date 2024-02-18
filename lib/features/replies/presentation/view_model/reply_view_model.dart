@@ -20,9 +20,7 @@ class ReplyViewModel extends StateNotifier<ReplyState> {
   ReplyViewModel({
     required this.setReplyUseCase,
     required this.getQuestionSpecificRepliesUseCase,
-  }) : super(ReplyState.initialState()) {
-    getUserData();
-  }
+  }) : super(ReplyState.initialState());
 
   void setReply(String questionId, ReplyEntity entity, BuildContext context) {
     state = state.copyWith(isLoading: true);
@@ -33,17 +31,6 @@ class ReplyViewModel extends StateNotifier<ReplyState> {
         showSnackBar(message: "Replies saved successfully", context: context);
         getQuestionSpecificReplies(questionId, context);
         return state = state.copyWith(isLoading: false, showMessage: true);
-      });
-    });
-  }
-
-  void getUserData() {
-    state = state.copyWith(isLoading: true);
-    setReplyUseCase.getUserData().then((value) {
-      value.fold((failure) {
-        return state = state.copyWith(isLoading: false);
-      }, (authEntity) {
-        return state = state.copyWith(isLoading: false, user: authEntity);
       });
     });
   }

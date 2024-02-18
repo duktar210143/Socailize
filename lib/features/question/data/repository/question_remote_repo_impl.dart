@@ -37,4 +37,10 @@ class QuestionRemoteRepoImpl implements IQuestionRepository {
     // TODO: implement getAllPublicUserQuestions
     return questionRemoteDataSource.getAllPublicUserQuestions();
   }
+
+  @override
+  Future<Either<Failure, bool>> deleteQuestion(String questionId) {
+    // TODO: implement deleteQuestion
+    return questionRemoteDataSource.deleteQuestion(questionId);
+  }
 }

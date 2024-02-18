@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:discussion_forum/features/authentication/presentation/view_model/auth_view_model.dart';
+import 'package:discussion_forum/features/question/presentation/view_model/public_question_view_model.dart';
+import 'package:discussion_forum/features/question/presentation/view_model/question_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -19,9 +21,13 @@ class _UserDetailViewState extends ConsumerState<UserDetailView> {
     try {
       final image = await ImagePicker().pickImage(source: imageSource);
       if (image != null) {
-        setState(() {
+        setState(() async{
           _image = File(image.path);
-          ref.read(authViewModelProvider.notifier).uploadprofile(_image!);
+          await ref.read(authViewModelProvider.notifier).uploadprofile(_image!);
+          ref.read(questionViewModelProvider.notifier).getAllQuestions();
+          ref
+              .read(publicQuestionViewModelProvider.notifier)
+              .getAllPublicUserQuestions();
         });
       }
     } catch (e) {

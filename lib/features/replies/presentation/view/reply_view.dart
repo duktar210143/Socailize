@@ -69,7 +69,7 @@ class _ReviewFormViewState extends ConsumerState<ReplyFormView> {
   Widget _buildReplyList(ReplyState replyState) {
     return ListView.separated(
       shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
+      physics: const AlwaysScrollableScrollPhysics(),
       itemCount: replyState.replies.length,
       separatorBuilder: (context, index) => const Divider(),
       itemBuilder: (context, index) {

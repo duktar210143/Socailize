@@ -140,4 +140,32 @@ class QuestionRemoteDataSource {
       return Left(Failure(error: e.response?.data['message']));
     }
   }
+
+  // dio http delete request handler
+  Future<Either<Failure, bool>> deleteQuestion(String questionId) async {
+    try {
+      Either<Failure, String?> token = await userSharedPrefs.getUserToken();
+
+      token.fold(
+        (failure) => false,
+        (token) => _setAuthorizationHeader(token!),
+      );
+
+      var response = await dio.delete(
+        ApiEndPoints.deletequestion + questionId,
+      );
+      if (response.data['success'] == true) {
+        return const Right(true);
+      } else {
+        return Left(
+          Failure(
+            error: response.data["message"],
+            statusCode: response.statusCode.toString()
+          ),
+        );
+      }
+    }on DioException catch (e) {
+      return Left(Failure(error: e.response?.data['message']));
+    }
+  }
 }

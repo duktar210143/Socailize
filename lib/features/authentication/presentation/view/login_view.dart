@@ -65,10 +65,10 @@ class _LoginViewState extends ConsumerState<LoginView> {
       body: SafeArea(
         child: Stack(
           children: <Widget>[
-            const RiveAnimation.asset(
-              'assets/images/polar-bear.riv',
-              fit: BoxFit.cover, // Ensure the animation covers the entire space
-            ),
+            // const RiveAnimation.asset(
+            //   'assets/images/polar-bear.riv',
+            //   fit: BoxFit.cover, // Ensure the animation covers the entire space
+            // ),
             Form(
               key: authKey,
               child: Column(

@@ -1,0 +1,16 @@
+[
+        {
+            "_id": "65c5b632eea2574ddf5fc764",
+            "question": "Test question1",
+            "questionDescription": "test Description 1",
+            "questionCategory": "Data Science",
+            "questionImageUrl": "https://res.cloudinary.com/duu5wzozk/image/upload/v1707456049/questions/hbywncvwmd4ugyqxebmc.png",
+            "user": {
+                "_id": "65bc726f43d58e0b7c7e7937",
+                "firstname": "Duktar",
+                "lastname": "Tamang",
+                "username": "duktar",
+                "email": "duktar13@gmail.com",
+                "image": "https://res.cloudinary.com/duu5wzozk/image/upload/v1708747314/UserProfile/dxclwiz2oolf0ihaohoz.jpg"
+        }}
+    ]

@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:discussion_forum/config/constants/api_end_points.dart';
 import 'package:discussion_forum/core/failure/failure.dart';
 import 'package:discussion_forum/core/network/remote/http_service.dart';
+import 'package:discussion_forum/core/network/remote/socket_service.dart';
 import 'package:discussion_forum/core/shared_pref/user_shared_prefs.dart';
 import 'package:discussion_forum/features/replies/data/dto/get_question_specific_replies_dto.dart';
 import 'package:discussion_forum/features/replies/data/model/reply_api_model.dart';
@@ -12,16 +13,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final replyRemoteDataSourceProvider = Provider<ReplyRemoteDataSource>((ref) {
   return ReplyRemoteDataSource(
       dio: ref.read(httpServiceProvider),
-      userSharedPrefs: ref.read(userSharedPrefsProvider));
+      userSharedPrefs: ref.read(userSharedPrefsProvider),
+      socketService: ref.read(socketServiceProvider));
 });
 
 class ReplyRemoteDataSource {
   final Dio dio;
   final UserSharedPrefs userSharedPrefs;
+  final SocketService socketService;
 
   ReplyRemoteDataSource({
     required this.dio,
     required this.userSharedPrefs,
+    required this.socketService,
   });
 
   // Add a method to set the authorization header with the token
@@ -29,12 +33,10 @@ class ReplyRemoteDataSource {
     dio.options.headers["x-access-token"] = token;
   }
 
-// Method to setReply to questions
   Future<Either<Failure, bool>> addReply(
     String questionId,
     ReplyEntity entity,
   ) async {
-    print(ReplyApiModel.fromEntity(entity));
     try {
       Either<Failure, String?> token = await userSharedPrefs.getUserToken();
 
@@ -53,6 +55,17 @@ class ReplyRemoteDataSource {
       );
 
       if (response.data['success'] == true) {
+        var replyData = {
+          'reply': response.data['reply']['question'],
+          'users': response.data['users'],
+        };
+        var user = response.data['reply']['user'];
+
+        socketService.connect();
+        socketService.setup(user);
+        // Emit a new reply event to the socket server
+        socketService.sendNewReply(replyData);
+
         return const Right(true);
       } else {
         return Left(
@@ -62,7 +75,7 @@ class ReplyRemoteDataSource {
           ),
         );
       }
-    } on DioException catch (e) {
+    } on DioError catch (e) {
       return Left(
         Failure(
           error: e.error.toString(),
@@ -97,7 +110,7 @@ class ReplyRemoteDataSource {
             .map((replies) => ReplyApiModel.toEntity(replies))
             .toList();
 
-        print(lstReplies);
+
 
         return right(lstReplies);
       } else {

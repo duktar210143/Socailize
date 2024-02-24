@@ -1,9 +1,14 @@
+import 'dart:io';
+
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:discussion_forum/core/common/widgets/view_user_details.dart';
+import 'package:discussion_forum/core/network/remote/socket_service.dart';
 import 'package:discussion_forum/features/replies/domain/entity/replies_entity.dart';
 import 'package:discussion_forum/features/replies/presentation/state/reply_state.dart';
 import 'package:discussion_forum/features/replies/presentation/view_model/reply_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 
 class ReplyFormView extends ConsumerStatefulWidget {
   final String questionId;
@@ -16,11 +21,26 @@ class ReplyFormView extends ConsumerStatefulWidget {
 
 class _ReviewFormViewState extends ConsumerState<ReplyFormView> {
   late TextEditingController _replyController;
+  late Socket socket;
 
   @override
   void initState() {
     super.initState();
     _replyController = TextEditingController();
+    socket = ref.read(socketServiceProvider).socket;
+    // Remove any existing event listeners
+    socket.off("new reply");
+    // Add the event listener
+    socket.on("new reply", (reply) {
+      print("Callback triggered with reply: $reply");
+      _showNotification(reply);
+    });
+  }
+
+  @override
+  void dispose() {
+    _replyController.dispose();
+    super.dispose();
   }
 
   Widget _buildUserInfo(ReplyState replyState) {
@@ -134,11 +154,9 @@ class _ReviewFormViewState extends ConsumerState<ReplyFormView> {
               onPressed: () async {
                 String questionId = widget.questionId;
                 ReplyEntity entity = ReplyEntity(reply: _replyController.text);
-                ref
+                await ref
                     .read(replyViewModelProvider.notifier)
                     .setReply(questionId, entity, context);
-
-                // Navigator.pop(context);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue,
@@ -162,9 +180,25 @@ class _ReviewFormViewState extends ConsumerState<ReplyFormView> {
     );
   }
 
-  @override
-  void dispose() {
-    _replyController.dispose();
-    super.dispose();
-  }
+void _showNotification(dynamic reply) {
+  final String firstname = reply["users"][0]["firstname"]; // Assuming you want the first user in the array
+  final String userimage = reply["users"][0]["image"];
+  // final String replyText = reply["reply"]['question'];
+  final String questionImg = reply["reply"]["questionImageUrl"];
+  final String questionRepliedTo = reply["reply"]["question"];
+
+  AwesomeNotifications().createNotification(
+    content: NotificationContent(
+      id: 10,
+      channelKey: 'basic_channel',
+      title: 'New Reply',
+      body: '$firstname replied to: $questionRepliedTo',
+      bigPicture: questionImg,
+      largeIcon: userimage,
+      notificationLayout: NotificationLayout.BigPicture,
+    ),
+  );
+
+}
+
 }

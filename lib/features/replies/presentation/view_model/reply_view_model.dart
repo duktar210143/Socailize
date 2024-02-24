@@ -22,7 +22,7 @@ class ReplyViewModel extends StateNotifier<ReplyState> {
     required this.getQuestionSpecificRepliesUseCase,
   }) : super(ReplyState.initialState());
 
-  void setReply(String questionId, ReplyEntity entity, BuildContext context) {
+  Future setReply(String questionId, ReplyEntity entity, BuildContext context) async{
     state = state.copyWith(isLoading: true);
     setReplyUseCase.addreply(questionId, entity).then((value) {
       value.fold((failure) {

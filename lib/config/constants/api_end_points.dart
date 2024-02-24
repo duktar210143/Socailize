@@ -5,10 +5,13 @@ class ApiEndPoints {
   static const Duration receivedTimeOut = Duration(seconds: 1000);
 
   //for mac
-  static const String baseUrl = "http://localhost:5500/api/";
+  // static const String baseUrl = "http://localhost:5500/api/";
 
   //for windows
-  // static const String baseUrl = "http://192.168.1.65:5500/api/";
+  static const String baseUrl = "http://192.168.1.65:5500/api/";
+
+  // route for socket service
+  static const String socketUrl = "http://192.168.1.65:8801";
   // route for signing up users
   static const String signUp = "signup";
   // route to sign in the users

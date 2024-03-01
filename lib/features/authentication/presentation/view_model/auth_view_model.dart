@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:discussion_forum/config/router/app_routes.dart';
 import 'package:discussion_forum/core/common/snackbar/my_snack_bar.dart';
-import 'package:discussion_forum/core/failure/failure.dart';
 import 'package:discussion_forum/features/authentication/domain/entity/user_entity.dart';
 import 'package:discussion_forum/features/authentication/domain/use_case/auth_usecase.dart';
 import 'package:discussion_forum/features/authentication/domain/use_case/login_useCase.dart';
@@ -26,6 +25,7 @@ class AuthViewModel extends StateNotifier<AuthState> {
 
   AuthViewModel({required this.authUseCase, required this.loginUseCase})
       : super(AuthState.initialState()) {
+        // comment this when testing
     getUserData();
   }
 
@@ -40,7 +40,7 @@ class AuthViewModel extends StateNotifier<AuthState> {
       },
       (success) {
         state = state.copyWith(isLoading: false, error: null);
-        showSnackBar(message: "registered successful", context: context);
+        // showSnackBar(message: "registered successful", context: context);
         // Emit a new state with success information if needed
       },
     );
@@ -70,7 +70,7 @@ class AuthViewModel extends StateNotifier<AuthState> {
           isLoading: false, error: null, userData: success.userData);
       isLogin = true;
       // showSnackBar(message: "login successful", context: context);
-      // Navigator.pushNamed(context, AppRoute.dashboard);
+      Navigator.pushNamed(context, AppRoute.dashboard);
     });
     return isLogin;
   }

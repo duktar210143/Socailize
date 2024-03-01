@@ -32,16 +32,20 @@ class QuestionEntity extends Equatable {
     this.replies,
   });
 
-  factory QuestionEntity.fromJson(Map<String, dynamic> json) => QuestionEntity(
-      questionId: json["questionId"],
-      question: json["question"],
-      questionCategory: json['questionCategory'],
-      questionDescription: json['questionDescription'],
-      questionImageUrl: json['questionImageurl'],
-      user: AuthEntity.fromjson(json['user']),
-      replies: (json['replies'] as List<dynamic>)
-          .map((reply) => ReplyEntity.fromJson(reply))
-          .toList());
+factory QuestionEntity.fromJson(Map<String, dynamic> json) {
+  print('fromJson json: $json');
+  return QuestionEntity(
+    questionId: json["questionId"] ?? '',
+    question: json["question"] ?? '',
+    questionCategory: json['questionCategory'] ?? '',
+    questionDescription: json['questionDescription'] ?? '',
+    questionImageUrl: json['questionImageUrl'] ?? '',
+    user: AuthEntity.fromjson(json['user'] ?? {}),
+    replies: (json['replies'] as List<dynamic>?)
+      ?.map((reply) => ReplyEntity.fromJson(reply))
+      .toList(),
+  );
+}
 
   Map<String, dynamic> toJson() => {
         "questionId": questionId,

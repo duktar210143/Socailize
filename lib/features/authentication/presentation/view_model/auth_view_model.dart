@@ -26,6 +26,7 @@ class AuthViewModel extends StateNotifier<AuthState> {
 
   AuthViewModel({required this.authUseCase, required this.loginUseCase})
       : super(AuthState.initialState()) {
+        // comment this when testing
     getUserData();
   }
 

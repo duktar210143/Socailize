@@ -1,6 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
-
 import 'package:equatable/equatable.dart';
 
 class AuthEntity extends Equatable {
@@ -55,16 +53,25 @@ class AuthEntity extends Equatable {
     ];
   }
 
-
-  factory AuthEntity.fromjson(Map<String, dynamic> json) {
+  factory AuthEntity.fromjson(Map<String, dynamic>? json) {
+    if (json == null) {
+      return const AuthEntity(
+          userId: '',
+          username: '',
+          image: '',
+          firstname: '',
+          lastname: '',
+          email: '',
+          password: '');
+    }
     return AuthEntity(
-        userId: json['userId'],
-        username: json['username'],
-        image: json['image'],
-        firstname: json['firstname'],
-        lastname: json['lastname'],
-        email: json['email'],
-        password: json['password']);
+        userId: json['userId'] ?? '',
+        username: json['username'] ?? '',
+        image: json['image'] ?? '',
+        firstname: json['firstname'] ?? '',
+        lastname: json['lastname'] ?? '',
+        email: json['email'] ?? '',
+        password: json['password'] ?? '');
   }
 
   Map<String, dynamic> toJson() => {

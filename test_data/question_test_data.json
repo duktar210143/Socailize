@@ -1,16 +1,154 @@
 [
-        {
-            "_id": "65c5b632eea2574ddf5fc764",
-            "question": "Test question1",
-            "questionDescription": "test Description 1",
-            "questionCategory": "Data Science",
-            "questionImageUrl": "https://res.cloudinary.com/duu5wzozk/image/upload/v1707456049/questions/hbywncvwmd4ugyqxebmc.png",
-            "user": {
-                "_id": "65bc726f43d58e0b7c7e7937",
-                "firstname": "Duktar",
-                "lastname": "Tamang",
-                "username": "duktar",
-                "email": "duktar13@gmail.com",
-                "image": "https://res.cloudinary.com/duu5wzozk/image/upload/v1708747314/UserProfile/dxclwiz2oolf0ihaohoz.jpg"
-        }}
-    ]
+    {
+        "_id": "65c5b632eea2574ddf5fc764",
+        "question": "Test question1",
+        "questionDescription": "test Description 1",
+        "questionCategory": "Data Science",
+        "questionImageUrl": "https://res.cloudinary.com/duu5wzozk/image/upload/v1707456049/questions/hbywncvwmd4ugyqxebmc.png",
+        "user": {
+            "_id": "65bc726f43d58e0b7c7e7937",
+            "firstname": "Duktar",
+            "lastname": "Tamang",
+            "username": "duktar",
+            "email": "duktar13@gmail.com",
+            "image": "https://res.cloudinary.com/duu5wzozk/image/upload/v1708747314/UserProfile/dxclwiz2oolf0ihaohoz.jpg"
+        },
+        "replies": [
+            {
+                "_id": "65cc4251b9545231d146f07f",
+                "reply": "new reply duktar"
+            },
+            {
+                "_id": "65cc6640b9545231d146f0e8",
+                "reply": "new reply mike"
+            },
+            {
+                "_id": "65cef1825e0c34b4584bc015",
+                "reply": "naya reply"
+            },
+            {
+                "_id": "65cef8699e3fae42e522f4d0",
+                "reply": "dsvvsd"
+            },
+            {
+                "_id": "65cf0ce6f6233f8fd0d938d0",
+                "reply": "naya reply"
+            },
+            {
+                "_id": "65cf0d97c94380986b4ec468",
+                "reply": "naya reply"
+            },
+            {
+                "_id": "65cf0da1c94380986b4ec46e",
+                "reply": "naya replydcd"
+            },
+            {
+                "_id": "65cf0e305adb6b5f7e1d9579",
+                "reply": "naya replydcd"
+            },
+            {
+                "_id": "65d02073fa8f7e0490871837",
+                "reply": "cadv"
+            },
+            {
+                "_id": "65d03292fa8f7e049087197d",
+                "reply": "naya replydcd"
+            },
+            {
+                "_id": "65d033bdd1df0c5f248ee459",
+                "reply": "naya replydcd"
+            },
+            {
+                "_id": "65d0714f01eafd34e8a88a5f",
+                "reply": "naya replydcd"
+            },
+            {
+                "_id": "65d1fd5c5ddc4217e581865c",
+                "reply": "naya replydcd"
+            },
+            {
+                "_id": "65d3921f4fd6a208dc39c7a8",
+                "reply": "eqfq"
+            },
+            {
+                "_id": "65d3930f4fd6a208dc39c7f1",
+                "reply": "sd"
+            },
+            {
+                "_id": "65d39804be3d4ce00665e6dc",
+                "reply": "naya replydcd"
+            },
+            {
+                "_id": "65d399d7be3d4ce00665e717",
+                "reply": "naya replydcd"
+            },
+            {
+                "_id": "65d847da32c05df844fb3274",
+                "reply": "fdvefv"
+            }
+        ],
+        "__v": 0
+    },
+    {
+        "_id": "65d96a0f5cb8b935218fd525",
+        "question": "how are you",
+        "questionDescription": "new description",
+        "questionCategory": "",
+        "questionImageUrl": "https://res.cloudinary.com/duu5wzozk/image/upload/v1708747277/questions/petnxxgmsygp5xynomac.webp",
+        "user": {
+            "_id": "65bc726f43d58e0b7c7e7937",
+            "firstname": "Duktar",
+            "lastname": "Tamang",
+            "username": "duktar",
+            "email": "duktar13@gmail.com",
+            "image": "https://res.cloudinary.com/duu5wzozk/image/upload/v1708747314/UserProfile/dxclwiz2oolf0ihaohoz.jpg"
+        },
+        "replies": [
+            {
+                "_id": "65d96a205cb8b935218fd536",
+                "reply": "new reply"
+            },
+            {
+                "_id": "65d9710f4083976f8b09c208",
+                "reply": "new notify"
+            },
+            {
+                "_id": "65d972494083976f8b09c22a",
+                "reply": "ncdajn"
+            },
+            {
+                "_id": "65d973d7c84306fc13caf58d",
+                "reply": "notify"
+            },
+            {
+                "_id": "65d9747234f1516cbdfb81ad",
+                "reply": "bskab"
+            },
+            {
+                "_id": "65d974a705f650bade1efc0b",
+                "reply": "hbw"
+            },
+            {
+                "_id": "65d9751bc482f02cec54ca6d",
+                "reply": "bsjs"
+            },
+            {
+                "_id": "65d975a0c482f02cec54ca81",
+                "reply": "baka"
+            },
+            {
+                "_id": "65d9765cc482f02cec54ca92",
+                "reply": "baks"
+            },
+            {
+                "_id": "65d976e4c482f02cec54caa3",
+                "reply": "vjj"
+            },
+            {
+                "_id": "65d9a5b727383fc9e2da6702",
+                "reply": "new reply"
+            }
+        ],
+        "__v": 0
+    }
+]

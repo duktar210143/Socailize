@@ -6,25 +6,31 @@ class QuestionState {
   final List<QuestionEntity> questions;
   final bool showMessage;
   final AuthEntity? user;
+  final String error;
 
   QuestionState(
       {required this.isLoading,
       required this.questions,
       required this.showMessage,
-      this.user});
+      this.user,
+      required this.error
+      });
 
   factory QuestionState.initialState() => QuestionState(
-      isLoading: false, questions: [], showMessage: false, user: null);
+      isLoading: false, questions: [], showMessage: false, user: null, error: '');
 
   QuestionState copyWith(
       {bool? isLoading,
       List<QuestionEntity>? questions,
       bool? showMessage,
-      AuthEntity? user}) {
+      AuthEntity? user,
+      String? error}) {
     return QuestionState(
         isLoading: isLoading ?? this.isLoading,
         questions: questions ?? this.questions,
         user: user ?? this.user,
-        showMessage: showMessage ?? this.showMessage);
+        showMessage: showMessage ?? this.showMessage,
+        error: error ?? this.error
+        );
   }
 }

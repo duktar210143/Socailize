@@ -34,9 +34,9 @@ class QuestionViewModel extends StateNotifier<QuestionState> {
     state = state.copyWith(isLoading: true);
     addQuestionUseCase.addQuestion(question, image).then((value) {
       value.fold(
-        (failure) => state = state.copyWith(isLoading: false),
+        (failure) => state = state.copyWith(isLoading: false,error: failure.error),
         (success) {
-          state = state.copyWith(isLoading: false, showMessage: true);
+          state = state.copyWith(isLoading: false, showMessage: true,error: null);
           getAllQuestions();
         },
       );
@@ -76,7 +76,7 @@ class QuestionViewModel extends StateNotifier<QuestionState> {
     data.fold((failiure) {
       showSnackBar(
           message: failiure.error, context: context, color: Colors.red);
-      state = state.copyWith(isLoading: false);
+      state = state.copyWith(isLoading: false,error: failiure.error);
     }, (delete) {
       state.questions.remove(question);
       showSnackBar(message: "question Deleted SuccessFully", context: context);

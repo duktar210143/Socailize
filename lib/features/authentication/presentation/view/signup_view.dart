@@ -34,10 +34,10 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
       ),
       body: Stack(
         children: <Widget>[
-          const RiveAnimation.asset(
-            'assets/images/zombie.riv',
-            fit: BoxFit.cover, // Ensure the animation covers the entire space
-          ),
+          // const RiveAnimation.asset(
+          //   'assets/images/zombie.riv',
+          //   fit: BoxFit.cover, // Ensure the animation covers the entire space
+          // ),
           Center(
             child: SingleChildScrollView(
               child: Form(

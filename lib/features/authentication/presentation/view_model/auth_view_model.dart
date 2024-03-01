@@ -1,8 +1,6 @@
 import 'dart:io';
 
-import 'package:discussion_forum/config/router/app_routes.dart';
 import 'package:discussion_forum/core/common/snackbar/my_snack_bar.dart';
-import 'package:discussion_forum/core/failure/failure.dart';
 import 'package:discussion_forum/features/authentication/domain/entity/user_entity.dart';
 import 'package:discussion_forum/features/authentication/domain/use_case/auth_usecase.dart';
 import 'package:discussion_forum/features/authentication/domain/use_case/login_useCase.dart';

@@ -47,6 +47,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                   children: <Widget>[
                     CustomTextFormField(
                       hintText: "First Name",
+                      color: Colors.black,
                       controller: _fnameController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -57,6 +58,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                     ),
                     CustomTextFormField(
                       hintText: "Last Name",
+                      color: Colors.black,
                       controller: _lnameController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -67,6 +69,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                     ),
                     CustomTextFormField(
                       hintText: "Create user",
+                      color: Colors.black,
                       controller: _emailController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -79,6 +82,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                     ),
                     CustomTextFormField(
                       hintText: "UserName",
+                      color: Colors.black,
                       controller: _userNameController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -89,6 +93,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                     ),
                     CustomTextFormField(
                       hintText: "Create password",
+                      color: Colors.black,
                       controller: _passwordController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -99,6 +104,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                     ),
                     CustomTextFormField(
                       hintText: "Confirm password",
+                      color: Colors.black,
                       controller: confirmPasswordController,
                       validator: (value) {
                         final password = _passwordController.text;
@@ -133,21 +139,6 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                             await ref
                                 .read(authViewModelProvider.notifier)
                                 .signUpUser(context, user);
-                            if (authState.error != null) {
-                              // ignore: use_build_context_synchronously
-                              showSnackBar(
-                                message: authState.error.toString(),
-                                context: context,
-                                color: Colors.red,
-                              );
-                            } else {
-                              // ignore: use_build_context_synchronously
-                              showSnackBar(
-                                message: 'Registered successfully',
-                                context: context,
-                                color: Colors.green,
-                              );
-                            }
                           }
                         },
                         child: const Text(

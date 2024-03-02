@@ -15,7 +15,7 @@ class AuthState {
     return AuthState(
         isLoading: false,
         error: null,
-        userData:  AuthEntity(
+        userData: const AuthEntity(
             username: '',
             firstname: '',
             lastname: '',

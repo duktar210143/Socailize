@@ -25,7 +25,7 @@ class AuthViewModel extends StateNotifier<AuthState> {
 
   AuthViewModel({required this.authUseCase, required this.loginUseCase})
       : super(AuthState.initialState()) {
-        // comment this when testing
+    // comment this when testing
     getUserData();
   }
 
@@ -40,7 +40,8 @@ class AuthViewModel extends StateNotifier<AuthState> {
       },
       (success) {
         state = state.copyWith(isLoading: false, error: null);
-        // showSnackBar(message: "registered successful", context: context);
+        showSnackBar(message: "registered successfully", context: context);
+        Navigator.pushNamed(context, AppRoute.loginRoute);
         // Emit a new state with success information if needed
       },
     );
@@ -52,7 +53,7 @@ class AuthViewModel extends StateNotifier<AuthState> {
     data.fold((failure) {
       return state = state.copyWith(isLoading: false, error: failure.error);
     }, (user) {
-      return state = state.copyWith(isLoading: false,userData: user);
+      return state = state.copyWith(isLoading: false, userData: user);
     });
   }
 

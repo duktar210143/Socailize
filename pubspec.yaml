@@ -65,6 +65,8 @@ dependencies:
   mockito: ^5.4.4
   integration_test:
     sdk: flutter
+  all_sensors2: ^1.0.1
+  connectivity_plus: ^2.3.8
 
 
 dev_dependencies:

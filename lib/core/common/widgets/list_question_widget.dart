@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:discussion_forum/config/constants/size_constants.dart';
 import 'package:discussion_forum/features/question/presentation/state/question_state.dart';
 import 'package:discussion_forum/features/question/presentation/view_model/public_question_view_model.dart';
@@ -8,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
-
+import 'package:all_sensors2/all_sensors2.dart';
 
 class ListQuestionWidget extends ConsumerStatefulWidget {
   final StateNotifierProvider<dynamic, QuestionState> questionProvider;
@@ -24,7 +26,31 @@ class ListQuestionWidget extends ConsumerStatefulWidget {
 }
 
 class _ListQuestionWidgetState extends ConsumerState<ListQuestionWidget> {
+  late ShakeDetector shakeDetector;
   int _currentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeShakeDetector();
+  }
+
+  void _initializeShakeDetector() async {
+    shakeDetector = ShakeDetector(
+      onShake: () {
+        ref
+            .read(publicQuestionViewModelProvider.notifier)
+            .getAllPublicUserQuestions();
+      },
+    );
+    shakeDetector.startListening();
+  }
+
+  @override
+  void dispose() {
+    shakeDetector.stopListening();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -242,5 +268,26 @@ class _ListQuestionWidgetState extends ConsumerState<ListQuestionWidget> {
         );
       },
     );
+  }
+}
+
+class ShakeDetector {
+  final Function onShake;
+  StreamSubscription<AccelerometerEvent>? _subscription;
+
+  ShakeDetector({required this.onShake});
+
+  void startListening() {
+    _subscription = accelerometerEvents?.listen((event) {
+      final double acceleration = event.y;
+
+      if (acceleration > 18) {
+        onShake();
+      }
+    });
+  }
+
+  void stopListening() {
+    _subscription?.cancel();
   }
 }

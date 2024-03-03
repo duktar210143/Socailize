@@ -1,10 +1,10 @@
 import 'package:discussion_forum/config/router/app_routes.dart';
-import 'package:discussion_forum/core/common/snackbar/my_snack_bar.dart';
 import 'package:discussion_forum/core/common/widgets/text_form_field.dart';
 import 'package:discussion_forum/features/authentication/domain/entity/user_entity.dart';
 import 'package:discussion_forum/features/authentication/presentation/view_model/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rive/rive.dart';
 
 class SignUpView extends ConsumerStatefulWidget {
   const SignUpView({super.key});
@@ -34,10 +34,10 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
       ),
       body: Stack(
         children: <Widget>[
-          // const RiveAnimation.asset(
-          //   'assets/images/zombie.riv',
-          //   fit: BoxFit.cover, // Ensure the animation covers the entire space
-          // ),
+          const RiveAnimation.asset(
+            'assets/images/zombie.riv',
+            fit: BoxFit.cover, // Ensure the animation covers the entire space
+          ),
           Center(
             child: SingleChildScrollView(
               child: Form(

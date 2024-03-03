@@ -21,7 +21,7 @@ class _UserDetailViewState extends ConsumerState<UserDetailView> {
     try {
       final image = await ImagePicker().pickImage(source: imageSource);
       if (image != null) {
-        setState(() async{
+        setState(() async {
           _image = File(image.path);
           await ref.read(authViewModelProvider.notifier).uploadprofile(_image!);
           ref.read(questionViewModelProvider.notifier).getAllQuestions();
@@ -40,62 +40,99 @@ class _UserDetailViewState extends ConsumerState<UserDetailView> {
     final userState = ref.watch(authViewModelProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile'),
-      ),
       body: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  CircleAvatar(
-                    radius: 60,
-                    backgroundImage: NetworkImage(
-                        "${userState.userData.image}"), // Use the default profile image here
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      CircleAvatar(
+                        radius: 60,
+                        backgroundImage: NetworkImage(
+                            "${userState.userData.image}"), // Use the default profile image here
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        '${userState.userData.firstname} ${userState.userData.lastname}',
+                        style: const TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        '@${userState.userData.username}',
+                        style:
+                            const TextStyle(fontSize: 16, color: Colors.black),
+                      ),
+                      const SizedBox(height: 16),
+                      ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                          Theme.of(context).colorScheme.secondary,
+                        )),
+                        onPressed: () {
+                          _browseImage(ImageSource.gallery);
+                        },
+                        child: Text(
+                          'Edit Profile',
+                          style: TextStyle(
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
+                                    ? Colors.white
+                                    : Colors.black,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 16),
-                  Text(
-                    '${userState.userData.firstname} ${userState.userData.lastname}',
-                    style: const TextStyle(
-                        fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                const Divider(),
+                const ListTile(
+                  title: Text('questions',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  trailing: Text('10'), // Replace with actual number of posts
+                ),
+                const ListTile(
+                  title: Text('Replies',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  trailing:
+                      Text('200'), // Replace with actual number of followers
+                ),
+                const ListTile(
+                  title: Text('Following',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  trailing:
+                      Text('10'), // Replace with actual number of following
+                ),
+                const Divider(),
+                // Add more sections as needed
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                  Theme.of(context).colorScheme.secondary,
+                )),
+                onPressed: () {},
+                child: Text(
+                  "Logout",
+                  style: TextStyle(
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? Colors.black
+                        : Colors.white,
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    '@${userState.userData.username}',
-                    style: const TextStyle(fontSize: 16, color: Colors.black),
-                  ),
-                  const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: () {
-                      _browseImage(ImageSource.gallery);
-                    },
-                    child: const Text('Edit Profile'),
-                  ),
-                ],
+                ),
               ),
-            ),
-            const Divider(),
-            const ListTile(
-              title: Text('questions',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-              trailing: Text('10'), // Replace with actual number of posts
-            ),
-            const ListTile(
-              title: Text('Replies',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-              trailing: Text('200'), // Replace with actual number of followers
-            ),
-            const ListTile(
-              title: Text('Following',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-              trailing: Text('10'), // Replace with actual number of following
-            ),
-            const Divider(),
-            // Add more sections as needed
+            )
           ],
         ),
       ),

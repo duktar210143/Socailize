@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:discussion_forum/features/question/domain/entity/question_entity.dart';
 import 'package:discussion_forum/core/common/widgets/list_question_widget.dart';
+import 'package:discussion_forum/features/question/domain/entity/question_entity.dart';
 import 'package:discussion_forum/features/question/presentation/view_model/question_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -119,7 +119,19 @@ class _AddQuestionViewState extends ConsumerState {
                       await checkCameraPermission();
                       await _browseImage(ImageSource.gallery);
                     },
-                    child: const Text('Pick Image'),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                        Theme.of(context).colorScheme.secondary,
+                      ),
+                    ),
+                    child: Text(
+                      'Pick Image',
+                      style: TextStyle(
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : Colors.black,
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -141,7 +153,19 @@ class _AddQuestionViewState extends ConsumerState {
                   _image = null;
                 });
               },
-              child: const Text('Add question'),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                  Theme.of(context).colorScheme.secondary,
+                ),
+              ),
+              child: Text(
+                'Add question',
+                style: TextStyle(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : Colors.black,
+                ),
+              ),
             ),
             const SizedBox(height: 8),
             const SizedBox(height: 8),

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:all_sensors2/all_sensors2.dart';
 import 'package:discussion_forum/config/constants/size_constants.dart';
 import 'package:discussion_forum/features/question/presentation/state/question_state.dart';
 import 'package:discussion_forum/features/question/presentation/view_model/public_question_view_model.dart';
@@ -10,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
-import 'package:all_sensors2/all_sensors2.dart';
 
 class ListQuestionWidget extends ConsumerStatefulWidget {
   final StateNotifierProvider<dynamic, QuestionState> questionProvider;
@@ -57,9 +57,6 @@ class _ListQuestionWidgetState extends ConsumerState<ListQuestionWidget> {
     final questionState = ref.watch(widget.questionProvider);
     return Expanded(
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('List of Questions'),
-        ),
         body: RefreshIndicator(
           onRefresh: () async {
             await ref
@@ -72,6 +69,7 @@ class _ListQuestionWidgetState extends ConsumerState<ListQuestionWidget> {
               final reversedIndex = questionState.questions.length - index - 1;
               final question = questionState.questions[reversedIndex];
               return Card(
+                color: Theme.of(context).colorScheme.secondary,
                 elevation: 3,
                 margin: const EdgeInsets.all(8),
                 child: Column(
@@ -226,8 +224,8 @@ class _ListQuestionWidgetState extends ConsumerState<ListQuestionWidget> {
               Navigator.pop(context);
             },
             child: Container(
-              decoration: const BoxDecoration(
-                color: Colors.black,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.secondary,
               ),
               child: PhotoViewGallery.builder(
                 itemCount: 1,
@@ -241,8 +239,8 @@ class _ListQuestionWidgetState extends ConsumerState<ListQuestionWidget> {
                   );
                 },
                 scrollPhysics: const BouncingScrollPhysics(),
-                backgroundDecoration: const BoxDecoration(
-                  color: Colors.black,
+                backgroundDecoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.secondary,
                 ),
                 pageController: PageController(),
                 onPageChanged: (index) {

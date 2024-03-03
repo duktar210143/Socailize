@@ -18,7 +18,7 @@ import 'package:discussion_forum/features/authentication/domain/repository/auth_
     as _i2;
 import 'package:discussion_forum/features/authentication/domain/use_case/auth_usecase.dart'
     as _i7;
-import 'package:discussion_forum/features/authentication/domain/use_case/login_useCase.dart'
+import 'package:discussion_forum/features/authentication/domain/use_case/login_usecase.dart'
     as _i13;
 import 'package:flutter/foundation.dart' as _i6;
 import 'package:flutter/src/widgets/framework.dart' as _i5;

@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:discussion_forum/features/authentication/data/data_source/auth_remote_data_source.dart';
 import 'package:discussion_forum/features/authentication/domain/entity/user_entity.dart';
 import 'package:discussion_forum/features/authentication/domain/use_case/auth_usecase.dart';
-import 'package:discussion_forum/features/authentication/domain/use_case/login_useCase.dart';
+import 'package:discussion_forum/features/authentication/domain/use_case/login_usecase.dart';
 import 'package:discussion_forum/features/authentication/presentation/view_model/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

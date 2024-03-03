@@ -1,3 +1,4 @@
+import 'package:discussion_forum/features/authentication/presentation/view/forget_pass_form.dart';
 import 'package:discussion_forum/features/authentication/presentation/view/login_view.dart';
 import 'package:discussion_forum/features/authentication/presentation/view/signup_view.dart';
 import 'package:discussion_forum/features/authentication/presentation/view/user_detail_view.dart';
@@ -12,6 +13,7 @@ class AppRoute {
   static const String loginRoute = "/login";
   static const String userDetailRoute = "/userDetails";
   static const String dashboard = "/dashboard";
+  static const String forgotPassRoute = "/forgotPass";
   static getApplicationRoute() {
     return {
       splashRoute: (context) => const SplashView(),
@@ -19,6 +21,7 @@ class AppRoute {
       userDetailRoute: (context) => const UserDetailView(),
       loginRoute: (context) => const LoginView(),
       dashboard: (context) => const DashboardView(),
+      forgotPassRoute: (context) => const GeneralForm(),
       // batchStudentRoute: (context) => const BatchStudentView(null),
       // googleMapRoute: (context) => const GoogleMapView(),
     };

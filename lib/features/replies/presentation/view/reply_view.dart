@@ -117,10 +117,12 @@ class _ReviewFormViewState extends ConsumerState<ReplyFormView> {
             ),
             title: Text(
               replies.reply,
-              style: const TextStyle(
+              style:  TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
-                color: Colors.black, // Adjust text color
+                color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white
+                :Colors.black, // Adjust text color
               ),
             ),
           ),

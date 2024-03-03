@@ -32,5 +32,8 @@ class ApiEndPoints {
   // route to delete particular question
   static const String deletequestion = "questions/deleteQuestion/";
 
+  // forget password Route
+  static const String forgotPassword = "user/forgot_password";
+
   static const limitPage = 5;
 }

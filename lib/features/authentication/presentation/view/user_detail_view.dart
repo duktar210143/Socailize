@@ -38,7 +38,6 @@ class _UserDetailViewState extends ConsumerState<UserDetailView> {
   @override
   Widget build(BuildContext context) {
     final userState = ref.watch(authViewModelProvider);
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -58,7 +57,7 @@ class _UserDetailViewState extends ConsumerState<UserDetailView> {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        '${userState.userData.firstname} ${userState.userData.lastname}',
+                        userState.userData.firstname,
                         style: const TextStyle(
                             fontSize: 24, fontWeight: FontWeight.bold),
                       ),
@@ -122,7 +121,9 @@ class _UserDetailViewState extends ConsumerState<UserDetailView> {
                     backgroundColor: MaterialStateProperty.all<Color>(
                   Theme.of(context).colorScheme.secondary,
                 )),
-                onPressed: () {},
+                onPressed: () async {
+                  ref.read(authViewModelProvider.notifier).logout(context);
+                },
                 child: Text(
                   "Logout",
                   style: TextStyle(

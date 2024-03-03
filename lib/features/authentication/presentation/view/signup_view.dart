@@ -4,10 +4,11 @@ import 'package:discussion_forum/features/authentication/domain/entity/user_enti
 import 'package:discussion_forum/features/authentication/presentation/view_model/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:glassmorphism_ui/glassmorphism_ui.dart';
 import 'package:rive/rive.dart';
 
 class SignUpView extends ConsumerStatefulWidget {
-  const SignUpView({super.key});
+  const SignUpView({Key? key}) : super(key: key);
 
   @override
   ConsumerState<SignUpView> createState() => _SignUpViewState();
@@ -29,9 +30,6 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
   Widget build(BuildContext context) {
     final authState = ref.watch(authViewModelProvider);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Discussion Forum"),
-      ),
       body: Stack(
         children: <Widget>[
           const RiveAnimation.asset(
@@ -40,138 +38,140 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
           ),
           Center(
             child: SingleChildScrollView(
-              child: Form(
-                key: _authKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    CustomTextFormField(
-                      hintText: "First Name",
-                      color: Colors.black,
-                      controller: _fnameController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Please enter your password";
-                        }
-                        return null;
-                      },
-                    ),
-                    CustomTextFormField(
-                      hintText: "Last Name",
-                      color: Colors.black,
-                      controller: _lnameController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Please enter your password";
-                        }
-                        return null;
-                      },
-                    ),
-                    CustomTextFormField(
-                      hintText: "Create user",
-                      color: Colors.black,
-                      controller: _emailController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Please enter your email";
-                        } else if (!emailValid.hasMatch(value)) {
-                          return "please enter a valid email";
-                        }
-                        return null;
-                      },
-                    ),
-                    CustomTextFormField(
-                      hintText: "UserName",
-                      color: Colors.black,
-                      controller: _userNameController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Please enter your email";
-                        }
-                        return null;
-                      },
-                    ),
-                    CustomTextFormField(
-                      hintText: "Create password",
-                      color: Colors.black,
-                      controller: _passwordController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Please enter your password";
-                        }
-                        return null;
-                      },
-                    ),
-                    CustomTextFormField(
-                      hintText: "Confirm password",
-                      color: Colors.black,
-                      controller: confirmPasswordController,
-                      validator: (value) {
-                        final password = _passwordController.text;
-                        if (value == null || value.isEmpty) {
-                          return "Please re-enter your password";
-                        } else if (value != password) {
-                          return "password and confirm password doesn't match";
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(
-                      height: 50,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          color: Colors.blueAccent,
-                          borderRadius: BorderRadius.circular(20)),
-                      height: 100,
-                      width: double.infinity,
-                      child: TextButton(
-                        onPressed: () async {
-                          if (_authKey.currentState!.validate()) {
-                            AuthEntity user = AuthEntity(
-                              firstname: _fnameController.text,
-                              lastname: _lnameController.text,
-                              email: _emailController.text,
-                              username: _userNameController.text,
-                              password: _passwordController.text,
-                            );
-
-                            await ref
-                                .read(authViewModelProvider.notifier)
-                                .signUpUser(context, user);
+              child: GlassContainer(
+                height: 700,
+                width: 400, // Increased width
+                borderRadius: BorderRadius.circular(20),
+                blur: 20,
+                border: Border.all(color: Colors.white, width: 1),
+                child: Form(
+                  key: _authKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      CustomTextFormField(
+                        hintText: "First Name",
+                        controller: _fnameController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Please enter your password";
                           }
+                          return null;
                         },
-                        child: const Text(
-                          "SignUp",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 40,
-                              fontWeight: FontWeight.bold),
-                        ),
                       ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "Already have an account ??",
-                          style: TextStyle(fontSize: 19, color: Colors.white),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                              context,
-                              AppRoute.loginRoute,
-                            );
+                      CustomTextFormField(
+                        hintText: "Last Name",
+                        controller: _lnameController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Please enter your password";
+                          }
+                          return null;
+                        },
+                      ),
+                      CustomTextFormField(
+                        hintText: "Create user",
+                        controller: _emailController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Please enter your email";
+                          } else if (!emailValid.hasMatch(value)) {
+                            return "please enter a valid email";
+                          }
+                          return null;
+                        },
+                      ),
+                      CustomTextFormField(
+                        hintText: "UserName",
+                        controller: _userNameController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Please enter your email";
+                          }
+                          return null;
+                        },
+                      ),
+                      CustomTextFormField(
+                        hintText: "Create password",
+                        controller: _passwordController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Please enter your password";
+                          }
+                          return null;
+                        },
+                      ),
+                      CustomTextFormField(
+                        hintText: "Confirm password",
+                        controller: confirmPasswordController,
+                        validator: (value) {
+                          final password = _passwordController.text;
+                          if (value == null || value.isEmpty) {
+                            return "Please re-enter your password";
+                          } else if (value != password) {
+                            return "password and confirm password doesn't match";
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 50,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Colors.blueAccent,
+                            borderRadius: BorderRadius.circular(20)),
+                        height: 50,
+                        width: double.infinity,
+                        child: TextButton(
+                          onPressed: () async {
+                            if (_authKey.currentState!.validate()) {
+                              AuthEntity user = AuthEntity(
+                                firstname: _fnameController.text,
+                                lastname: _lnameController.text,
+                                email: _emailController.text,
+                                username: _userNameController.text,
+                                password: _passwordController.text,
+                              );
+
+                              await ref
+                                  .read(authViewModelProvider.notifier)
+                                  .signUpUser(context, user);
+                            }
                           },
                           child: const Text(
-                            "Login",
-                            style: TextStyle(fontSize: 20),
+                            "SignUp",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
                           ),
-                        )
-                      ],
-                    )
-                  ],
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            "Already have an account ??",
+                            style: TextStyle(fontSize: 13, color: Colors.white),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                context,
+                                AppRoute.loginRoute,
+                              );
+                            },
+                            child: const Text(
+                              "Login",
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.blue),
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),

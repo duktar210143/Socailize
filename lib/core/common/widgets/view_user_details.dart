@@ -23,7 +23,7 @@ class UserDetailsDialogBox {
       String userName, String email, String image, BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.secondary,
         borderRadius: BorderRadius.circular(10.0),
       ),
       padding: const EdgeInsets.all(20.0),
@@ -31,13 +31,15 @@ class UserDetailsDialogBox {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Center(
+          Center(
             child: Text(
               'User Information',
               style: TextStyle(
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,
-                color: Colors.black87,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white
+                    : Colors.black,
               ),
             ),
           ),
@@ -48,10 +50,10 @@ class UserDetailsDialogBox {
             ),
           ),
           const SizedBox(height: 20.0),
-          _buildUserDetail('First Name', firstName),
-          _buildUserDetail('Last Name', lastName),
-          _buildUserDetail('Username', userName),
-          _buildUserDetail('Email', email),
+          _buildUserDetail('First Name', firstName, context),
+          _buildUserDetail('Last Name', lastName, context),
+          _buildUserDetail('Username', userName, context),
+          _buildUserDetail('Email', email, context),
           const SizedBox(height: 20.0),
           Align(
             alignment: Alignment.centerRight,
@@ -59,11 +61,13 @@ class UserDetailsDialogBox {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text(
+              child: Text(
                 'Close',
                 style: TextStyle(
                   fontSize: 16.0,
-                  color: Colors.blue,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : Colors.black,
                 ),
               ),
             ),
@@ -73,24 +77,29 @@ class UserDetailsDialogBox {
     );
   }
 
-  static Widget _buildUserDetail(String label, String value) {
+  static Widget _buildUserDetail(
+      String label, String value, BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           '$label:',
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 16.0,
             fontWeight: FontWeight.bold,
-            color: Colors.black87,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white
+                : Colors.black,
           ),
         ),
         const SizedBox(height: 5.0),
         Text(
           value,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 16.0,
-            color: Colors.black87,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white
+                : Colors.black,
           ),
         ),
         const SizedBox(height: 10.0),

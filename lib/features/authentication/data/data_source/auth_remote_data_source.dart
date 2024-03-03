@@ -118,6 +118,30 @@ class AuthRemoteDataSource {
       return Left(Failure(error: e.response?.data['error']));
     }
   }
+
+  Future<Either<Failure, bool>> forgotPassword(String email) async {
+    try {
+      var response = await dio.post(ApiEndPoints.forgotPassword, data: {
+        'email': email,
+      });
+      if (response.data['success'] == true) {
+        return const Right(
+            true); // Return Right(true) when OTP is sent successfully
+      } else {
+        return Left(
+          Failure(
+            error: response.data['message'],
+          ),
+        );
+      }
+    } catch (e) {
+      return Left(
+        Failure(
+          error: e.toString(),
+        ),
+      );
+    }
+  }
 }
 
 class AuthData {

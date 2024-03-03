@@ -16,48 +16,50 @@ class CustomTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       child: TextFormField(
         controller: controller,
         autovalidateMode:
             AutovalidateMode.onUserInteraction, // Enable auto-validation
         style: TextStyle(
           color: color ?? Colors.white,
-          fontSize: 20,
-          fontWeight:FontWeight.w700, 
+          fontSize: 18,
+          fontWeight: FontWeight.w500,
         ),
         decoration: InputDecoration(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
           hintStyle: TextStyle(
-            color: color ?? Colors.white,
-            fontSize: 24,
-            fontWeight: FontWeight.w700,
+            color: color ?? Colors.white.withOpacity(0.7),
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
           ),
           hintText: hintText,
-          enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Colors.blue, // Default border color
-              width: 4.0, // Default border width
-            ),
+          filled: true,
+          fillColor: color ?? Colors.grey.withOpacity(0.2),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(10),
           ),
-          errorBorder: const OutlineInputBorder(
+          focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: Colors.red, // Border color for invalid input
-              width: 4.0, // Border width for invalid input
+              color: color ?? Colors.green,
+              width: 2.0,
             ),
+            borderRadius: BorderRadius.circular(10),
           ),
-          focusedErrorBorder: const OutlineInputBorder(
-            borderSide: BorderSide(
-              color:
-                  Colors.red, // Border color when field is focused and invalid
-              width: 4.0, // Border width when field is focused and invalid
+          errorBorder: OutlineInputBorder(
+            borderSide: const BorderSide(
+              color: Colors.red,
+              width: 2.0,
             ),
+            borderRadius: BorderRadius.circular(10),
           ),
-          focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(
-              color:
-                  Colors.green, // Border color when field is focused and valid
-              width: 4.0, // Border width when field is focused and valid
+          focusedErrorBorder: OutlineInputBorder(
+            borderSide: const BorderSide(
+              color: Colors.red,
+              width: 2.0,
             ),
+            borderRadius: BorderRadius.circular(10),
           ),
         ),
         validator: validator,

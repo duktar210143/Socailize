@@ -42,5 +42,11 @@ class AuthLocalRepositoryImpl implements IAuthRepository {
     throw UnimplementedError();
   }
   
+  @override
+  Future<Either<Failure, bool>> forgotPassword(String email) {
+    // TODO: implement forgotPassword
+    throw UnimplementedError();
+  }
+  
  
 }

@@ -4,7 +4,7 @@ import 'package:discussion_forum/config/router/app_routes.dart';
 import 'package:discussion_forum/core/common/snackbar/my_snack_bar.dart';
 import 'package:discussion_forum/features/authentication/domain/entity/user_entity.dart';
 import 'package:discussion_forum/features/authentication/domain/use_case/auth_usecase.dart';
-import 'package:discussion_forum/features/authentication/domain/use_case/login_useCase.dart';
+import 'package:discussion_forum/features/authentication/domain/use_case/login_usecase.dart';
 import 'package:discussion_forum/features/authentication/presentation/state/auth_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -85,5 +85,32 @@ class AuthViewModel extends StateNotifier<AuthState> {
         return state = state.copyWith(isLoading: false, userData: authEntity);
       });
     });
+  }
+
+  void logout(BuildContext context) {
+    state = state.copyWith(isLoading: true);
+    loginUseCase.logout();
+    Navigator.pushNamed(context, AppRoute.loginRoute);
+    showSnackBar(message: 'Logged out', context: context, color: Colors.green);
+  }
+
+  Future resetPass(BuildContext context, String email) async {
+    state = state.copyWith(isLoading: true);
+    final data = await loginUseCase.forgotPassword(email);
+    data.fold(
+      (failure) {
+        state = state.copyWith(isLoading: false, error: failure.error);
+        showSnackBar(
+            message: failure.error, context: context, color: Colors.red);
+      },
+      (success) {
+        state = state.copyWith(isLoading: false, error: null);
+        showSnackBar(
+            message: "Otp sent successfully check your email",
+            context: context,
+            color: Colors.green);
+        Navigator.pushNamed(context, AppRoute.loginRoute);
+      },
+    );
   }
 }

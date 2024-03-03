@@ -33,4 +33,6 @@ abstract class IAuthRepository {
   Future<Either<Failure, AuthData>> login(String username, String password);
 
   Future<Either<Failure, AuthEntity>> uploadProfile(File image);
+
+  Future<Either<Failure, bool>> forgotPassword(String email);
 }

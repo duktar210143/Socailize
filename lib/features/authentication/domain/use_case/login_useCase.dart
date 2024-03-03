@@ -46,4 +46,19 @@ class LoginUseCase {
       return Left(Failure(error: e.toString()));
     }
   }
+
+  Future<bool> logout() async {
+    try {
+      await userSharedPrefs.deleteUserToken();
+      await userSharedPrefs.deleteUserData();
+      return true;
+    } catch (e) {
+      print(e.toString());
+      return false;
+    }
+  }
+
+  Future<Either<Failure, bool>> forgotPassword(String email) async{
+    return await authRepository.forgotPassword(email);
+  }
 }

@@ -98,17 +98,44 @@ class _ListQuestionWidgetState extends ConsumerState<ListQuestionWidget> {
                           IconButton(
                             icon: const Icon(Icons.delete),
                             onPressed: () async {
-                              await ref
-                                  .read(questionViewModelProvider.notifier)
-                                  .deleteQuestion(context, question);
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: const Text('Delete Question'),
+                                  content: const Text(
+                                      "Do you really want to delete the question?"),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () async {
+                                        await ref
+                                            .read(questionViewModelProvider
+                                                .notifier)
+                                            .deleteQuestion(context, question);
 
-                              ref
-                                  .read(questionViewModelProvider.notifier)
-                                  .getAllQuestions();
-                              ref
-                                  .read(
-                                      publicQuestionViewModelProvider.notifier)
-                                  .getAllPublicUserQuestions();
+                                        ref
+                                            .read(questionViewModelProvider
+                                                .notifier)
+                                            .getAllQuestions();
+                                        ref
+                                            .read(
+                                                publicQuestionViewModelProvider
+                                                    .notifier)
+                                            .getAllPublicUserQuestions();
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text(
+                                        'Yes',
+                                        style: TextStyle(
+                                          color: Theme.of(context).brightness ==
+                                                  Brightness.dark
+                                              ? Colors.white
+                                              : Colors.black,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              );
                             },
                           ),
                         ],
@@ -279,7 +306,7 @@ class ShakeDetector {
     _subscription = accelerometerEvents?.listen((event) {
       final double acceleration = event.y;
 
-      if (acceleration > 18) {
+      if (acceleration > 10) {
         onShake();
       }
     });

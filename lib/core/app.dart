@@ -16,6 +16,7 @@ class App extends ConsumerWidget {
       title: 'Discussion Forum App',
       initialRoute: AppRoute.splashRoute,
       routes: AppRoute.getApplicationRoute(),
+
     );
   }
 }

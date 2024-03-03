@@ -33,4 +33,10 @@ class AuthRemoteRepositoryImpl implements IAuthRepository {
     // TODO: implement uploadProfile
     return _authRemoteDataSource.uploadProfile(image);
   }
+
+  @override
+  Future<Either<Failure, bool>> forgotPassword(String email) {
+    // TODO: implement forgotPassword
+    return _authRemoteDataSource.forgotPassword(email);
+  }
 }

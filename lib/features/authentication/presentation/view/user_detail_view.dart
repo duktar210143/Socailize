@@ -122,7 +122,7 @@ class _UserDetailViewState extends ConsumerState<UserDetailView> {
                   Theme.of(context).colorScheme.secondary,
                 )),
                 onPressed: () async {
-                  ref.read(authViewModelProvider.notifier).logout(context);
+                 await  ref.read(authViewModelProvider.notifier).logout(context);
                 },
                 child: Text(
                   "Logout",

@@ -12,27 +12,24 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      expect(find.text('SignUp'), findsOneWidget);
+      expect(find.text('Sign Up'), findsOneWidget);
     });
 
-testWidgets('Renders all text form fields', (tester) async {
-  await tester.pumpWidget(
-    const ProviderScope(child: MaterialApp(home: SignUpView())),
-  );
-  await tester.pumpAndSettle(const Duration(seconds: 5)); // Increase timeout duration
-
-  expect(find.byType(CustomTextFormField), findsNWidgets(6)); // Adjusted to 4
-});
-
-
-    testWidgets('Renders "Already have an account" text', (tester) async {
+    testWidgets('Renders all text form fields', (tester) async {
       await tester.pumpWidget(
         const ProviderScope(child: MaterialApp(home: SignUpView())),
       );
-      await tester.pumpAndSettle();
 
-      expect(find.text("Already have an account ??"), findsOneWidget);
+      expect(
+          find.byType(CustomTextFormField), findsNWidgets(6)); // Adjusted to 4
     });
 
+    testWidgets('SignUpView should have a Login button', (tester) async {
+      await tester.pumpWidget(
+        const ProviderScope(child: MaterialApp(home: SignUpView())),
+      );
+
+      expect(find.text('Login'), findsOneWidget); // Adjusted to 4
+    });
   });
 }

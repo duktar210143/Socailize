@@ -478,4 +478,40 @@ class MockLoginUseCase extends _i1.Mock implements _i13.LoginUseCase {
           ),
         )),
       ) as _i8.Future<_i4.Either<_i9.Failure, _i14.AuthData>>);
+
+  @override
+  _i8.Future<bool> logout() => (super.noSuchMethod(
+        Invocation.method(
+          #logout,
+          [],
+        ),
+        returnValue: _i8.Future<bool>.value(false),
+        returnValueForMissingStub: _i8.Future<bool>.value(false),
+      ) as _i8.Future<bool>);
+
+  @override
+  _i8.Future<_i4.Either<_i9.Failure, bool>> forgotPassword(String? email) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #forgotPassword,
+          [email],
+        ),
+        returnValue: _i8.Future<_i4.Either<_i9.Failure, bool>>.value(
+            _FakeEither_2<_i9.Failure, bool>(
+          this,
+          Invocation.method(
+            #forgotPassword,
+            [email],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i8.Future<_i4.Either<_i9.Failure, bool>>.value(
+                _FakeEither_2<_i9.Failure, bool>(
+          this,
+          Invocation.method(
+            #forgotPassword,
+            [email],
+          ),
+        )),
+      ) as _i8.Future<_i4.Either<_i9.Failure, bool>>);
 }

@@ -124,7 +124,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                                     Border.all(color: Colors.white, width: 1),
                                 child: TextButton(
                                   onPressed: () async {
-                                    // await _getAvailablebiometrics();
+                                    await _getAvailablebiometrics();
 
                                     await _authenticate();
                                     // ignore: use_build_context_synchronously
@@ -216,18 +216,18 @@ class _LoginViewState extends ConsumerState<LoginView> {
 
 // class _LoginViewState extends ConsumerState<LoginView> {
 //   late final LocalAuthentication auth;
-//   bool _supportState = false;
+//   // bool _supportState = false;
 
-//   @override
-//   void initState() {
-//     super.initState();
-//     auth = LocalAuthentication();
+//   // @override
+//   // void initState() {
+//     // super.initState();
+//     // auth = LocalAuthentication();
 //   //   auth.isDeviceSupported().then((bool isSupported) => setState(
 //   //         () {
 //   //           _supportState = isSupported;
 //   //         },
 //   //       ));
-//   }
+//   // }
 
 //   // Future<void> _getAvailablebiometrics() async {
 //   //   List<BiometricType> availableBiometrics =

@@ -68,6 +68,9 @@ dependencies:
   all_sensors2: ^1.0.1
   connectivity_plus: ^2.3.8
   glassmorphism_ui: ^0.3.0
+  faker: ^2.1.0
+  helpers: ^1.2.3
+  jiffy: ^6.3.0
 
 
 dev_dependencies:

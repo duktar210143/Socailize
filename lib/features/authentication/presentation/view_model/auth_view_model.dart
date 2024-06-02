@@ -66,7 +66,7 @@ class AuthViewModel extends StateNotifier<AuthState> {
       state = state.copyWith(isLoading: false, error: failure.error);
       showSnackBar(message: failure.error, context: context, color: Colors.red);
     }, (success) {
-      print("login Success data" + "${success.userData}");
+      print("login Success data" "${success.userData}");
       state = state.copyWith(
           isLoading: false, error: null, userData: success.userData);
       isLogin = true;
@@ -87,10 +87,12 @@ class AuthViewModel extends StateNotifier<AuthState> {
     });
   }
 
-  void logout(BuildContext context) {
+  Future logout(BuildContext context) async {
     state = state.copyWith(isLoading: true);
-    loginUseCase.logout();
+    await loginUseCase.logout();
+    // ignore: use_build_context_synchronously
     Navigator.pushNamed(context, AppRoute.loginRoute);
+    // ignore: use_build_context_synchronously
     showSnackBar(message: 'Logged out', context: context, color: Colors.green);
   }
 

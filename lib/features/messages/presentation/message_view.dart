@@ -1,3 +1,4 @@
+import 'package:discussion_forum/config/router/app_routes.dart';
 import 'package:discussion_forum/core/common/widgets/helpers.dart';
 import 'package:discussion_forum/features/messages/data/model/message_model.dart';
 import 'package:faker/faker.dart';
@@ -62,63 +63,100 @@ class _MessageTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(10),
-          child: CircleAvatar(
-            radius: 30,
-            backgroundImage: NetworkImage(
-              messagedata.profile,
+    return InkWell(
+      onTap: () {
+          Navigator.pushNamed(
+          context,
+          AppRoute.chatsScreenRoute,
+          arguments: messagedata,
+        );
+      },
+      child: Container(
+        height: 100,
+        margin: const EdgeInsets.symmetric(horizontal: 8),
+        decoration: const BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: Colors.grey,
+              width: 0.2,
             ),
           ),
         ),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+        child: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Row(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Text(
-                  messagedata.senderName,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    letterSpacing: 0.2,
-                    wordSpacing: 1.5,
-                    fontWeight: FontWeight.w900,
+                padding: const EdgeInsets.all(10),
+                child: CircleAvatar(
+                  radius: 30,
+                  backgroundImage: NetworkImage(
+                    messagedata.profile,
                   ),
                 ),
               ),
-              SizedBox(
-                height: 20,
-                child: Text(
-                  messagedata.message,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey[600],
-                  ),
-                  overflow: TextOverflow.ellipsis,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: Text(
+                        messagedata.senderName,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          letterSpacing: 0.2,
+                          wordSpacing: 1.5,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                      child: Text(
+                        messagedata.message,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey[600],
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
                 ),
               ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    messagedata.dateMessage,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  Container(
+                    width: 18,
+                    height: 18,
+                    decoration: const BoxDecoration(
+                        color: Colors.blue, shape: BoxShape.circle),
+                    child: const Center(
+                      child: Text(
+                        '1',
+                        style: TextStyle(color: Colors.white, fontSize: 10),
+                      ),
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
         ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SizedBox(
-              height: 10,
-            ),
-            Text(
-              messagedata.dateMessage,
-              style: TextStyle(
-                fontSize: 12,
-                color: Colors.grey[600],
-              ),
-            ),
-          ],
-        )
-      ],
+      ),
     );
   }
 }

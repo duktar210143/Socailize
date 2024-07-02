@@ -8,10 +8,10 @@ class ApiEndPoints {
   // static const String baseUrl = "http://localhost:5500/api/";
 
   //for windows
-  static const String baseUrl = "http://192.168.18.244:5500/api/";
+  static const String baseUrl = "http://192.168.1.68:5500/api/";
 
   // route for socket service
-  static const String socketUrl = "http://192.168.18.244:8801";
+  static const String socketUrl = "http://192.168.1.68:8801";
   // route for signing up users
   static const String signUp = "signup";
   // route to sign in the users

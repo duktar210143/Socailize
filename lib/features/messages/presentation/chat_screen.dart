@@ -15,7 +15,7 @@ class ChatScreen extends ConsumerWidget {
         actions: const [IconsButton()],
         title: _AppBarTitle(messagedata: messageData),
       ),
-      body: const Text("data"),
+      body: const _DemonMessageList(),
     );
   }
 }
@@ -61,31 +61,169 @@ class _AppBarTitle extends StatelessWidget {
   }
 }
 
-class _DemoStateless extends StatelessWidget {
-  const _DemoStateless({super.key});
+class _DemonMessageList extends StatelessWidget {
+  const _DemonMessageList({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ListView(
-      children: const [],
+      children: const [
+        _DateLabel(label: "Yesterday"),
+        _MessageTile(
+          message: "Hello",
+          time: "10:00 AM",
+        ),
+        _MessageOwnTile(
+          message: "you know how it goes",
+          time: "10:00 AM",
+        ),
+        _MessageTile(
+          message: "wanna hopin for a coffee",
+          time: "10:00 AM",
+        ),
+      ],
+    );
+  }
+}
+
+class _MessageTile extends StatelessWidget {
+  const _MessageTile({
+    Key? key,
+    required this.message,
+    required this.time,
+  }) : super(key: key);
+
+  final String message;
+  final String time;
+
+  static const double _borderRadius = 26.0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(_borderRadius),
+                  topRight: Radius.circular(_borderRadius),
+                  bottomRight: Radius.circular(_borderRadius),
+                ),
+              ),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+                child: Text(
+                  message,
+                  style: const TextStyle(fontSize: 14),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: Text(
+                time,
+                style: TextStyle(
+                    fontSize: 10,
+                    color: Colors.black.withOpacity(0.5),
+                    fontWeight: FontWeight.bold),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _MessageOwnTile extends StatelessWidget {
+  const _MessageOwnTile({
+    Key? key,
+    required this.message,
+    required this.time,
+  }) : super(key: key);
+
+  final String message;
+  final String time;
+
+  static const double _borderRadius = 26.0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      child: Align(
+        alignment: Alignment.centerRight,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(_borderRadius),
+                  bottomLeft: Radius.circular(_borderRadius),
+                  bottomRight: Radius.circular(_borderRadius),
+                ),
+              ),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+                child: Text(
+                  message,
+                  style: const TextStyle(fontSize: 14),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: Text(
+                time,
+                style: TextStyle(
+                    fontSize: 10,
+                    color: Colors.black.withOpacity(0.5),
+                    fontWeight: FontWeight.bold),
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
 
 class _DateLabel extends StatelessWidget {
-  const _DateLabel({super.key});
+  const _DateLabel({super.key, required this.label});
+
+  final String label;
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 32),
+        padding: const EdgeInsets.symmetric(vertical: 20),
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
           ),
-          child: const Padding(
-              padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 12)),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12),
+            child: Text(
+              label,
+              style: TextStyle(
+                  color: Colors.black.withOpacity(0.5),
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
         ),
       ),
     );

@@ -61,10 +61,10 @@ packages:
     dependency: "direct main"
     description:
       name: awesome_notifications
-      sha256: "65f730f9c0e73a346039ef746384bcff1773f9f03821b859705a7ab8db977b23"
+      sha256: "3eeb9e0cdfc72c7b4b83e9924da38ea86edd65a2af02bd5429aa41dce634ee90"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.2"
+    version: "0.8.3"
   boolean_selector:
     dependency: transitive
     description:
@@ -297,6 +297,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.1"
+  faker:
+    dependency: "direct main"
+    description:
+      name: faker
+      sha256: "746e59f91d8b06a389e74cf76e909a05ed69c12691768e2f93557fdf29200fd0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
   ffi:
     dependency: transitive
     description:
@@ -579,10 +587,10 @@ packages:
     dependency: transitive
     description:
       name: intl
-      sha256: "3bc132a9dbce73a7e4a21a17d06e1878839ffbf975568bc875c60537824b0c4d"
+      sha256: d6f56758b7d3014a48af9701c085700aac781a92a87a62b1333b46d8879661cf
       url: "https://pub.dev"
     source: hosted
-    version: "0.18.1"
+    version: "0.19.0"
   io:
     dependency: transitive
     description:
@@ -591,6 +599,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
+  jiffy:
+    dependency: "direct main"
+    description:
+      name: jiffy
+      sha256: "3497caaa36d36a29033e66803c9739ce6bccbc7e241ca46070f76ee9e6f6eb0c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.3.1"
   jose:
     dependency: transitive
     description:
@@ -667,26 +683,26 @@ packages:
     dependency: "direct main"
     description:
       name: local_auth
-      sha256: "27679ed8e0d7daab2357db6bb7076359e083a56b295c0c59723845301da6aed9"
+      sha256: "280421b416b32de31405b0a25c3bd42dfcef2538dfbb20c03019e02a5ed55ed0"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.8"
+    version: "2.2.0"
   local_auth_android:
     dependency: transitive
     description:
       name: local_auth_android
-      sha256: "54e9c35ce52c06333355ab0d0f41e4c06dbca354b23426765ba41dfb1de27598"
+      sha256: e0e5b1ea247c5a0951c13a7ee13dc1beae69750e6a2e1910d1ed6a3cd4d56943
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.36"
-  local_auth_ios:
+    version: "1.0.38"
+  local_auth_darwin:
     dependency: transitive
     description:
-      name: local_auth_ios
-      sha256: eb283b530029b334698918f1e282d4483737cbca972ff21b9193be3d6de8e2b8
+      name: local_auth_darwin
+      sha256: "959145a4cf6f0de745b9ec9ac60101270eb4c5b8b7c2a0470907014adc1c618d"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.6"
+    version: "1.3.0"
   local_auth_platform_interface:
     dependency: transitive
     description:

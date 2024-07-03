@@ -81,13 +81,13 @@ void main() {
         find.byType(TextFormField).at(5), 'duktar123');
 
     // Find the SignUp button and tap it
-    final registerButtonFinder = find.widgetWithText(TextButton, 'SignUp');
+    final registerButtonFinder = find.widgetWithText(ElevatedButton, 'Sign Up');
 
-    await tester.dragUntilVisible(
-      registerButtonFinder, // what you want to find
-      find.byType(SingleChildScrollView), // widget you want to scroll
-      const Offset(201.4, 574.7), // delta to move
-    );
+    // await tester.dragUntilVisible(
+    //   registerButtonFinder, // what you want to find
+    //   find.byType(SingleChildScrollView), // widget you want to scroll
+    //   const Offset(201.4, 574.7), // delta to move
+    // );
 
     await tester.tap(registerButtonFinder);
 
@@ -141,13 +141,13 @@ void main() {
 
     //=========================== Find the register button===========================
     final registerButtonFinder =
-        find.widgetWithText(TextButton, 'SignUp');
+        find.widgetWithText(ElevatedButton, 'Sign Up');
 
-    await tester.dragUntilVisible(
-      registerButtonFinder, // what you want to find
-      find.byType(SingleChildScrollView), // widget you want to scroll
-      const Offset(201.4, 574.7), // delta to move
-    );
+    // await tester.dragUntilVisible(
+    //   registerButtonFinder, // what you want to find
+    //   find.byType(SingleChildScrollView), // widget you want to scroll
+    //   const Offset(201.4, 574.7), // delta to move
+    // );
 
     await tester.tap(registerButtonFinder);
 

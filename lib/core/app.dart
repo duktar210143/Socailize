@@ -1,3 +1,4 @@
+import 'package:discussion_forum/config/router/app_router.dart';
 import 'package:discussion_forum/config/router/app_routes.dart';
 import 'package:discussion_forum/core/common/Theme/dark_theme.dart';
 import 'package:discussion_forum/core/common/Theme/light_theme.dart';

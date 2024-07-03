@@ -1,10 +1,14 @@
+import 'package:discussion_forum/config/constants/appwrite_app.dart';
 import 'package:discussion_forum/core/app.dart';
 import 'package:discussion_forum/core/network/local/hive_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:stream_chat_flutter_core/stream_chat_flutter_core.dart';
 
 void main() async {
+  // create a streamchat api client
+  final client = StreamChatClient(streamKey);
   WidgetsFlutterBinding.ensureInitialized();
   await HiveService().init();
   AwesomeNotifications().initialize(
@@ -28,8 +32,10 @@ void main() async {
       debug: true);
 
   runApp(
-    const ProviderScope(
-      child: App(),
+     ProviderScope(
+      child: App(
+        client: client,
+      ),
     ),
   );
 }

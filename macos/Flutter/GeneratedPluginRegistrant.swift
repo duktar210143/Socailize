@@ -6,7 +6,7 @@ import FlutterMacOS
 import Foundation
 
 import awesome_notifications
-import connectivity_plus_macos
+import connectivity_plus
 import file_selector_macos
 import path_provider_foundation
 import rive_common

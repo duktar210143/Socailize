@@ -1,87 +1,403 @@
-import 'package:discussion_forum/core/common/widgets/icons_button.dart';
+// import 'package:discussion_forum/core/common/widgets/icons_button.dart';
+// import 'package:discussion_forum/features/messages/data/model/message_model.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// class ChatScreen extends ConsumerWidget {
+//   const ChatScreen({super.key, required this.messageData});
+
+//   final Messagedata messageData;
+
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         actions: const [IconsButton()],
+//         title: _AppBarTitle(messagedata: messageData),
+//       ),
+//       body: const _DemonMessageList(),
+//     );
+//   }
+// }
+
+// class _AppBarTitle extends StatelessWidget {
+//   const _AppBarTitle({
+//     Key? key,
+//     required this.messagedata,
+//   }) : super(key: key);
+
+//   final Messagedata messagedata;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Row(
+//       children: [
+//         CircleAvatar(
+//           backgroundImage: NetworkImage(messagedata.profile),
+//         ),
+//         const SizedBox(width: 10),
+//         Expanded(
+//             child: Column(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             Text(
+//               messagedata.senderName,
+//               overflow: TextOverflow.ellipsis,
+//               style: const TextStyle(fontSize: 14),
+//             ),
+//             const SizedBox(height: 2),
+//             const Text(
+//               "Online",
+//               style: TextStyle(
+//                   fontSize: 10,
+//                   fontWeight: FontWeight.bold,
+//                   color: Colors.green),
+//             )
+//           ],
+//         ))
+//       ],
+//     );
+//   }
+// }
+
+// class _DemonMessageList extends StatelessWidget {
+//   const _DemonMessageList({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return ListView(
+//       children: const [
+//         _DateLabel(label: "Yesterday"),
+//         _MessageTile(
+//           message: "Hello",
+//           time: "10:00 AM",
+//         ),
+//         _MessageOwnTile(
+//           message: "you know how it goes",
+//           time: "10:00 AM",
+//         ),
+//         _MessageTile(
+//           message: "wanna hopin for a coffee",
+//           time: "10:00 AM",
+//         ),
+//       ],
+//     );
+//   }
+// }
+
+// class _MessageTile extends StatelessWidget {
+//   const _MessageTile({
+//     Key? key,
+//     required this.message,
+//     required this.time,
+//   }) : super(key: key);
+
+//   final String message;
+//   final String time;
+
+//   static const double _borderRadius = 26.0;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+//       child: Align(
+//         alignment: Alignment.centerLeft,
+//         child: Column(
+//           mainAxisSize: MainAxisSize.min,
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             Container(
+//               decoration: BoxDecoration(
+//                 color: Colors.grey[200],
+//                 borderRadius: const BorderRadius.only(
+//                   topLeft: Radius.circular(_borderRadius),
+//                   topRight: Radius.circular(_borderRadius),
+//                   bottomRight: Radius.circular(_borderRadius),
+//                 ),
+//               ),
+//               child: Padding(
+//                 padding:
+//                     const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+//                 child: Text(
+//                   message,
+//                   style: const TextStyle(fontSize: 14),
+//                 ),
+//               ),
+//             ),
+//             Padding(
+//               padding: const EdgeInsets.only(top: 8),
+//               child: Text(
+//                 time,
+//                 style: TextStyle(
+//                     fontSize: 10,
+//                     color: Colors.black.withOpacity(0.5),
+//                     fontWeight: FontWeight.bold),
+//               ),
+//             )
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+// class _MessageOwnTile extends StatelessWidget {
+//   const _MessageOwnTile({
+//     Key? key,
+//     required this.message,
+//     required this.time,
+//   }) : super(key: key);
+
+//   final String message;
+//   final String time;
+
+//   static const double _borderRadius = 26.0;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+//       child: Align(
+//         alignment: Alignment.centerRight,
+//         child: Column(
+//           mainAxisSize: MainAxisSize.min,
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             Container(
+//               decoration: BoxDecoration(
+//                 color: Colors.grey[200],
+//                 borderRadius: const BorderRadius.only(
+//                   topLeft: Radius.circular(_borderRadius),
+//                   bottomLeft: Radius.circular(_borderRadius),
+//                   bottomRight: Radius.circular(_borderRadius),
+//                 ),
+//               ),
+//               child: Padding(
+//                 padding:
+//                     const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+//                 child: Text(
+//                   message,
+//                   style: const TextStyle(fontSize: 14),
+//                 ),
+//               ),
+//             ),
+//             Padding(
+//               padding: const EdgeInsets.only(top: 8),
+//               child: Text(
+//                 time,
+//                 style: TextStyle(
+//                     fontSize: 10,
+//                     color: Colors.black.withOpacity(0.5),
+//                     fontWeight: FontWeight.bold),
+//               ),
+//             )
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+// class _DateLabel extends StatelessWidget {
+//   const _DateLabel({super.key, required this.label});
+
+//   final String label;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Center(
+//       child: Padding(
+//         padding: const EdgeInsets.symmetric(vertical: 20),
+//         child: Container(
+//           decoration: BoxDecoration(
+//             borderRadius: BorderRadius.circular(12),
+//           ),
+//           child: Padding(
+//             padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12),
+//             child: Text(
+//               label,
+//               style: TextStyle(
+//                   color: Colors.black.withOpacity(0.5),
+//                   fontSize: 14,
+//                   fontWeight: FontWeight.bold),
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+import 'dart:async';
+
+import 'package:collection/collection.dart' show IterableExtension;
+import 'package:discussion_forum/core/common/widgets/appwrite_app.dart';
+import 'package:discussion_forum/core/common/widgets/avatar.dart';
+import 'package:discussion_forum/core/common/widgets/display_error_message.dart';
+import 'package:discussion_forum/core/common/widgets/glowing_action_button.dart';
+import 'package:discussion_forum/core/common/widgets/helpers.dart';
+import 'package:discussion_forum/core/common/widgets/icon_buttons.dart';
 import 'package:discussion_forum/features/messages/data/model/message_model.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jiffy/jiffy.dart';
+import 'package:stream_chat_flutter_core/stream_chat_flutter_core.dart';
 
-class ChatScreen extends ConsumerWidget {
-  const ChatScreen({super.key, required this.messageData});
+class ChatScreen extends StatefulWidget {
+  static Route routeWithChannel(Channel channel) => MaterialPageRoute(
+        builder: (context) => StreamChannel(
+          channel: channel,
+          child: const ChatScreen(),
+        ),
+      );
 
-  final Messagedata messageData;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: AppBar(
-        actions: const [IconsButton()],
-        title: _AppBarTitle(messagedata: messageData),
-      ),
-      body: const _DemonMessageList(),
-    );
-  }
-}
-
-class _AppBarTitle extends StatelessWidget {
-  const _AppBarTitle({
+  const ChatScreen({
     Key? key,
-    required this.messagedata,
   }) : super(key: key);
 
-  final Messagedata messagedata;
+  @override
+  State<ChatScreen> createState() => _ChatScreenState();
+}
+
+class _ChatScreenState extends State<ChatScreen> {
+  late StreamSubscription<int> unreadCountSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+
+    unreadCountSubscription = StreamChannel.of(context)
+        .channel
+        .state!
+        .unreadCountStream
+        .listen(_unreadCountHandler);
+  }
+
+  Future<void> _unreadCountHandler(int count) async {
+    if (count > 0) {
+      await StreamChannel.of(context).channel.markRead();
+    }
+  }
+
+  @override
+  void dispose() {
+    unreadCountSubscription.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        CircleAvatar(
-          backgroundImage: NetworkImage(messagedata.profile),
-        ),
-        const SizedBox(width: 10),
-        Expanded(
-            child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              messagedata.senderName,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(fontSize: 14),
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        appBar: AppBar(
+          leadingWidth: 54,
+          leading: Align(
+            alignment: Alignment.centerRight,
+            child: IconBackground(
+              icon: CupertinoIcons.back,
+              onTap: () {
+                Navigator.of(context).pop();
+              },
             ),
-            const SizedBox(height: 2),
-            const Text(
-              "Online",
-              style: TextStyle(
-                  fontSize: 10,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.green),
-            )
+          ),
+          title: const _AppBarTitle(),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Center(
+                child: IconBorder(
+                  icon: CupertinoIcons.video_camera_solid,
+                  onTap: () {},
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: Center(
+                child: IconBorder(
+                  icon: CupertinoIcons.phone_solid,
+                  onTap: () {},
+                ),
+              ),
+            ),
           ],
-        ))
-      ],
+        ),
+        body: Column(
+          children: [
+            Expanded(
+              child: MessageListCore(
+                loadingBuilder: (context) {
+                  return const Center(child: CircularProgressIndicator());
+                },
+                emptyBuilder: (context) => const SizedBox.shrink(),
+                errorBuilder: (context, error) =>
+                    DisplayErrorMessage(error: error),
+                messageListBuilder: (context, messages) =>
+                    _MessageList(messages: messages),
+              ),
+            ),
+            const _ActionBar(),
+          ],
+        ),
+      ),
     );
   }
 }
 
-class _DemonMessageList extends StatelessWidget {
-  const _DemonMessageList({super.key});
+class _MessageList extends StatelessWidget {
+  const _MessageList({
+    Key? key,
+    required this.messages,
+  }) : super(key: key);
+
+  final List<Message> messages;
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: const [
-        _DateLabel(label: "Yesterday"),
-        _MessageTile(
-          message: "Hello",
-          time: "10:00 AM",
-        ),
-        _MessageOwnTile(
-          message: "you know how it goes",
-          time: "10:00 AM",
-        ),
-        _MessageTile(
-          message: "wanna hopin for a coffee",
-          time: "10:00 AM",
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ListView.separated(
+        itemCount: messages.length + 1,
+        reverse: true,
+        separatorBuilder: (context, index) {
+          if (index == messages.length - 1) {
+            return _DateLable(dateTime: messages[index].createdAt);
+          }
+          if (messages.length == 1) {
+            return const SizedBox.shrink();
+          } else if (index >= messages.length - 1) {
+            return const SizedBox.shrink();
+          } else if (index <= messages.length) {
+            final message = messages[index];
+            final nextMessage = messages[index + 1];
+            if (!Jiffy.parseFromDateTime(message.createdAt.toLocal()).isSame(
+                Jiffy.parseFromDateTime(nextMessage.createdAt.toLocal()))) {
+              return _DateLable(
+                dateTime: message.createdAt,
+              );
+            } else {
+              return const SizedBox.shrink();
+            }
+          } else {
+            return const SizedBox.shrink();
+          }
+        },
+        itemBuilder: (context, index) {
+          if (index < messages.length) {
+            final message = messages[index];
+            if (message.user?.id == context.currentUser?.id) {
+              return _MessageOwnTile(message: message);
+            } else {
+              return _MessageTile(message: message);
+            }
+          } else {
+            return const SizedBox.shrink();
+          }
+        },
+      ),
     );
   }
 }
@@ -90,18 +406,16 @@ class _MessageTile extends StatelessWidget {
   const _MessageTile({
     Key? key,
     required this.message,
-    required this.time,
   }) : super(key: key);
 
-  final String message;
-  final String time;
+  final Message message;
 
-  static const double _borderRadius = 26.0;
+  static const _borderRadius = 26.0;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: const EdgeInsets.symmetric(vertical: 4),
       child: Align(
         alignment: Alignment.centerLeft,
         child: Column(
@@ -110,7 +424,7 @@ class _MessageTile extends StatelessWidget {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: Colors.grey[200],
+                color: Theme.of(context).cardColor,
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(_borderRadius),
                   topRight: Radius.circular(_borderRadius),
@@ -119,21 +433,18 @@ class _MessageTile extends StatelessWidget {
               ),
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-                child: Text(
-                  message,
-                  style: const TextStyle(fontSize: 14),
-                ),
+                    const EdgeInsets.symmetric(horizontal: 12.0, vertical: 20),
+                child: Text(message.text ?? ''),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 8),
+              padding: const EdgeInsets.only(top: 8.0),
               child: Text(
-                time,
-                style: TextStyle(
-                    fontSize: 10,
-                    color: Colors.black.withOpacity(0.5),
-                    fontWeight: FontWeight.bold),
+                Jiffy.parseFromDateTime(message.createdAt.toLocal()).jm,
+                style: const TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             )
           ],
@@ -147,50 +458,44 @@ class _MessageOwnTile extends StatelessWidget {
   const _MessageOwnTile({
     Key? key,
     required this.message,
-    required this.time,
   }) : super(key: key);
 
-  final String message;
-  final String time;
+  final Message message;
 
-  static const double _borderRadius = 26.0;
+  static const _borderRadius = 26.0;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Align(
         alignment: Alignment.centerRight,
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Container(
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: const BorderRadius.only(
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(_borderRadius),
-                  bottomLeft: Radius.circular(_borderRadius),
                   bottomRight: Radius.circular(_borderRadius),
+                  bottomLeft: Radius.circular(_borderRadius),
                 ),
               ),
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-                child: Text(
-                  message,
-                  style: const TextStyle(fontSize: 14),
-                ),
+                    const EdgeInsets.symmetric(horizontal: 12.0, vertical: 20),
+                child: Text(message.text ?? '', style: const TextStyle()),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 8),
+              padding: const EdgeInsets.only(top: 8.0),
               child: Text(
-                time,
-                style: TextStyle(
-                    fontSize: 10,
-                    color: Colors.black.withOpacity(0.5),
-                    fontWeight: FontWeight.bold),
+                Jiffy.parseFromDateTime(message.createdAt.toLocal()).jm,
+                style: const TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             )
           ],
@@ -200,31 +505,385 @@ class _MessageOwnTile extends StatelessWidget {
   }
 }
 
-class _DateLabel extends StatelessWidget {
-  const _DateLabel({super.key, required this.label});
+class _DateLable extends StatefulWidget {
+  const _DateLable({
+    Key? key,
+    required this.dateTime,
+  }) : super(key: key);
 
-  final String label;
+  final DateTime dateTime;
+
+  @override
+  __DateLableState createState() => __DateLableState();
+}
+
+class __DateLableState extends State<_DateLable> {
+  late String dayInfo;
+
+  @override
+  void initState() {
+    final createdAt = Jiffy.parseFromDateTime(widget.dateTime);
+    final now = DateTime.now();
+
+    if (Jiffy.parseFromDateTime(createdAt.dateTime)
+        .isSame(Jiffy.parseFromDateTime(now))) {
+      dayInfo = 'TODAY';
+    } else if (Jiffy.parseFromDateTime(createdAt.dateTime).isSame(
+        Jiffy.parseFromDateTime(now.subtract(const Duration(days: 1))))) {
+      dayInfo = 'YESTERDAY';
+    } else if (Jiffy.parseFromDateTime(createdAt.dateTime).isAfter(
+      Jiffy.parseFromDateTime(now.subtract(const Duration(days: 7))),
+    )) {
+      dayInfo = createdAt.format(pattern: 'EEEE');
+    } else if (Jiffy.parseFromDateTime(createdAt.dateTime).isAfter(
+      Jiffy.parseFromDateTime(now).subtract(years: 1),
+    )) {
+      dayInfo = createdAt.format(pattern: 'MMMd');
+    } else {
+      dayInfo = createdAt.format(pattern: 'MMMd');
+    }
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20),
+        padding: const EdgeInsets.symmetric(vertical: 32.0),
         child: Container(
           decoration: BoxDecoration(
+            color: Theme.of(context).cardColor,
             borderRadius: BorderRadius.circular(12),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12),
             child: Text(
-              label,
-              style: TextStyle(
-                  color: Colors.black.withOpacity(0.5),
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold),
+              dayInfo,
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _AppBarTitle extends StatelessWidget {
+  const _AppBarTitle({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final channel = StreamChannel.of(context).channel;
+    return Row(
+      children: [
+        Avatar.small(
+          url: Helpers.getChannelImage(channel, context.currentUser!),
+        ),
+        const SizedBox(
+          width: 16,
+        ),
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                Helpers.getChannelName(channel, context.currentUser!),
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(fontSize: 14),
+              ),
+              const SizedBox(height: 2),
+              BetterStreamBuilder<List<Member>>(
+                stream: channel.state!.membersStream,
+                initialData: channel.state!.members,
+                builder: (context, data) => ConnectionStatusBuilder(
+                  statusBuilder: (context, status) {
+                    switch (status) {
+                      case ConnectionStatus.connected:
+                        return _buildConnectedTitleState(context, data);
+                      case ConnectionStatus.connecting:
+                        return const Text(
+                          'Connecting',
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.green,
+                          ),
+                        );
+                      case ConnectionStatus.disconnected:
+                        return const Text(
+                          'Offline',
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red,
+                          ),
+                        );
+                      default:
+                        return const SizedBox.shrink();
+                    }
+                  },
+                ),
+              ),
+            ],
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget _buildConnectedTitleState(
+    BuildContext context,
+    List<Member>? members,
+  ) {
+    Widget? alternativeWidget;
+    final channel = StreamChannel.of(context).channel;
+    final memberCount = channel.memberCount;
+    if (memberCount != null && memberCount > 2) {
+      var text = 'Members: $memberCount';
+      final watcherCount = channel.state?.watcherCount ?? 0;
+      if (watcherCount > 0) {
+        text = 'watchers $watcherCount';
+      }
+      alternativeWidget = Text(
+        text,
+      );
+    } else {
+      final userId = StreamChatCore.of(context).currentUser?.id;
+      final otherMember = members?.firstWhereOrNull(
+        (element) => element.userId != userId,
+      );
+
+      if (otherMember != null) {
+        if (otherMember.user?.online == true) {
+          alternativeWidget = const Text(
+            'Online',
+            style: TextStyle(
+              fontSize: 10,
+              fontWeight: FontWeight.bold,
+              color: Colors.green,
+            ),
+          );
+        } else {
+          alternativeWidget = Text(
+            'Last online: '
+            '${Jiffy.parseFromDateTime(otherMember.user?.lastActive ?? DateTime.now()).fromNow()}',
+            style: const TextStyle(
+              fontSize: 10,
+              fontWeight: FontWeight.bold,
+              color: Colors.red,
+            ),
+          );
+        }
+      }
+    }
+
+    return TypingIndicator(
+      alternativeWidget: alternativeWidget,
+    );
+  }
+}
+
+/// Widget to show the current list of typing users
+class TypingIndicator extends StatelessWidget {
+  /// Instantiate a new TypingIndicator
+  const TypingIndicator({
+    Key? key,
+    this.alternativeWidget,
+  }) : super(key: key);
+
+  /// Widget built when no typings is happening
+  final Widget? alternativeWidget;
+
+  @override
+  Widget build(BuildContext context) {
+    final channelState = StreamChannel.of(context).channel.state!;
+
+    final altWidget = alternativeWidget ?? const SizedBox.shrink();
+
+    return BetterStreamBuilder<Iterable<User>>(
+      initialData: channelState.typingEvents.keys,
+      stream: channelState.typingEventsStream
+          .map((typings) => typings.entries.map((e) => e.key)),
+      builder: (context, data) {
+        return Align(
+          alignment: Alignment.centerLeft,
+          child: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 300),
+            child: data.isNotEmpty == true
+                ? const Align(
+                    alignment: Alignment.centerLeft,
+                    key: ValueKey('typing-text'),
+                    child: Text(
+                      'Typing message',
+                      maxLines: 1,
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )
+                : Align(
+                    alignment: Alignment.centerLeft,
+                    key: const ValueKey('altwidget'),
+                    child: altWidget,
+                  ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+/// Widget that builds itself based on the latest snapshot of interaction with
+/// a [Stream] of type [ConnectionStatus].
+///
+/// The widget will use the closest [StreamChatClient.wsConnectionStatusStream]
+/// in case no stream is provided.
+class ConnectionStatusBuilder extends StatelessWidget {
+  /// Creates a new ConnectionStatusBuilder
+  const ConnectionStatusBuilder({
+    Key? key,
+    required this.statusBuilder,
+    this.connectionStatusStream,
+    this.errorBuilder,
+    this.loadingBuilder,
+  }) : super(key: key);
+
+  /// The asynchronous computation to which this builder is currently connected.
+  final Stream<ConnectionStatus>? connectionStatusStream;
+
+  /// The builder that will be used in case of error
+  final Widget Function(BuildContext context, Object? error)? errorBuilder;
+
+  /// The builder that will be used in case of loading
+  final WidgetBuilder? loadingBuilder;
+
+  /// The builder that will be used in case of data
+  final Widget Function(BuildContext context, ConnectionStatus status)
+      statusBuilder;
+
+  @override
+  Widget build(BuildContext context) {
+    final stream = connectionStatusStream ??
+        StreamChatCore.of(context).client.wsConnectionStatusStream;
+    final client = StreamChatCore.of(context).client;
+    return BetterStreamBuilder<ConnectionStatus>(
+      initialData: client.wsConnectionStatus,
+      stream: stream,
+      noDataBuilder: loadingBuilder,
+      errorBuilder: (context, error) {
+        if (errorBuilder != null) {
+          return errorBuilder!(context, error);
+        }
+        return const Offstage();
+      },
+      builder: statusBuilder,
+    );
+  }
+}
+
+class _ActionBar extends StatefulWidget {
+  const _ActionBar({Key? key}) : super(key: key);
+
+  @override
+  __ActionBarState createState() => __ActionBarState();
+}
+
+class __ActionBarState extends State<_ActionBar> {
+  final StreamMessageInputController controller =
+      StreamMessageInputController();
+
+  Timer? _debounce;
+
+  Future<void> _sendMessage() async {
+    if (controller.text.isNotEmpty) {
+      StreamChannel.of(context).channel.sendMessage(controller.message);
+      controller.clear();
+      FocusScope.of(context).unfocus();
+    }
+  }
+
+  void _onTextChange() {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(seconds: 1), () {
+      if (mounted) {
+        StreamChannel.of(context).channel.keyStroke();
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    controller.addListener(_onTextChange);
+  }
+
+  @override
+  void dispose() {
+    controller.removeListener(_onTextChange);
+    controller.dispose();
+
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      bottom: true,
+      top: false,
+      child: Row(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              border: Border(
+                right: BorderSide(
+                  width: 2,
+                  color: Theme.of(context).dividerColor,
+                ),
+              ),
+            ),
+            child: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              child: Icon(
+                CupertinoIcons.camera_fill,
+              ),
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 16.0),
+              child: TextField(
+                onChanged: (val) {
+                  controller.text = val;
+                },
+                style: const TextStyle(fontSize: 14),
+                decoration: const InputDecoration(
+                  hintText: 'Type something...',
+                  border: InputBorder.none,
+                ),
+                onSubmitted: (_) => _sendMessage(),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 12,
+              right: 24.0,
+            ),
+            child: GlowingActionButton(
+              color: Colors.blueAccent,
+              icon: Icons.send_rounded,
+              onPressed: _sendMessage,
+            ),
+          ),
+        ],
       ),
     );
   }

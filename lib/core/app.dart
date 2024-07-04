@@ -1,13 +1,12 @@
-import 'package:discussion_forum/config/router/app_router.dart';
-import 'package:discussion_forum/config/router/app_routes.dart';
 import 'package:discussion_forum/core/common/Theme/dark_theme.dart';
 import 'package:discussion_forum/core/common/Theme/light_theme.dart';
+import 'package:discussion_forum/features/messages/presentation/select_user_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stream_chat_flutter_core/stream_chat_flutter_core.dart';
 
 class App extends ConsumerWidget {
-  const App({super.key, required  this.client});
+  const App({super.key, required this.client});
   final StreamChatClient client;
 
   @override
@@ -23,8 +22,9 @@ class App extends ConsumerWidget {
           child: child!,
         );
       },
-      initialRoute: AppRoute.splashRoute,
-      routes: AppRoute.getApplicationRoute(),
+      // initialRoute: AppRoute.splashRoute,
+      // routes: AppRoute.getApplicationRoute(),
+      home: const SelectUserScreen(),
     );
   }
 }

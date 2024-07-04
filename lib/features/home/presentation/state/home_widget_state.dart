@@ -14,10 +14,10 @@ class HomeState {
       : index = 0,
         lstWidgets = [
           const PublicQuestionView(),
-          const StackOverflowDashboard(),
+          const MessagesPage(),
           const AddQuestionView(),
           const UserDetailView(),
-          const StackOverflowDashboard(),
+          const MessagesPage(),
         ];
   final lstPageTitle = const [
     'Socialize',

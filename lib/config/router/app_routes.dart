@@ -3,8 +3,7 @@ import 'package:discussion_forum/features/authentication/presentation/view/login
 import 'package:discussion_forum/features/authentication/presentation/view/signup_view.dart';
 import 'package:discussion_forum/features/authentication/presentation/view/user_detail_view.dart';
 import 'package:discussion_forum/features/home/presentation/view/home_view.dart';
-import 'package:discussion_forum/features/messages/data/model/message_model.dart';
-import 'package:discussion_forum/features/messages/presentation/chat_screen.dart';
+
 import 'package:discussion_forum/features/splash/presentation/view/splash_view.dart';
 
 class AppRoute {

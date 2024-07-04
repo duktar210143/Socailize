@@ -1,4 +1,4 @@
-import 'package:discussion_forum/config/constants/appwrite_app.dart';
+import 'package:discussion_forum/core/common/widgets/appwrite_app.dart';
 import 'package:discussion_forum/core/app.dart';
 import 'package:discussion_forum/core/network/local/hive_service.dart';
 import 'package:flutter/material.dart';

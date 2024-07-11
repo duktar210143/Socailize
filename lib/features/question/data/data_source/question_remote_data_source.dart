@@ -46,8 +46,6 @@ class QuestionRemoteDataSource {
 
       FormData formData = FormData.fromMap({
         'question': questionApiModel.question,
-        'questionDescription': questionApiModel.questionDescription,
-        'questionCategory': questionApiModel.questionCategory,
         'questionImage': image != null
             ? await MultipartFile.fromFile(
                 image.path,

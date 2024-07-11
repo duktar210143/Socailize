@@ -8,8 +8,6 @@ class QuestionApiModel {
   @JsonKey(name: '_id')
   final String? questionId;
   final String question;
-  final String? questionDescription;
-  final String? questionCategory;
   final String? questionImageUrl;
   final AuthApiModel? user;  // Add user property
   final List<ReplyApiModel>? replies;  // Add replies property
@@ -17,8 +15,6 @@ class QuestionApiModel {
   QuestionApiModel({
     this.questionId,
     required this.question,
-    this.questionDescription,
-    this.questionCategory,
     this.questionImageUrl,
     this.user,
     this.replies,
@@ -28,8 +24,6 @@ class QuestionApiModel {
     return QuestionApiModel(
       questionId: json['_id'],
       question: json['question'],
-      questionCategory: json['questionCategory'],
-      questionDescription: json['questionDescription'],
       questionImageUrl: json['questionImageUrl'],
       user: AuthApiModel.fromJson(json['user']),  // Parse user information
       replies: (json['replies'] as List<dynamic>?)
@@ -42,8 +36,6 @@ class QuestionApiModel {
     return {
       '_id': questionId,
       'question': question,
-      'questionCategory': questionCategory,
-      'questionDescription': questionDescription,
       'questionImageUrl': questionImageUrl,
       'user': user?.toJson(),  // Convert user to JSON
       'replies': replies?.map((reply) => reply.toJson()).toList(),  // Convert replies to JSON
@@ -54,8 +46,6 @@ class QuestionApiModel {
     return QuestionApiModel(
       questionId: entity.questionId,
       question: entity.question,
-      questionCategory: entity.questionCategory,
-      questionDescription: entity.questionDescription,
       questionImageUrl: entity.questionImageUrl,
       // whilst setting the question we do not need to provide user so it remains null
       user: entity.user !=null ?
@@ -68,8 +58,6 @@ class QuestionApiModel {
     return QuestionEntity(
       questionId: model.questionId,
       question: model.question,
-      questionCategory: model.questionCategory,
-      questionDescription: model.questionDescription,
       questionImageUrl: model.questionImageUrl,
       user: model.user != null
           ? AuthApiModel.toEntity(model.user!)

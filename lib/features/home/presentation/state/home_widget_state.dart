@@ -1,6 +1,6 @@
 import 'package:discussion_forum/features/authentication/presentation/view/user_detail_view.dart';
 import 'package:discussion_forum/features/messages/presentation/contacts_page.dart';
-import 'package:discussion_forum/features/messages/presentation/select_user_screen.dart';
+import 'package:discussion_forum/features/messages/presentation/message_view.dart';
 import 'package:discussion_forum/features/question/presentation/view/add_question_view.dart';
 import 'package:discussion_forum/features/question/presentation/view/public_question_view.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +15,7 @@ class HomeState {
       : index = 0,
         lstWidgets = [
           const PublicQuestionView(),
-          const SelectUserScreen(),
+          const MessagesPage(),
           const AddQuestionView(),
           const UserDetailView(),
           const ContactsPage(),

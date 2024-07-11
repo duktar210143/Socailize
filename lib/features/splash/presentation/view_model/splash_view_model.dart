@@ -1,8 +1,10 @@
 import 'package:discussion_forum/config/router/app_routes.dart';
 import 'package:discussion_forum/core/shared_pref/user_shared_prefs.dart';
+import 'package:discussion_forum/features/authentication/domain/entity/user_entity.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:stream_chat_flutter_core/stream_chat_flutter_core.dart';
 
 final splashViewModelProvider = StateNotifierProvider<SplashViewModel, void>(
   (ref) {
@@ -17,43 +19,58 @@ class SplashViewModel extends StateNotifier<void> {
   SplashViewModel(this._userSharedPrefs) : super(null);
 
   init(BuildContext context) async {
-    final data = await _userSharedPrefs.getUserToken();
+    final tokenResult = await _userSharedPrefs.getUserToken();
+    final userDataResult = await _userSharedPrefs.getUserData();
 
-    data.fold((l) => null, (token) {
-      if (token != null) {
-        bool isTokenExpired = isValidToken(token);
-        if (isTokenExpired) {
-          // We will not do navigation like this,
-          // we will use mixin and navigator class for this
-          Navigator.popAndPushNamed(context, AppRoute.loginRoute);
+    tokenResult.fold((l) => Navigator.popAndPushNamed(context, AppRoute.loginRoute), (token) {
+      userDataResult.fold((l) => Navigator.popAndPushNamed(context, AppRoute.loginRoute), (userData) {
+        if (token != null && userData != null) {
+          bool isTokenExpired = isValidToken(token);
+          if (!isTokenExpired) {
+            _connectUserToStreamChat(context, userData);
+            Navigator.popAndPushNamed(context, AppRoute.dashboard);
+          } else {
+            Navigator.popAndPushNamed(context, AppRoute.loginRoute);
+          }
         } else {
-          Navigator.popAndPushNamed(context, AppRoute.dashboard);
+          Navigator.popAndPushNamed(context, AppRoute.loginRoute);
         }
-      } else {
-        Navigator.popAndPushNamed(context, AppRoute.loginRoute);
-      }
+      });
     });
   }
 
   bool isValidToken(String token) {
-  try {
-    Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+    try {
+      Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
 
-    // Check if the 'exp' field is present and not null
-    if (decodedToken.containsKey('exp') && decodedToken['exp'] != null) {
-      int expirationTimestamp = decodedToken['exp'];
-      final currentDate = DateTime.now().millisecondsSinceEpoch;
+      if (decodedToken.containsKey('exp') && decodedToken['exp'] != null) {
+        int expirationTimestamp = decodedToken['exp'];
+        final currentDate = DateTime.now().millisecondsSinceEpoch;
 
-      // If current date is greater than expiration timestamp then token is expired
-      return currentDate > expirationTimestamp * 1000;
-    } else {
-      // If 'exp' field is not present or is null, consider the token as always valid
+        return currentDate < expirationTimestamp * 1000;
+      } else {
+        return false;
+      }
+    } catch (e) {
       return false;
     }
-  } catch (e) {
-    // Handle decoding errors (invalid token format, etc.)
-    return false;
+  }
+
+  void _connectUserToStreamChat(BuildContext context, AuthEntity userData) async {
+    final client = StreamChatCore.of(context).client;
+    try {
+      await client.connectUser(
+        User(
+          id: userData.username,
+          extraData: {
+            'name': userData.username,
+            'image': userData.image,
+          },
+        ),
+        client.devToken(userData.username).rawValue,
+      );
+    } catch (e) {
+      // Handle connection errors if necessary
+    }
   }
 }
-}
-

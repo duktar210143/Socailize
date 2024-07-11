@@ -5,8 +5,6 @@ import 'package:equatable/equatable.dart';
 class QuestionEntity extends Equatable {
   final String? questionId;
   final String question;
-  final String? questionCategory;
-  final String? questionDescription;
   final String? questionImageUrl;
   final AuthEntity? user;
   final List<ReplyEntity>? replies;
@@ -15,8 +13,6 @@ class QuestionEntity extends Equatable {
   List<Object?> get props => [
         questionId,
         question,
-        questionDescription,
-        questionCategory,
         questionImageUrl,
         user,
         replies
@@ -25,8 +21,6 @@ class QuestionEntity extends Equatable {
   const QuestionEntity({
     this.questionId,
     required this.question,
-    this.questionCategory,
-    this.questionDescription,
     this.questionImageUrl,
     this.user,
     this.replies,
@@ -37,8 +31,6 @@ factory QuestionEntity.fromJson(Map<String, dynamic> json) {
   return QuestionEntity(
     questionId: json["questionId"] ?? '',
     question: json["question"] ?? '',
-    questionCategory: json['questionCategory'] ?? '',
-    questionDescription: json['questionDescription'] ?? '',
     questionImageUrl: json['questionImageUrl'] ?? '',
     user: AuthEntity.fromjson(json['user'] ?? {}),
     replies: (json['replies'] as List<dynamic>?)
@@ -50,8 +42,6 @@ factory QuestionEntity.fromJson(Map<String, dynamic> json) {
   Map<String, dynamic> toJson() => {
         "questionId": questionId,
         "question": question,
-        "questionCategory": questionCategory,
-        "questionDescription": questionDescription,
         "questionImageUrl": questionImageUrl,
         "user":user?.toJson(),
         'replies': replies?.map((reply) => reply.toJson()).toList(),
@@ -62,8 +52,6 @@ factory QuestionEntity.fromJson(Map<String, dynamic> json) {
     return '''QuestionEntity(
       questionId: $questionId,
        question: $question,
-      questionCategory: $questionCategory),
-      questionDescription: $questionDescription,
       questionImageUrl:$questionImageUrl,
         ''';
   }

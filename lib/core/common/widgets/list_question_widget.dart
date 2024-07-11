@@ -192,7 +192,7 @@ class _ListQuestionWidgetState extends ConsumerState<ListQuestionWidget> {
                               ),
                               const SizedBox(width: 4),
                               const Text(
-                                '123 Likes', // Replace with actual like count
+                                '10 Likes', // Replace with actual like count
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),

@@ -1,6 +1,6 @@
 import 'package:discussion_forum/config/router/app_routes.dart';
 import 'package:discussion_forum/features/messages/data/model/message_model.dart';
-import 'package:discussion_forum/features/messages/presentation/chat_screen.dart';
+import 'package:discussion_forum/features/messages/presentation/chat_screen_view.dart';
 import 'package:flutter/material.dart';
 
 class AppRouter {

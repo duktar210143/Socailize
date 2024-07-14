@@ -1,6 +1,6 @@
 import 'package:discussion_forum/features/authentication/presentation/view/user_detail_view.dart';
 import 'package:discussion_forum/features/messages/presentation/contacts_page.dart';
-import 'package:discussion_forum/features/messages/presentation/message_view.dart';
+import 'package:discussion_forum/features/messages/presentation/chat_page.dart';
 import 'package:discussion_forum/features/question/presentation/view/add_question_view.dart';
 import 'package:discussion_forum/features/question/presentation/view/public_question_view.dart';
 import 'package:flutter/material.dart';
@@ -20,13 +20,13 @@ class HomeState {
           const UserDetailView(),
           const ContactsPage(),
         ];
-  final lstPageTitle = const [
-    'Socialize',
-    'Messages',
-    'Add Post',
-    'Profile',
-    'nothing',
-  ];
+  // final lstPageTitle = const [
+  //   'Socialize',
+  //   'Messages',
+  //   'Add Post',
+  //   'Profile',
+  //   'contacts',
+  // ];
   // copyWith function to chnage the index no
 
   HomeState copywith({int? index}) {

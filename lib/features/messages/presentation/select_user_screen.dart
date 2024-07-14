@@ -1,6 +1,6 @@
 import 'package:discussion_forum/core/common/widgets/appwrite_app.dart';
 import 'package:discussion_forum/features/messages/data/model/demo_users.dart';
-import 'package:discussion_forum/features/messages/presentation/message_view.dart';
+import 'package:discussion_forum/features/messages/presentation/chat_page.dart';
 import 'package:flutter/material.dart';
 import 'package:stream_chat_flutter_core/stream_chat_flutter_core.dart';
 
